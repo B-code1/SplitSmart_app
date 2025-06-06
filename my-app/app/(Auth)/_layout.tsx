@@ -6,6 +6,6 @@ const authScren = () => {
       <Stack.Screen name="login" />
       <Stack.Screen name="signUp" />
     </Stack>
-  );
-};
+  )
+}
 export default authScren;

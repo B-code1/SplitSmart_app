@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Text, Image, View, TextInput } from "react-native";
+import { Text, Image, View, TextInput,TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import Authstyles from "./authStyle";
 import styles from "../style";
@@ -7,12 +7,12 @@ import Colors from "../../constants/Colors";
 const signUpScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
+      
       <Image
         style={Authstyles.logoAuthImg}
         source={require("../../assets/images/Logo.png")}
       />
-
-      <Text style={{ textAlign: "center", color: Colors.text_Light }}>
+      <Text style={{ textAlign: "center", color: Colors.text_Light,marginTop: 10 }}>
         organize.split.resolve
       </Text>
       <Text
@@ -28,11 +28,11 @@ const signUpScreen = () => {
 
       <View style={Authstyles.secondaryContainer}>
         <View style={Authstyles.fieldContainer}>
-          <Text style={Authstyles.fieldText}>Email</Text>
+          <Text style={Authstyles.fieldText}>Email Address</Text>
           <TextInput
             keyboardType="email-address"
             autoCapitalize="none"
-            placeholder="example@gmail.com"
+            placeholder="Enter your email"
             autoCorrect={false}
             style={Authstyles.txtfieldInput}
           />
@@ -42,7 +42,7 @@ const signUpScreen = () => {
           <Text style={Authstyles.fieldText}>Password</Text>
           <TextInput
             secureTextEntry={true}
-            placeholder="Enter password"
+            placeholder="Enter your password"
             style={Authstyles.txtfieldInput}
           />
         </View>
@@ -52,7 +52,7 @@ const signUpScreen = () => {
 
         <View style={{ marginVertical: 10 }}>
           <Text style={Authstyles.AccntText}>
-            dONT have an account?{" "}
+            Don't have an account?{" "}
             <Text
               style={Authstyles.AccntDiv}
               onPress={() => {
@@ -64,6 +64,16 @@ const signUpScreen = () => {
           </Text>
         </View>
       </View>
+      <View>
+        <TouchableOpacity style={Authstyles.Button} onPress={() => {
+                // Handle sign up logic here
+                console.log("Sign Up button pressed");
+              }}>
+                <Text style={Authstyles.ButtonText}>SIGN IN</Text>
+              </TouchableOpacity>
+      
+            </View>
+
     </SafeAreaView>
   );
 };

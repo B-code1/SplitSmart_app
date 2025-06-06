@@ -1,8 +1,11 @@
-import { Image } from "expo-image";
-import { router } from "expo-router";
-import { Platform, StyleSheet, Text, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React from 'react';
+import { Text } from 'react-native';
 
-export default function HomeScreen() {
-  return <SafeAreaView></SafeAreaView>;
+
+const homescreen = () => {
+  return(
+  
+    <Text  style={{}}>Home Screen</Text>
+  )
 }
+export default homescreen;

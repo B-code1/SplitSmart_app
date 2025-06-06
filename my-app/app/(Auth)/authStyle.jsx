@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../constants/Colors";
+import { Button } from "@react-navigation/elements";
 
 const Authstyles = StyleSheet.create({
   logoAuthImg: {
@@ -41,6 +42,26 @@ const Authstyles = StyleSheet.create({
   },
   AccntDiv: {
     color: Colors.primary,
+  },
+  Button: {
+    marginTop: 20,
+    alignSelf: "center",
+    backgroundColor: Colors.primary,
+    padding: 10,
+    borderRadius: 5,
+    height: 50,
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ButtonText: {
+    color: Colors.black,
+    fontSize: 20,
+    textAlign: "center",
+    fontFamily: "PoppinsSemiBold",
+    fontStyle: "normal",
+    fontWeight: "800",
+
   },
 });
 export default Authstyles;

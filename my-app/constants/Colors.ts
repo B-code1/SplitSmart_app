@@ -28,7 +28,7 @@ export const Colors = {
   primary: "#F1C40F",
   white: "#ffffff",
   backgroundColor: "#3498DB",
-  backgroundColor2: "#1E1E2D",
+  backgroundColor2: "#2ebbf2",
   text_Light: "#FFFFFF",
   TextAccent_Brown: "#745D00",
 };
