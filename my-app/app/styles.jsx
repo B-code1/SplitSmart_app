@@ -9,19 +9,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: Colors.text,
-    //   },
-
-    //   logoImg: {
-    //     width: 82,
-    //     resizeMode: "contain",
-    //     alignSelf: "center",
-    //     height: 34.07,
-    //   },
-    //   bgImg: {
-    //     width: 375,
-    //     resizeMode: "contain",
-    //     height: 298,
-    //     marginBottom: 10,
+  },
+  button: {
+    color: Colors.primary,
   },
 });
 export default styles;

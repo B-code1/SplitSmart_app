@@ -1,12 +1,37 @@
-
 import React from "react";
-import{ TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
+import Colors from "../constants/Colors.ts";
 
-const CustomButton = ({ text, onPress, style }) => {
+const CustomButton = ({ text, onPress }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.button, style]}>
-      <Text style={styles.buttonText}>{text}</Text>
+    <TouchableOpacity
+      onPress={onPress}
+      style={{
+        marginTop: 20,
+        alignSelf: "center",
+        backgroundColor: Colors.primary,
+        padding: 10,
+        borderRadius: 5,
+        height: 50,
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Text
+        style={{
+          color: Colors.black,
+          fontSize: 20,
+          textAlign: "center",
+          fontFamily: "PoppinsSemiBold",
+          fontStyle: "normal",
+          fontWeight: "800",
+        }}
+      >
+        {text}
+      </Text>
     </TouchableOpacity>
   );
-}
+};
+
 export default CustomButton;

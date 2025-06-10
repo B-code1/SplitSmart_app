@@ -4,9 +4,9 @@ import { Button } from "@react-navigation/elements";
 
 const Authstyles = StyleSheet.create({
   logoAuthImg: {
-    width: "50%",
-    height: "25%",
-    resizeMode: "contain",
+    width: 131,
+    height: 138,
+    // resizeMode: "contain",
     alignSelf: "center",
   },
   text: {
@@ -39,29 +39,10 @@ const Authstyles = StyleSheet.create({
     color: Colors.white,
     textAlign: "center",
     fontFamily: "PoppinsRegular",
+    marginTop: -10,
   },
   AccntDiv: {
     color: Colors.primary,
-  },
-  Button: {
-    marginTop: 20,
-    alignSelf: "center",
-    backgroundColor: Colors.primary,
-    padding: 10,
-    borderRadius: 5,
-    height: 50,
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  ButtonText: {
-    color: Colors.black,
-    fontSize: 20,
-    textAlign: "center",
-    fontFamily: "PoppinsSemiBold",
-    fontStyle: "normal",
-    fontWeight: "800",
-
   },
 });
 export default Authstyles;
