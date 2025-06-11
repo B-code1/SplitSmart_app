@@ -17,6 +17,8 @@ import DividerOr from "../../components/Divider";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CustomButton from "../../components/Custombutton";
 import Socials from "../../components/Socials";
+import TandC from "../../components/TandC";
+import React from "react";
 const signUpScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -26,7 +28,7 @@ const signUpScreen = () => {
         keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 20}
       >
         <ScrollView
-          contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+          
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -40,6 +42,7 @@ const signUpScreen = () => {
               textAlign: "center",
               color: Colors.text_Light,
               fontFamily: "PoppinsRegular",
+              fontSize: 18,
             }}
           >
             Welcome to SplitSmart Let’s show you how you can split bill NOT
@@ -79,28 +82,7 @@ const signUpScreen = () => {
               />
             </View>
 
-            <View style={{ marginVertical: 10 }}>
-              <Text style={Authstyles.AccntText}>
-                Forgot Password?{" "}
-                <TouchableOpacity>
-                  <Text style={{ color: Colors.primary }}>Click here</Text>
-                </TouchableOpacity>
-              </Text>
-            </View>
-
-            <View style={{ marginVertical: 10 }}>
-              <Text
-                style={Authstyles.AccntText}
-                onPress={() => {
-                  router.navigate("/signUp");
-                }}
-              >
-                Signup
-              </Text>
-
-              {/* this t help navigate to the signup screen */}
-            </View>
-          </View>
+    
           <View>
             {/* <TouchableOpacity
           style={Authstyles.Button}
@@ -114,13 +96,61 @@ const signUpScreen = () => {
         </TouchableOpacity> */}
             <CustomButton text={"LOGIN"} onPress={() => {}} />
           </View>
-          <View>
-            <DividerOr />
-          </View>
+          
+          
+            <View style={{ marginVertical: 10 ,marginTop: 20}}>
+              <Text
+                style={{
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >Not a Registered User yet?{" "}
+              <Text
+                style={{
+                  color: "black",fontSize:20,fontFamily: "PoppinsBold",fontWeight:400,
+                }}
+                onPress={() => {
+                  router.navigate("/signUp");
+                }}
+              >
+                Sign Up
+              </Text>
+              </Text>
 
-          <View>
-            <Socials />
+            </View>
           </View>
+          <View style={{ marginVertical: 10 }}>
+            <DividerOr />
+       
+         </View>
+         <View>
+          <Socials />
+        </View>
+
+        <View style={{ marginVertical: 10, marginTop: 20 ,  }}>
+          <Text style={{color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center"}}>
+                Forgot Password?{" "}
+                <TouchableOpacity
+                  onPress={() => {
+                    router.navigate("/");
+                  }}
+                >
+                  <Text style={{ color:"#F1C40F",fontSize:24,fontWeight:400,}}>Click here</Text>
+                </TouchableOpacity>
+              </Text>
+        </View>
+        <View style={{  marginTop: 30 }}>
+          <TandC />
+        </View>
+          
+          
+
+          
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

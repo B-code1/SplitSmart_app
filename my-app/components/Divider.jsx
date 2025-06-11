@@ -7,17 +7,17 @@ const DividerOr = () => {
         style={{
           flex: 1,
           height: 1,
-          backgroundColor: "#ccc",
+          backgroundColor: "#666",
         }}
       />
-      <Text style={{ marginHorizontal: 15, color: "#666", fontSize: 16 }}>
+      <Text style={{  color: "black", fontSize: 16 }}>
         OR
       </Text>
       <View
         style={{
           flex: 1,
           height: 1,
-          backgroundColor: "#ccc",
+          backgroundColor: "#666",
         }}
       />
     </View>

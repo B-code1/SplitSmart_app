@@ -3,35 +3,49 @@ const Socials = () => {
   return (
     <View
       style={{
-        flex: 1,
+        marginTop: 20,
         flexDirection: "row",
-        gap: 50,
+        gap: 35,
         alignSelf: "center",
       }}
     >
       <View>
-        <Image
-          style={{ width: 30, resizeMode: "contain" }}
-          source={require("../assets/images/google.png")}
-        />
+        <TouchableOpacity>
+          <Image
+            style={{ width: 27, height:  17, resizeMode: "contain" }}S
+            source={require("../assets/images/google.png")}
+          />
+        </TouchableOpacity>
       </View>
       <View>
-        <Image
-          style={{ width: 30, resizeMode: "contain" }}
-          source={require("../assets/images/twitter.png")}
-        />
+        <TouchableOpacity>
+          <Image
+            style={{ width: 27,height:  17,resizeMode: 'contain' }}S
+            source={require("../assets/images/twitter.png")}
+          />
+        </TouchableOpacity>
       </View>
+
       <View>
-        <Image
-          style={{ width: 30, resizeMode: "contain" }}
+        <TouchableOpacity>
+          <Image
+          style={{ width: 27, height: 17, resizeMode: 'contain' }}
           source={require("../assets/images/facebook.png")}
         />
+        </TouchableOpacity>
+        
       </View>
       <View>
-        <Image
-          style={{ width: 30, resizeMode: "contain" }}
+        <TouchableOpacity>
+         <Image
+          style={{ width: 27, height: 17, resizeMode: 'contain' }}
           source={require("../assets/images/instagram.png")}
         />
+
+
+
+        </TouchableOpacity>
+        
       </View>
     </View>
   );

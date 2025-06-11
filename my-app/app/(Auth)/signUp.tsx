@@ -16,8 +16,10 @@ import DividerOr from "@/components/Divider";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import CustomButton from "@/components/Custombutton";
 
+
 import { ScrollView } from "react-native";
 import Socials from "@/components/Socials";
+import TandC from "@/components/TandC";
 const signUpScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -82,12 +84,7 @@ const signUpScreen = () => {
               />
             </View>
 
-            <View>
-              <Text style={{ color: "#F1C40F", fontSize: 16, marginLeft: 5 }}>
-                {" "}
-                Forgot Password?
-              </Text>
-            </View>
+           
             {/* <TouchableOpacity
           style={Authstyles.Button}
           onPress={() => {
@@ -97,10 +94,24 @@ const signUpScreen = () => {
         >
           <Text style={Authstyles.ButtonText}>SIGN UP</Text>
         </TouchableOpacity> */}
-            <CustomButton text={"SIGN-UP"} onPress={() => {}} />
+
+       <View style={{ marginVertical: 10 }}>
+            <DividerOr />
+       
+         </View>
+         <View>
+          <Socials />
+        </View>
+          <View style={{ marginVertical: 10 ,marginTop: 20}}>
+            <CustomButton text={"SIGN-UP"} onPress={() => {
+              // Handle sign up logic here
+              console.log("Sign Up button pressed");
+              router.navigate("/(tabs)/Home");
+            }} />
           </View>
           <View style={{ marginVertical: 10 }}>
-            <Text style={Authstyles.AccntText}>
+            <Text style={{fontFamily: "PoppinsRegular", color: Colors.text_Light,
+               textAlign: "center",fontSize: 16}}>
               Already have an account?{" "}
               <Text
                 style={Authstyles.AccntDiv}
@@ -112,8 +123,13 @@ const signUpScreen = () => {
               </Text>
             </Text>
           </View>
-          <DividerOr />
-          <Socials />
+        </View>
+        <View style={{marginTop: 30,}}>
+          <TandC />
+
+        </View>
+
+          
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

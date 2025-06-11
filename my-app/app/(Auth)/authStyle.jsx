@@ -43,6 +43,14 @@ const Authstyles = StyleSheet.create({
   },
   AccntDiv: {
     color: Colors.primary,
+    fontSize: 20,
+    fontFamily: "PoppinsSemiBold",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 20,
   },
 });
 export default Authstyles;
