@@ -3,7 +3,7 @@ const Socials = () => {
   return (
     <View
       style={{
-        flex: 1,
+        // flex: 1,
         flexDirection: "row",
         gap: 50,
         alignSelf: "center",
