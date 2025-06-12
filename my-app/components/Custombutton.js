@@ -7,7 +7,7 @@ const CustomButton = ({ text, onPress }) => {
     <TouchableOpacity
       onPress={onPress}
       style={{
-        marginTop: 20,
+        marginTop: 30,
         alignSelf: "center",
         backgroundColor: Colors.primary,
         padding: 10,

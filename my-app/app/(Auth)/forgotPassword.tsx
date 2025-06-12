@@ -6,20 +6,19 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ScrollView,
   Platform,
 } from "react-native";
 import { router } from "expo-router";
 import Authstyles from "./authStyle";
 import styles from "../styles";
 import Colors from "../../constants/Colors";
-import DividerOr from "../../components/Divider";
+import DividerOr from "@/components/Divider";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import CustomButton from "../../components/Custombutton";
-import Socials from "../../components/Socials";
-import TandC from "../../components/TandC";
-import React from "react";
-const signUpScreen = () => {
+import CustomButton from "@/components/Custombutton";
+
+import { ScrollView } from "react-native";
+import Socials from "@/components/Socials";
+const forgotPasswordScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -28,7 +27,7 @@ const signUpScreen = () => {
         keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 20}
       >
         <ScrollView
-          
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -37,16 +36,8 @@ const signUpScreen = () => {
             source={require("../../assets/images/Logo.png")}
           />
 
-          <Text
-            style={{
-              textAlign: "center",
-              color: Colors.text_Light,
-              fontFamily: "PoppinsRegular",
-              fontSize: 18,
-            }}
-          >
-            Welcome to SplitSmart Let’s show you how you can split bill NOT
-            friendship
+          <Text style={{ textAlign: "center", color: Colors.text_Light }}>
+            organize.split.resolve
           </Text>
           <Text
             style={{
@@ -57,15 +48,16 @@ const signUpScreen = () => {
               marginTop: 15,
             }}
           >
-            LOGIN
+            FORGOT PASSWORD
           </Text>
+
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
               <TextInput
                 keyboardType="email-address"
                 autoCapitalize="none"
-                placeholder="Enter your email"
+                placeholder="Enter your username"
                 placeholderTextColor={Colors.white}
                 autoCorrect={false}
                 style={Authstyles.txtfieldInput}
@@ -73,50 +65,20 @@ const signUpScreen = () => {
             </View>
 
             <View style={Authstyles.fieldContainer}>
-              <Text style={Authstyles.fieldText}>Password</Text>
+              <Text style={Authstyles.fieldText}>Confirm Password</Text>
               <TextInput
                 secureTextEntry={true}
-                placeholder="Enter your password"
+                placeholder="Confirm password"
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
               />
             </View>
 
-            <View style={{ marginVertical: 10 }}>
-              <Text style={Authstyles.AccntText}>
-                Forgot Password?{" "}
-                <TouchableOpacity>
-                  <Text style={{ color: Colors.primary }}>Click here</Text>
-                </TouchableOpacity>
-              </Text>
-            </View>
-
-            <View style={{ marginVertical: 10 }}>
-              <Text
-                style={Authstyles.AccntText}
-                onPress={() => {
-                  router.navigate("/signUp");
-                }}
-              >
-                Signup
-              </Text>
-
-              {/* this t help navigate to the signup screen */}
-            </View>
-          </View>
-          <View>
-            <CustomButton text={"LOGIN"} onPress={() => {}} />
-          </View>
-          <View>
-            <DividerOr />
-          </View>
-
-          <View>
-            <Socials />
+            <CustomButton text={"RESET"} onPress={() => {}} />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
-export default signUpScreen;
+export default forgotPasswordScreen;
