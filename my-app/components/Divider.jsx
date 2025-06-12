@@ -8,7 +8,8 @@ const DividerOr = () => {
         flexDirection: "row",
         alignItems: "center",
         marginTop: 20,
-        marginBottom: 0,
+        marginBottom: 10,
+        gap: 10,
       }}
     >
       <View

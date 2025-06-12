@@ -82,38 +82,65 @@ const signUpScreen = () => {
               />
             </View>
 
-            <View style={{ marginVertical: 10 }}>
-              <Text style={Authstyles.AccntText}>
-                Forgot Password?{" "}
-                <TouchableOpacity>
-                  <Text style={{ color: Colors.primary }}>Click here</Text>
-                </TouchableOpacity>
-              </Text>
-            </View>
-
-            <View style={{ marginVertical: 10 }}>
+    
+          <View>
+            <CustomButton text={"LOGIN"} onPress={() => {}} />
+          </View>
+          
+          
+            <View style={{ marginVertical: 10 ,marginTop: 20}}>
               <Text
-                style={Authstyles.AccntText}
+                style={{
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >Not a Registered User yet?{" "}
+              <Text
+                style={{
+                  color: "black",fontSize:20,fontFamily: "PoppinsBold",fontWeight:400,
+                }}
                 onPress={() => {
                   router.navigate("/signUp");
                 }}
               >
-                Signup
+                Sign Up
+              </Text>
               </Text>
 
-              {/* this t help navigate to the signup screen */}
             </View>
           </View>
-          <View>
-            <CustomButton text={"LOGIN"} onPress={() => {}} />
-          </View>
-          <View>
+          <View style={{  marginTop: 10 , marginBottom: 10 }}>
             <DividerOr />
-          </View>
+       
+         </View>
+         <View>
+          <Socials />
+        </View>
 
-          <View>
-            <Socials />
-          </View>
+        <View style={{ marginVertical: 10, marginTop: 20 ,  }}>
+          <Text style={{color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center"}}>
+                Forgot Password?{" "}
+                <TouchableOpacity
+                  onPress={() => {
+                    router.navigate("/");
+                  }}
+                >
+                  <Text style={{ color:"#F1C40F",fontSize:24,fontWeight:400,}}>Click here</Text>
+                </TouchableOpacity>
+              </Text>
+        </View>
+        <View style={{  marginTop: 30 }}>
+          <TandC />
+        </View>
+          
+          
+
+          
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
