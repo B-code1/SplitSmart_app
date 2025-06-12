@@ -127,7 +127,7 @@ const signUpScreen = () => {
                 Forgot Password?{" "}
                 <TouchableOpacity
                   onPress={() => {
-                    router.navigate("/");
+                    router.navigate("/(Auth)/forgotPassword");
                   }}
                 >
                   <Text style={{ color:"#F1C40F",fontSize:24,fontWeight:400,}}>Click here</Text>
