@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView,
 import styles from "../paymentstyle";
 
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from "expo-router";
+import { router } from "expo-router";
 
 
 const Payment = () => {
@@ -79,14 +81,18 @@ const Payment = () => {
 
       {/* Payment Actions */}
       <View style={styles.paymentActionsRow}>
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity style={styles.actionButton} onPress={() => 
+        router.navigate("/send")}>
+
           <Text style={styles.actionButtonText}>Send Payment</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}>
+        <TouchableOpacity style={styles.actionButton}
+          onPress={() => router.navigate("../(payments)/request")}>
           <Text style={styles.actionButtonText}>Request Payment</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.splitPaymentButton}>
+      <TouchableOpacity style={styles.splitPaymentButton}
+        onPress={() => router.navigate("../(payments)/split")}>
         <Text style={styles.splitPaymentButtonText}>Split Payment</Text>
       </TouchableOpacity>
 

@@ -28,6 +28,13 @@ export default function RootLayout() {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="(Auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="(payments)" options={{ headerShown: false }} />
+      <Stack.Screen name="help" options={{ headerShown: false }} />
+      <Stack.Screen name="feedback" options={{ headerShown: false }} />
+      <Stack.Screen name="invitefriends" options={{ headerShown: false }} />
+      <Stack.Screen name="settings" options={{ headerShown: false }} />
+      <Stack.Screen name="logout" options={{ headerShown: false }} />
+
       <Stack.Screen name="+not-found" />
     </Stack>
   );
