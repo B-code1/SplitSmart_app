@@ -19,7 +19,32 @@ import CustomButton from "../../components/Custombutton";
 import Socials from "../../components/Socials";
 import TandC from "../../components/TandC";
 import React from "react";
+import { useState } from "react";
+
+
+
 const signUpScreen = () => {
+  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string | null>('');
+
+
+// this is what ebube has changed. he added authentication function. check the onpress? login.
+// for usestate hooks, check onChageText in email and passsword
+    const handleAuth = async()=>{
+      if(!email || !password? ){
+        setError("Please fill in all fields")
+      }
+       try {
+      const res = await API.post('/signup', { email, password });
+      setMessage('Signup successful! You can now log in.');
+      navigation.navigate('Login');
+    } catch (err) {
+      const errorMsg = err.response?.data?.message || err.message;
+      setMessage(`Signup failed: ${errorMsg}`);
+    }
+     };
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -68,6 +93,7 @@ const signUpScreen = () => {
                 placeholder="Enter your email"
                 placeholderTextColor={Colors.white}
                 autoCorrect={false}
+                onChangeText={setEmail}
                 style={Authstyles.txtfieldInput}
               />
             </View>
@@ -78,13 +104,16 @@ const signUpScreen = () => {
                 secureTextEntry={true}
                 placeholder="Enter your password"
                 placeholderTextColor={Colors.white}
+                onChangeText={setPassword}
                 style={Authstyles.txtfieldInput}
               />
             </View>
+                {/* i added this error to display any error on screen */}
+            {error && <Text style={{color: "red"}}> {error} </Text> }
 
-    
+
           <View>
-            <CustomButton text={"LOGIN"} onPress={() => {}} />
+            <CustomButton text={"LOGIN"} onPress={handleAuth} />
           </View>
           
           
