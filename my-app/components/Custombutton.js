@@ -33,5 +33,6 @@ const CustomButton = ({ text, onPress }) => {
     </TouchableOpacity>
   );
 };
+``;
 
 export default CustomButton;
