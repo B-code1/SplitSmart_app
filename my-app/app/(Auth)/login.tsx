@@ -1,19 +1,21 @@
-import { router } from "expo-router";
-import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   Text,
+  Image,
+  View,
   TextInput,
   TouchableOpacity,
-  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import CustomButton from "../../components/Custombutton";
+import { router } from "expo-router";
+import Authstyles from "./authStyle";
+import styles from "../styles";
+import Colors from "../../constants/Colors";
 import DividerOr from "../../components/Divider";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import CustomButton from "../../components/Custombutton";
 import Socials from "../../components/Socials";
 import TandC from "../../components/TandC";
 import React from "react";
@@ -77,7 +79,6 @@ const signUpScreen = () => {
             Welcome to SplitSmart Let’s show you how you can split bill NOT
             friendship
           </Text>
-
           <Text
             style={{
               textAlign: "center",
@@ -89,7 +90,6 @@ const signUpScreen = () => {
           >
             LOGIN
           </Text>
-
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
@@ -121,12 +121,9 @@ const signUpScreen = () => {
               />
               </View>
             </View>
+                {/* i added this error to display any error on screen */}
+            {error && <Text style={{color: "red"}}> {error} </Text> }
 
-            {error ? (
-              <Text style={{ color: "red", textAlign: "center", marginTop: 10 }}>
-                {error}
-              </Text>
-            ) : null}
 
           <View>
             <CustomButton text={"LOGIN"} onPress={handleAuth} />
@@ -162,8 +159,9 @@ const signUpScreen = () => {
           <View style={{ marginTop: 10, marginBottom: 10 }}>
             <DividerOr />
           </View>
-
-          <Socials />
+          <View>
+            <Socials />
+          </View>
 
           <View style={{ marginVertical: 10, marginTop: 20 }}>
             <Text
@@ -176,15 +174,18 @@ const signUpScreen = () => {
             >
               Forgot Password?{" "}
               <TouchableOpacity
-                onPress={() => router.navigate("/(Auth)/forgotPassword")}
+                onPress={() => {
+                  router.navigate("/(Auth)/forgotPassword");
+                }}
               >
-                <Text style={{ color: "#F1C40F", fontSize: 24, fontWeight: "400" }}>
+                <Text
+                  style={{ color: "#F1C40F", fontSize: 24, fontWeight: 400 }}
+                >
                   Click here
                 </Text>
               </TouchableOpacity>
             </Text>
           </View>
-
           <View style={{ marginTop: 30 }}>
             <TandC />
           </View>
@@ -193,5 +194,4 @@ const signUpScreen = () => {
     </SafeAreaView>
   );
 };
-
-export default LoginScreen;
+export default signUpScreen;

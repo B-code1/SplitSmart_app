@@ -4,16 +4,20 @@ import {
   Image,
   View,
   TextInput,
+  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
 import { router } from "expo-router";
-import { useState } from "react";
 import Authstyles from "./authStyle";
 import styles from "../styles";
 import Colors from "../../constants/Colors";
 import DividerOr from "@/components/Divider";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import CustomButton from "@/components/Custombutton";
+
+
+import { ScrollView } from "react-native";
 import Socials from "@/components/Socials";
 import TandC from "@/components/TandC";
 const signUpScreen = () => {
@@ -62,7 +66,6 @@ const signUpScreen = () => {
                 placeholder="Enter your full name"
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
-                onChangeText={setUsername}
               />
               </View>
             </View>
@@ -83,7 +86,6 @@ const signUpScreen = () => {
                 placeholderTextColor={Colors.white}
                 autoCorrect={false}
                 style={Authstyles.txtfieldInput}
-                onChangeText={setEmail}
               />
               </View>
             </View>
@@ -95,7 +97,6 @@ const signUpScreen = () => {
                 placeholder="Enter your password"
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
-                onChangeText={setPassword}
               />
               </View>
             </View>
@@ -118,53 +119,55 @@ const signUpScreen = () => {
               </View>
             </View>
 
-            {error ? (
-              <Text
-                style={{
-                  color: "red",
-                  textAlign: "center",
-                  marginVertical: 10,
-                }}
-              >
-                {error}
-              </Text>
-            ) : null}
+           
+            {/* <TouchableOpacity
+          style={Authstyles.Button}
+          onPress={() => {
+            // Handle sign up logic here
+            console.log("Sign Up button pressed");
+          }}
+        >
+          <Text style={Authstyles.ButtonText}>SIGN UP</Text>
+        </TouchableOpacity> */}
 
-            <View style={{ marginVertical: 20 }}>
-              <CustomButton text={"SIGN-UP"} onPress={handleSignup} />
-            </View>
-
-            <Text
-              style={{
-                fontFamily: "PoppinsRegular",
-                color: Colors.text_Light,
-                textAlign: "center",
-                fontSize: 16,
-              }}
-            >
+       <View style={{ marginVertical: 10 }}>
+            <DividerOr />
+       
+         </View>
+         <View>
+          <Socials />
+        </View>
+          <View style={{ marginVertical: 10 ,marginTop: 20}}>
+            <CustomButton text={"SIGN-UP"} onPress={() => {
+              // Handle sign up logic here
+              console.log("Sign Up button pressed");
+              router.navigate("/(tabs)/Home");
+            }} />
+          </View>
+          <View style={{ marginVertical: 10 }}>
+            <Text style={{fontFamily: "PoppinsRegular", color: Colors.text_Light,
+               textAlign: "center",fontSize: 16}}>
               Already have an account?{" "}
               <Text
                 style={Authstyles.AccntDiv}
-                onPress={() => router.navigate("/login")}
+                onPress={() => {
+                  router.navigate("/login");
+                }}
               >
                 Login
               </Text>
             </Text>
           </View>
+        </View>
+        <View style={{marginTop: 30,}}>
+          <TandC />
 
-          <View style={{ marginVertical: 10 }}>
-            <DividerOr />
-          </View>
+        </View>
 
-          <Socials />
-
-          <View style={{ marginTop: 30 }}>
-            <TandC />
-          </View>
+          
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
-
-export default SignUpScreen;
+export default signUpScreen;
