@@ -8,50 +8,60 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  Alert,
 } from "react-native";
 import { router } from "expo-router";
 import Authstyles from "./authStyle";
 import styles from "../styles";
 import Colors from "../../constants/Colors";
 import DividerOr from "../../components/Divider";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import CustomButton from "../../components/Custombutton";
 import Socials from "../../components/Socials";
 import TandC from "../../components/TandC";
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
+import { useState, useEffect } from "react";
+import { AxiosError } from "axios";
+import { IconSymbol } from "@/components/IconSymbol";
+import API from "@/utils/api"; // use your shared Axios instance
 
-// Create an API instance (adjust baseURL as needed)
-const API = axios.create({
-  baseURL: "https://your-api-base-url.com", // Replace with your actual API base URL
-});
+const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
-
-
-const signUpScreen = () => {
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string | null>('');
-
-
-// this is what ebube has changed. he added authentication function. check the onpress? login.
-// for usestate hooks, check onChageText in email and passsword
-    const handleAuth = async()=>{
-      if(!email || !password){
-        setError("Please fill in all fields");
-        return;
-      }
-       try {
-      const res = await API.post('/signup', { email, password });
-      setMessage('Signup successful! You can now log in.');
-      navigation.navigate('Login');
-    } catch (err) {
-      const errorMsg = err.response?.data?.message || err.message;
-      setMessage(`Signup failed: ${errorMsg}`);
+  // Auto-clear error after 3 seconds
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setError(null), 3000);
+      return () => clearTimeout(timer);
     }
-     };
+  }, [error]);
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+
+    try {
+      const res = await API.post('/users/login', { email, password });
+
+      // If needed: store the token globally
+      // const token = res.data.token;
+      // await AsyncStorage.setItem("token", token); // or use context
+
+      Alert.alert("Success", "Login successful!");
+      router.navigate("/(tabs)/Home");
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.error(err.response?.data);
+        setError(err.response?.data?.message || 'Login failed');
+      } else {
+        console.error(err);
+        setError('An unexpected error occurred');
+      }
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -76,8 +86,8 @@ const signUpScreen = () => {
               fontSize: 18,
             }}
           >
-            Welcome to SplitSmart Let’s show you how you can split bill NOT
-            friendship
+            Welcome to SplitSmart – Let’s show you how you can split bills NOT
+            friendships.
           </Text>
           <Text
             style={{
@@ -90,47 +100,52 @@ const signUpScreen = () => {
           >
             LOGIN
           </Text>
+
           <View style={Authstyles.secondaryContainer}>
+            {/* Email Field */}
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
               <View style={Authstyles.inputRow}>
-              <IconSymbol name ="mail" size={20} color={Colors.white} style={{marginRight: 10}} />
-
-              <TextInput
-                keyboardType="email-address"
-                autoCapitalize="none"
-                placeholder="Enter your email"
-                placeholderTextColor={Colors.white}
-                autoCorrect={false}
-                onChangeText={setEmail}
-                style={Authstyles.txtfieldInput}
-              />
+                <IconSymbol name="mail" size={20} color={Colors.white} style={{ marginRight: 10 }} />
+                <TextInput
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  placeholder="Enter your email"
+                  placeholderTextColor={Colors.white}
+                  autoCorrect={false}
+                  onChangeText={setEmail}
+                  style={Authstyles.txtfieldInput}
+                />
               </View>
             </View>
 
+            {/* Password Field */}
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Password</Text>
-             <View style={Authstyles.inputRow}>
-              <IconSymbol name="eye.slash" size={20} color={Colors.white} style={{marginRight: 10}} />
-              <TextInput
-                secureTextEntry={true}
-                placeholder="Enter your password"
-                placeholderTextColor={Colors.white}
-                onChangeText={setPassword}
-                style={Authstyles.txtfieldInput}
-              />
+              <View style={Authstyles.inputRow}>
+                <IconSymbol name="eye.slash" size={20} color={Colors.white} style={{ marginRight: 10 }} />
+                <TextInput
+                  secureTextEntry={true}
+                  placeholder="Enter your password"
+                  placeholderTextColor={Colors.white}
+                  onChangeText={setPassword}
+                  style={Authstyles.txtfieldInput}
+                />
               </View>
             </View>
-                {/* i added this error to display any error on screen */}
-            {error && <Text style={{color: "red"}}> {error} </Text> }
 
+            {/* Error Display */}
+            {error && (
+              <Text style={{ color: "red", textAlign: "center", marginVertical: 10 }}>
+                {error}
+              </Text>
+            )}
 
-          <View>
-            <CustomButton text={"LOGIN"} onPress={handleAuth} />
-          </View>
-          
-          
-            <View style={{ marginVertical: 10 ,marginTop: 20}}>
+            {/* Login Button */}
+            <CustomButton text={"LOGIN"} onPress={handleLogin} />
+
+            {/* Signup Redirect */}
+            <View style={{ marginVertical: 10, marginTop: 20 }}>
               <Text
                 style={{
                   color: Colors.text_Light,
@@ -145,7 +160,7 @@ const signUpScreen = () => {
                     color: "black",
                     fontSize: 20,
                     fontFamily: "PoppinsBold",
-                    fontWeight: 400,
+                    fontWeight: "400",
                   }}
                   onPress={() => {
                     router.navigate("/signUp");
@@ -156,13 +171,14 @@ const signUpScreen = () => {
               </Text>
             </View>
           </View>
+
           <View style={{ marginTop: 10, marginBottom: 10 }}>
             <DividerOr />
           </View>
-          <View>
-            <Socials />
-          </View>
 
+          <Socials />
+
+          {/* Forgot Password */}
           <View style={{ marginVertical: 10, marginTop: 20 }}>
             <Text
               style={{
@@ -178,14 +194,13 @@ const signUpScreen = () => {
                   router.navigate("/(Auth)/forgotPassword");
                 }}
               >
-                <Text
-                  style={{ color: "#F1C40F", fontSize: 24, fontWeight: 400 }}
-                >
+                <Text style={{ color: "#F1C40F", fontSize: 24, fontWeight: "400" }}>
                   Click here
                 </Text>
               </TouchableOpacity>
             </Text>
           </View>
+
           <View style={{ marginTop: 30 }}>
             <TandC />
           </View>
@@ -194,4 +209,5 @@ const signUpScreen = () => {
     </SafeAreaView>
   );
 };
-export default signUpScreen;
+
+export default LoginScreen;
