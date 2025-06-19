@@ -25,7 +25,8 @@ const Authstyles = StyleSheet.create({
   fieldText: {
     fontFamily: " PoppinsSemiBold",
     fontSize: 16,
-    color: Colors.text_Light,
+    color: "black",
+    fontWeight: 500,
   },
   txtfieldInput: {
     height: 58,

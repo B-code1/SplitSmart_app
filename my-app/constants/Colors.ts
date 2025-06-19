@@ -24,6 +24,7 @@
 //     tabIconSelected: tintColorDark,
 //   },
 // };
+import { LinearGradient } from "expo-linear-gradient";
 export const Colors = {
   primary: "#F1C40F",
   white: "#ffffff",
@@ -31,5 +32,9 @@ export const Colors = {
   backgroundColor2: "#2ebbf2",
   text_Light: "#FFFFFF",
   TextAccent_Brown: "#745D00",
+
+  gradient: {
+    backgroundColor3: ["#5DADE2", "#FFFFFF"],
+  },
 };
 export default Colors;

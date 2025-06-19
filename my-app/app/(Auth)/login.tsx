@@ -116,13 +116,20 @@ const LoginScreen = () => {
             </View>
 
             {error ? (
-              <Text style={{ color: "red", textAlign: "center", marginTop: 10 }}>
+              <Text
+                style={{ color: "red", textAlign: "center", marginTop: 10 }}
+              >
                 {error}
               </Text>
             ) : null}
 
             <View style={{ marginVertical: 20 }}>
-              <CustomButton text={"LOGIN"} onPress={handleLogin} />
+              <CustomButton
+                text={"LOGIN"}
+                onPress={() => {
+                  router.navigate("/Home");
+                }}
+              />
             </View>
 
             <Text
@@ -167,7 +174,9 @@ const LoginScreen = () => {
               <TouchableOpacity
                 onPress={() => router.navigate("/(Auth)/forgotPassword")}
               >
-                <Text style={{ color: "#F1C40F", fontSize: 24, fontWeight: "400" }}>
+                <Text
+                  style={{ color: "#F1C40F", fontSize: 24, fontWeight: "400" }}
+                >
                   Click here
                 </Text>
               </TouchableOpacity>
