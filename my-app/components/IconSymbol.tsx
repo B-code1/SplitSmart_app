@@ -22,6 +22,10 @@ const MAPPING = {
   "case.fill": "account-balance",
   "chevron.left.forwardslash.chevron.right": "code",
   "chevron.right": "chevron-right",
+  "mail": "mail",
+  "person": "person",
+  "lock": "lock",
+  "eye.slash": "visibility-off",
 } as IconMapping;
 
 /**

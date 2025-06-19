@@ -21,10 +21,11 @@ import TandC from "../../components/TandC";
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { IconSymbol } from "@/components/IconSymbol";
 
 // Create an API instance (adjust baseURL as needed)
 const API = axios.create({
-  baseURL: "https://your-api-base-url.com", // Replace with your actual API base URL
+  baseURL: "http://192.168.1.10:4000", // Replace with your actual API base URL
 });
 
 
@@ -38,20 +39,25 @@ const signUpScreen = () => {
 
 // this is what ebube has changed. he added authentication function. check the onpress? login.
 // for usestate hooks, check onChageText in email and passsword
-    const handleAuth = async()=>{
-      if(!email || !password){
-        setError("Please fill in all fields");
-        return;
-      }
-       try {
-      const res = await API.post('/signup', { email, password });
-      setMessage('Signup successful! You can now log in.');
-      navigation.navigate('Login');
-    } catch (err) {
-      const errorMsg = err.response?.data?.message || err.message;
-      setMessage(`Signup failed: ${errorMsg}`);
-    }
-     };
+    //const handleAuth = async()=>{
+      //if(!email || !password){
+        //setError("Please fill in all fields");
+        //return;
+      //}
+       //try {
+      //const res = await API.post('/signup', { email, password });
+      //setMessage('Signup successful! You can now log in.');
+      //router.navigate('/login');
+    //} catch (err) {
+      //let errorMsg = "An error occurred";
+      //if (axios.isAxiosError(err)) {
+      //  errorMsg = err.response?.data?.message || err.message;
+      //} else if (err instanceof Error) {
+        //errorMsg = err.message;
+      //}
+      //setMessage(`Signup failed: ${errorMsg}`);
+    //}
+    // };
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -93,6 +99,9 @@ const signUpScreen = () => {
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
+              <View style={Authstyles.inputRow}>
+              <IconSymbol name ="mail" size={20} color={Colors.white} style={{marginRight: 10}} />
+
               <TextInput
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -102,24 +111,30 @@ const signUpScreen = () => {
                 onChangeText={setEmail}
                 style={Authstyles.txtfieldInput}
               />
+              </View>
             </View>
 
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Password</Text>
+             <View style={Authstyles.inputRow}>
+              <IconSymbol name="eye.slash" size={20} color={Colors.white} style={{marginRight: 10}} />
               <TextInput
                 secureTextEntry={true}
-                placeholder="Enter your password"
+                placeholder="***********"
                 placeholderTextColor={Colors.white}
                 onChangeText={setPassword}
                 style={Authstyles.txtfieldInput}
               />
+              </View>
             </View>
                 {/* i added this error to display any error on screen */}
             {error && <Text style={{color: "red"}}> {error} </Text> }
 
 
           <View>
-            <CustomButton text={"LOGIN"} onPress={handleAuth} />
+            <CustomButton text={"LOGIN"} onPress={() => {
+                    router.navigate("/(tabs)/Home"); // Adjust the navigation path as needed");
+                  }} />
           </View>
           
           

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  Alert,
 } from "react-native";
 import { router } from "expo-router";
 import Authstyles from "./authStyle";
@@ -20,7 +21,37 @@ import CustomButton from "@/components/Custombutton";
 import { ScrollView } from "react-native";
 import Socials from "@/components/Socials";
 import TandC from "@/components/TandC";
+import { IconSymbol } from "@/components/IconSymbol";
+import { useState } from "react";
+import axios from "axios";
+
 const signUpScreen = () => {
+     const [message, setMessage] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const registerUser = async () => {
+    setError(null);
+    setMessage('');
+    try {
+      const response = await axios.post('http://192.168.1.10:5000/api/users/register', { // <-- use your IP here
+        name,
+        email,
+        password
+      });
+      setMessage("User registered successfully!");
+      setName('');
+      setEmail('');
+      setPassword('');
+      // Optionally, navigate or show a success alert
+      Alert.alert("Success", "User registered successfully!");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Error registering user");
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -55,16 +86,31 @@ const signUpScreen = () => {
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Full Name</Text>
-              <TextInput
+              <View style={Authstyles.inputRow}>
+              <IconSymbol
+                name="person"
+                size={20}
+                color={Colors.white}
+                style={{ marginRight: 10 }}
+              />
+              <TextInput onChangeText={setName}
                 placeholder="Enter your full name"
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
               />
+              </View>
             </View>
 
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
-              <TextInput
+              <View style={Authstyles.inputRow}>
+              <IconSymbol
+                name="mail"
+                size={20}
+                color={Colors.white}
+                style={{ marginRight: 10 }}
+                />  
+              <TextInput onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
                 placeholder="Enter your email"
@@ -72,16 +118,43 @@ const signUpScreen = () => {
                 autoCorrect={false}
                 style={Authstyles.txtfieldInput}
               />
+              </View>
             </View>
 
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Password</Text>
-              <TextInput
+                <View style={Authstyles.inputRow}>
+              <IconSymbol
+                name="eye.slash"
+                size={20}
+                color={Colors.white}
+                style={{ marginRight: 10 }}
+                 />
+              <TextInput  onChangeText={setPassword}
                 secureTextEntry={true}
-                placeholder="Enter your password"
+                placeholder="**********"
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
               />
+              </View>
+            </View>
+            <View style={Authstyles.fieldContainer}>
+              <Text style={Authstyles.fieldText}> Confirm Password</Text>
+              <View style={Authstyles.inputRow}>
+               <IconSymbol
+                name="eye.slash"
+                size={20}
+                color={Colors.white}
+                style={{ marginRight: 10 }}
+                 />
+              <TextInput  onChangeText={setPassword}
+                secureTextEntry={true}
+                placeholder="**********"
+                placeholderTextColor={Colors.white}
+                style={Authstyles.txtfieldInput}
+                
+              />
+              </View>
             </View>
 
            

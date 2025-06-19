@@ -19,21 +19,24 @@ const Authstyles = StyleSheet.create({
   },
 
   fieldContainer: {
-    gap: 10,
-    marginVertical: 10,
+   
+    marginTop: 20,
+    
   },
   fieldText: {
     fontFamily: " PoppinsSemiBold",
-    fontSize: 16,
+    fontSize: 18,
     color: Colors.text_Light,
+
   },
   txtfieldInput: {
     height: 58,
     backgroundColor: Colors.backgroundColor2,
     borderRadius: 8,
     color: Colors.white,
-    paddingLeft: 20,
+    paddingLeft: 0,
     fontSize: 16,
+    fontFamily: "PoppinsRegular",
   },
   AccntText: {
     color: Colors.white,
@@ -52,5 +55,14 @@ const Authstyles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
   },
+  inputRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  backgroundColor: Colors.backgroundColor2,
+  borderRadius: 8,
+  height: 58,
+  marginTop: 8,
+  paddingHorizontal: 10,
+},
 });
 export default Authstyles;

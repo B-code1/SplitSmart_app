@@ -18,6 +18,7 @@ import CustomButton from "@/components/Custombutton";
 
 import { ScrollView } from "react-native";
 import Socials from "@/components/Socials";
+import { IconSymbol } from "@/components/IconSymbol";
 const forgotPasswordScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -45,7 +46,7 @@ const forgotPasswordScreen = () => {
               color: Colors.text_Light,
               fontFamily: "PoppinsBold",
               fontSize: 20,
-              marginTop: 15,
+              marginTop: 7,
             }}
           >
             FORGOT PASSWORD
@@ -54,6 +55,8 @@ const forgotPasswordScreen = () => {
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
+               <View style={Authstyles.inputRow}>
+              <IconSymbol name ="mail" size={20} color={Colors.white} style={{ marginRight: 5 }} />
               <TextInput
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -62,16 +65,21 @@ const forgotPasswordScreen = () => {
                 autoCorrect={false}
                 style={Authstyles.txtfieldInput}
               />
+              </View>
             </View>
 
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Confirm Password</Text>
+              <View style={Authstyles.inputRow}>
+               <IconSymbol name="eye.slash" size={20} color={Colors.white}
+               style={{ marginRight: 5 }} />
               <TextInput
                 secureTextEntry={true}
-                placeholder="Confirm password"
+                placeholder="*********"
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
               />
+             </View>
             </View>
 
             <CustomButton text={"RESET"} onPress={() => {}} />
