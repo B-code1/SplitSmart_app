@@ -31,32 +31,32 @@ const API = axios.create({
 
 
 const signUpScreen = () => {
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [error, setError] = useState<string | null>('');
+  //const [message, setMessage] = useState('');
+  //const [email, setEmail] = useState<string>('');
+ // const [password, setPassword] = useState<string>('');
+  //const [error, setError] = useState<string | null>('');
 
 
 // this is what ebube has changed. he added authentication function. check the onpress? login.
 // for usestate hooks, check onChageText in email and passsword
-    const handleAuth = async()=>{
-      if(!email || !password ){
-        setError("Please fill in all fields")
-      }
-       try {
-      const res = await API.post('/signup', { email, password });
-      setMessage('Signup successful! You can now log in.');
-      router.navigate('/login');
-    } catch (err) {
-      let errorMsg = "An error occurred";
-      if (axios.isAxiosError(err)) {
-        errorMsg = err.response?.data?.message || err.message;
-      } else if (err instanceof Error) {
-        errorMsg = err.message;
-      }
-      setMessage(`Signup failed: ${errorMsg}`);
-    }
-     };
+   // const handleAuth = async()=>{
+    //  if(!email || !password ){
+    //    setError("Please fill in all fields")
+    //  }
+      // try {
+     // const res = await API.post('/signup', { email, password });
+    // setMessage('Signup successful! You can now log in.');
+     // router.navigate('/login');
+    //} catch (err) {
+     // let errorMsg = "An error occurred";
+     // if (axios.isAxiosError(err)) {
+     //   errorMsg = err.response?.data?.message || err.message;
+     // } else if (err instanceof Error) {
+     //   errorMsg = err.message;
+     // }
+     // setMessage(`Signup failed: ${errorMsg}`);
+   // }
+     //};
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -108,7 +108,7 @@ const signUpScreen = () => {
                 placeholder="Enter your email"
                 placeholderTextColor={Colors.white}
                 autoCorrect={false}
-                onChangeText={setEmail}
+              
                 style={Authstyles.txtfieldInput}
               />
               </View>
@@ -122,17 +122,18 @@ const signUpScreen = () => {
                 secureTextEntry={true}
                 placeholder="Enter your password"
                 placeholderTextColor={Colors.white}
-                onChangeText={setPassword}
+                
                 style={Authstyles.txtfieldInput}
               />
               </View>
             </View>
                 {/* i added this error to display any error on screen */}
-            {error && <Text style={{color: "red"}}> {error} </Text> }
-
+           
 
           <View>
-            <CustomButton text={"LOGIN"} onPress={handleAuth} />
+            <CustomButton text={"LOGIN"} onPress={() => {
+              router.navigate("/");
+            }} />
           </View>
           
           
@@ -194,4 +195,5 @@ const signUpScreen = () => {
     </SafeAreaView>
   );
 };
+
 export default signUpScreen;

@@ -20,7 +20,12 @@ import CustomButton from "@/components/Custombutton";
 import { ScrollView } from "react-native";
 import Socials from "@/components/Socials";
 import TandC from "@/components/TandC";
+import { IconSymbol } from "@/components/IconSymbol";
 const signUpScreen = () => {
+  function setEmail(text: string): void {
+    throw new Error("Function not implemented.");
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -62,7 +67,7 @@ const signUpScreen = () => {
                 color={Colors.white}
                 style={{ marginRight: 10 }}
               />
-              <TextInput onChangeText={setName}
+              <TextInput 
                 placeholder="Enter your full name"
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
@@ -109,7 +114,7 @@ const signUpScreen = () => {
                 color={Colors.white}
                 style={{ marginRight: 10 }}
                  />
-              <TextInput  onChangeText={setPassword}
+              <TextInput  
                 secureTextEntry={true}
                 placeholder="**********"
                 placeholderTextColor={Colors.white}
@@ -158,7 +163,7 @@ const signUpScreen = () => {
               </Text>
             </Text>
           </View>
-        </View>
+       
         <View style={{marginTop: 30,}}>
           <TandC />
 

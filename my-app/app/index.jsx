@@ -16,7 +16,7 @@ const index = () => {
      
       
       <View>
-        <TouchableOpacity  styles={styles.Button} onPress={() => router.navigate('/(Auth)/login')}>
+        <TouchableOpacity  style={styles.Button} onPress={() => router.navigate('/(tabs)/Home')}>
           
         
           <Text style={styles.ButtonText}>Next</Text>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     height: 50,
-    width: "100%",
+    width: 200,
     justifyContent: "center",
     alignItems: "center",
   },
