@@ -27,9 +27,10 @@ export default function SendPaymentScreen() {
       </View>
 
       <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
-        {/* Today */}
+        <View style={styles.header}> 
         <Text style={styles.sectionTitle}>Today</Text>
         <View style={styles.sectionDivider} />
+        </View>
         {paymentsToday.map((item) => (
           <View key={item.id} style={styles.paymentRow}>
             <View>
@@ -140,35 +141,42 @@ export default function SendPaymentScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#e3f2fd",
+    backgroundColor: "#FFFFFF",
   },
   headerRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 18,
-    paddingTop: 12,
-    paddingBottom: 10,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 50,
+    paddingBottom: 50,
+    backgroundColor: "#F3F9FD",
+  },
+  header:{
+    gap: 3,
+    
+    flexDirection: "row",
   },
   headerTitle: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "600",
-    color: "#222",
+    color: "#000",
     textAlign: "center",
+    fontFamily: "Inter_600SemiBold",
   },
   sectionTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#222",
+    fontSize: 20,
+    fontWeight: "400",
+    color: "#000",
     marginLeft: 18,
-    marginTop: 10,
+    marginTop: 0,
     marginBottom: 2,
+    fontFamily: "Inter_400Regular",
   },
   sectionDivider: {
     height: 1,
-    backgroundColor: "#bbb",
-    marginHorizontal: 18,
+    backgroundColor: "#000",
+   paddingLeft: 38,
     marginBottom: 8,
     opacity: 0.5,
   },
