@@ -1,28 +1,46 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-import Colors from "../constants/Colors";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
-
-type InviteFriendsProps = {
-  onInvite: () => void;
-  onDismiss: () => void;
-};
-
-export default function InviteFriends({ onInvite, onDismiss }: InviteFriendsProps) {
+export default function InviteFriendsScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
-      <MaterialIcons name="person-add-alt" size={145} color="#e0e0e0" style={styles.icon} />
-      <Text style={styles.title}>Invite Friends</Text>
-      <Text style={styles.message}>
-        Thanks for signing up! Tap the button below{"\n"}to invite friends to join you.
-      </Text>
-      <TouchableOpacity style={styles.inviteBtn} onPress={onInvite}>
-        <Text style={styles.inviteBtnText}>Invite Friends</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={onDismiss}>
-        <Text style={styles.dismissText}>Dismiss</Text>
-      </TouchableOpacity>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation?.goBack?.()}>
+          <Ionicons name="arrow-back" size={26} color="#222" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Invite Friends</Text>
+        <View style={{ width: 26 }} />
+      </View>
+      {/* Content */}
+      <View style={styles.content}>
+        <FontAwesome5 name="user-friends" size={150} color="#b3d8f7" style={{ marginBottom: 18 }} />
+        <Text style={styles.infoText}>
+          Thanks for signing up! Tap the button below to invite friends to join you.
+        </Text>
+        <TouchableOpacity style={styles.buttonShadow}>
+          <LinearGradient
+            colors={["#b3d8f7", "#ffe082"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Invite Friends</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.buttonShadow, { marginTop: 18 }]}>
+          <LinearGradient
+            colors={["#ffe082", "#b3d8f7"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1}}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Dismiss</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -30,52 +48,57 @@ export default function InviteFriends({ onInvite, onDismiss }: InviteFriendsProp
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingHorizontal: 24,
+    backgroundColor: "#fff",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 50,
+    backgroundColor: "#e3f2fd",
+    justifyContent: "space-between",
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#000",
+    textAlign: "center",
+  },
+  content: {
+    flex: 1,
+    alignItems: "center",
+    paddingTop: 24,
+  },
+  infoText: {
+    fontSize: 16,
+    color: "#000",
+    textAlign: "center",
+    marginBottom: 28,
+    fontWeight: "500",
+    fontFamily: "inter",
+    marginHorizontal: 18,
+  },
+  buttonShadow: {
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+    marginHorizontal: 8,
+    width: "85%",
+  },
+  button: {
+    borderRadius: 12,
+    paddingVertical: 14,
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
-    alignSelf: "center",
-    marginTop: 1,
+    minWidth: 180,
   },
-  icon: {
-    marginBottom: 30,
-    opacity: 0.5,
-    alignSelf: "center",
-    marginTop: 20,
+  buttonText: {
+    color: "#000",
+    fontWeight: "700",
+    fontSize: 18,
   },
-  title: {
-    fontWeight: "bold",
-    fontSize: 40,
-    marginBottom: 18,
-    textAlign: "center",
-    color: "#fff",
-  },
-  message: {
-    fontSize: 19,
-    color: "#222",
-    marginBottom: 28,
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  inviteBtn: {
-    width: "100%",
-    backgroundColor: "#F1C40F",
-    borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: "center",
-    marginBottom: 18,
-  },
-  inviteBtnText: {
-    fontWeight: "bold",
-    fontSize: 24,
-    color: "#fff",
-  },
-  dismissText: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#222",
-    textAlign: "center",
-  },
-    
 });

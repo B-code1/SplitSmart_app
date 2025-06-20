@@ -1,298 +1,321 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView, ScrollView,Modal,Pressable, Button } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../constants/Colors"; 
-import { router } from "expo-router";
+import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, ScrollView } from "react-native";
+import { Ionicons, MaterialIcons, MaterialCommunityIcons, FontAwesome5, Feather, Entypo } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import { useNavigation } from "@react-navigation/native";
+import { Route, router } from "expo-router";
 
+export default function HomeScreen() {
+  const [menuVisible, setMenuVisible] = useState(false);
+  const navigation = useNavigation();
 
-export default function Home() {
-  const [menuVisible, setMenuVisible] = React.useState(false);
-  
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
-      <View style={styles.headerRow}>
-        <Text style={styles.headerTitle}>SplitSmart</Text>
-        <Image
-          source={require("../../assets/images/Logo.png")}
-          style={styles.logo}
-        />
-      </View>
-      <Text style={styles.welcomeText}>
-        Welcome to SplitSmart! Let's show you how you can split bill NOT friendship.
-      </Text>
-      <View style={styles.headerIcons}>
-        <Ionicons name="notifications-outline" size={22} color="#fff" style={styles.headerIcon} />
-         <TouchableOpacity onPress={() => setMenuVisible(true)}>
-          <Ionicons name="menu-outline" size={22} color="#fff" style={styles.headerIcon} />
-        </TouchableOpacity>
-      </View>
-
-      {/* Group Profile Card */}
-      <View style={styles.groupCard}>
-        <View style={styles.groupProfile}>
-          <View style={styles.groupProfileImage}>
-            <Text style={styles.groupProfileImageText}>Group{"\n"}Profile{"\n"}Image</Text>
-          </View>
-        </View>
-        <View style={{ flex: 1, marginLeft: 12 }}>
-          <Text style={styles.groupDescription}>Group Description</Text>
-        </View>
-        <TouchableOpacity>
-          <Ionicons name="create-outline" size={22} color="#222" />
-        </TouchableOpacity>
-        
-      </View>
-
-      {/* Create Group */}
-      <TouchableOpacity onPress={() => router.navigate("/(tabs)/groups")}>
-      <Text style={styles.sectionTitle}>Create Group</Text>
-      </TouchableOpacity>
-
-      {/* Circle Image */}
-      <View style={styles.circleImageWrapper}>
-        <Image
-          source={require("../../assets/images/P2P.png")}
-          style={styles.circleImage}
-        />
-      </View>
-
-      {/* Quick Settings and Activity */}
-      <Text style={styles.quickText} >
+      <View style={styles.headerSection}>
+  {/* Top Row: Menu and Status */}
+  <View style={styles.headerTopRow}>
+    <TouchableOpacity onPress={() => setMenuVisible(true)}>
+      <Ionicons name="menu" size={28} color="#222" />
+    </TouchableOpacity>
     
-      Access Quick Settings</Text>
-      <Text style={styles.quickText}>View Recent Activity</Text>
+  </View>
+  {/* Title */}
+  <Text style={styles.headerTitleBlack}>Group</Text>
+  {/* Row: Group Image, Input, Icons */}
+  <View style={styles.headerRow}>
+    <View style={styles.avatarCircleBig}>
+      <Text style={styles.avatarLabelBlack}>Group Image</Text>
+    </View>
+    <View style={styles.inputBoxBig} />
+    <TouchableOpacity style={styles.iconBtnBig}>
+      <Ionicons name="pencil" size={22} color="#000" />
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.iconBtnBig}>
+      <Ionicons name="settings-outline" size={22} color="#000" />
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.iconBtnBig}>
+      <Ionicons name="notifications-outline" size={22} color="#000" />
+    </TouchableOpacity>
+  </View>
+</View>
 
-      {/* Send Payment */}
-      <Text style={styles.sectionTitle}>Send Payment</Text>
+      {/* Group Image */}
+      <View style={styles.actionsRow}>
+  <Image
+    source={{ uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" }}
+    style={styles.ovalImage}
+  />
+  <View style={styles.actionsList}>
+    <Text style={styles.actionText}>Create Group</Text>
+    <Text style={styles.actionText}>Access Quick Settings</Text>
+    <Text style={styles.actionText}>View Recent Activity</Text>
+    <Text style={styles.actionText}>Send Payment</Text>
+  </View>
+</View>
+
+      {/* Buttons */}
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.actionButton}
-          onPress={() => router.push("../../(payments)/send")}
-        >
-          <Text style={styles.actionButtonText}
-          >Send Payment</Text>
+        <TouchableOpacity style={styles.buttonShadow}>
+          <LinearGradient
+            colors={["#4fc3f7", "#ffe082"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Send  Payment</Text>
+          </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.actionButton}
-          onPress={() => router.push("../../payment")}
-        >
-          <Text style={styles.actionButtonText}>Create Bill</Text>
+        <TouchableOpacity style={styles.buttonShadow}>
+          <LinearGradient
+            colors={["#4fc3f7", "#ffe082"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.button}
+          >
+            <Text style={styles.buttonText}>Create Bill</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
+
+      {/* Bottom Tab Bar (for visual reference, actual tabs handled by layout) */}
+      
+
+      {/* Menu Drawer */}
       <Modal
         visible={menuVisible}
         animationType="slide"
         transparent
         onRequestClose={() => setMenuVisible(false)}
       >
-        <Pressable style={styles.overlay} onPress={() => setMenuVisible(false)}>
-          <View style={styles.menuContainer}>
-            <Text style={styles.menuItem}>Profile Information</Text>
-
-            <View>
-              <TouchableOpacity onPress={() => {
-                setMenuVisible(false);
-                router.push("/settings");
-              }}>
-              <Text style={styles.menuItem}> Account Settings</Text>
+        <View style={styles.menuOverlay}>
+          <LinearGradient
+            colors={["#F1C40F", "#AFDDFB"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            style={styles.menuDrawer}
+          >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+              <TouchableOpacity onPress={() => setMenuVisible(false)} style={{ marginBottom: 24, marginTop: 12 }}>
+                <Ionicons name="arrow-back" size={28} color="#222" />
+              </TouchableOpacity >
+              <TouchableOpacity onPress={() => router.navigate("/profileinfo")}>
+              <MenuItem icon={<Ionicons name="person" size={28} color="#2196f3" />} label="Profile Information" />
               </TouchableOpacity>
-            </View>
-            
-            <Text style={styles.menuItem}>Payment Method</Text>
-            <View>
-              <TouchableOpacity onPress={() => {
-                setMenuVisible(false);
-                router.push("/help");
-              }}>
-              <Text style={styles.menuItem}>Help & Support</Text>
+              <MenuItem icon={<MaterialIcons name="settings" size={28} color="#2196f3" />} label="Account Settings" />
+              <MenuItem icon={<MaterialCommunityIcons name="cash" size={28} color="#2196f3" />} label="PaymentMethods" /> 
+          <TouchableOpacity onPress={() => router.navigate("/feedback")}>
+              <MenuItem icon={<Feather name="message-square" size={28} color="#2196f3" />} label="Feedback" />
               </TouchableOpacity>
-
-            </View> 
-            <View>
-              <TouchableOpacity onPress={() => {
-                setMenuVisible(false);
-                router.push("/invitefriends");
-              }}>
-              <Text style={styles.menuItem}>Invite Friends</Text>
+              <TouchableOpacity onPress={() => router.navigate("/help")}>
+                <MenuItem icon={<Ionicons name="help-circle" size={28} color="#2196f3" />} label="Help & Support" />
               </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity onPress={() => {
-                setMenuVisible(false);
-                router.push("/feedback");
-              }}>
-              <Text style={styles.menuItem}>FeedBack</Text>
+              <TouchableOpacity onPress={() => router.navigate("/invitefriends")}>
+               <MenuItem icon={<FontAwesome5 name="user-friends" size={24} color="#2196f3" />} label="Invite Friends" />
               </TouchableOpacity>
-            </View>
-
-
-            <View>
-              <TouchableOpacity onPress={() => {
-                setMenuVisible(false);
-                router.push("/logout");
-              }}>
-              <Text style={styles.menuItem}>Logout</Text>
+              <View style={{ flex: 1 }} />
+              <TouchableOpacity onPress={() => router.navigate("/logout")}
+               style={styles.logoutBtn}>
+                <LinearGradient
+                  colors={["#3498DB", "#F1C40F"]}
+                  start={{ x: 1, y: 0 }}
+                  end={{ x:   1, y:  1}}
+                  style={styles.logoutBtnInner}
+                >
+                  <Entypo name="log-out" size={22} color="#222" style={{ marginRight: 8 }} />
+                  <Text style={styles.logoutText}>Log Out</Text>
+                </LinearGradient>
               </TouchableOpacity>
-            </View>
-            
-          </View>
-        </Pressable>
+            </ScrollView>
+          </LinearGradient>
+        </View>
       </Modal>
-    
-      
-     
-    </SafeAreaView>
+    </View>
+  );
+}
+
+function MenuItem({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <View style={styles.menuItem}>
+      {icon}
+      <Text style={styles.menuItemText}>{label}</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingTop: 16,
-    alignItems: "center",
+    backgroundColor: "ffff",
   },
-  headerRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "stretch",
-    justifyContent: "center",
-    marginBottom: 4,
-    marginTop: 25,
-    paddingHorizontal: 16,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#222",
-    marginRight: 8,
-  },
-  logo: {
-    width: 32,
-    height: 32,
-    resizeMode: "contain",
-  },
-  welcomeText: {
-    fontSize: 17,
-    color: "white",
-    textAlign: "center",
-    marginBottom: 8,
-    marginTop: 8,
-    alignSelf: "stretch",
-    fontWeight: "500",
-    fontFamily: "Inter_500Medium",
-  },
-  headerIcons: {
-    flexDirection: "row",
-    alignSelf: "flex-end",
-    marginRight: 16,
-    marginBottom: 8,
-    gap: 12,
-  },
-  headerIcon: {
-    marginHorizontal: 4,
-  },
-  groupCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#f5f5f5",
-    borderRadius: 30,
-    paddingVertical: 16,
-    paddingHorizontal: 18,
-    marginVertical: 10,
-    width: "90%",
-    alignSelf: "center",
-  },
-  groupProfile: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  groupProfileImage: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "#03b6fc",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  groupProfileImageText: {
-    color: "#fff",
-    fontSize: 11,
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  groupDescription: {
-    color: "#222",
-    fontSize: 15,
-    fontWeight: "500",
-  },
-  sectionTitle: {
-    fontSize: 20,
-    color: "black",
-    fontWeight: "bold",
-    marginTop: 18,
-    marginBottom: 8,
-    alignSelf: "center",
-  },
-  circleImageWrapper: {
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  circleImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    resizeMode: "cover",
-  },
-  quickText: {
-    fontSize: 18,
-    color: "#444",
-    textAlign: "center",
-    marginVertical: 2,
-    fontWeight: "500",
-    fontFamily: "Inter_500Medium",
-  },
+  // ...existing code...
+headerSection: {
+  backgroundColor: "#3498DB",
+  borderTopLeftRadius: 28,
+  borderTopRightRadius: 28,
+  paddingTop: 30,
+  paddingBottom: 18,
+  paddingHorizontal: 16,
+},
+headerTopRow: {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: 18,
+  marginTop: 10,
+},
+
+headerTitleBlack: {
+  fontSize: 24,
+  fontWeight: "400",
+  color: "#000",
+  marginBottom: 12,
+  marginLeft: 2,
+},
+headerRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  marginTop: 4,
+},
+avatarCircleBig: {
+  width: 52,
+  height: 52,
+  borderRadius: 20,
+  backgroundColor: "#fff",
+  alignItems: "center",
+  justifyContent: "center",
+  marginRight: 10,
+},
+avatarLabelBlack: {
+  fontSize: 7,
+  color: "#000",
+  fontWeight: "300",
+},
+inputBoxBig: {
+  flex: 1,
+  height: 50,
+  width: 204,
+  backgroundColor: "#fff",
+  borderRadius: 10,
+  marginRight: 10,
+},
+iconBtnBig: {
+  backgroundColor: "transparent",
+  borderRadius: 8,
+  padding: 4,
+  alignItems: "center",
+  justifyContent: "center",
+  marginLeft: 2,
+},
+// ...existing code...
+  
+actionsRow: {
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  marginTop: 38,
+  marginBottom: 8,
+  width: "100%",
+},
+ovalImage: {
+  width: 169,
+  height:  229,
+  borderRadius: 100,
+  marginLeft: 10,
+  marginRight: 18,
+  resizeMode: "cover",
+},
+actionsList: {
+  justifyContent: "space-between",
+  height: 180,
+  marginLeft: 0,
+},
+actionText: {
+  fontSize: 16,
+  color: "#222",
+  fontWeight: "bold",
+  marginBottom: 12,
+},
+// ...existing code...
   buttonRow: {
     flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 12,
-    gap: 16,
+    justifyContent: "space-evenly",
+    marginTop: 35,
+    marginBottom: 12,
+    gap: 18,
   },
-  actionButton: {
-    backgroundColor: "#f5f5f5",
-    borderRadius: 20,
-    paddingVertical: 14,
-    paddingHorizontal: 24,
-    marginHorizontal: 6,
+  buttonShadow: {
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+  },
+  button: {
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 28,
     minWidth: 120,
     alignItems: "center",
+    justifyContent: "center",
   },
-  actionButtonText: {
+  buttonText: {
     color: "#222",
     fontWeight: "bold",
-    fontSize: 15,
+    fontSize: 16,
   },
-   overlay: {
+  
+  menuOverlay: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.2)",
+    backgroundColor: "rgba(0,0,0,0.18)",
+    flexDirection: "row",
     justifyContent: "flex-start",
-    alignItems: "flex-end",
   },
-  menuContainer: {
+  menuDrawer: {
     width: 240,
-    backgroundColor: Colors.backgroundColor2,
-    paddingVertical: 32,
-    paddingHorizontal: 20,
-    borderTopLeftRadius: 16,
-    borderBottomLeftRadius: 16,
-    elevation: 8,
-    marginTop: 0,
     height: "100%",
+    borderTopRightRadius: 40,
+    borderBottomRightRadius: 40,
+    paddingHorizontal: 24,
+    paddingTop: 18,
+    paddingBottom: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+    elevation: 10,
   },
   menuItem: {
-    fontSize: 19,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 28,
+    paddingVertical: 10,
+    gap: 18,
+  },
+  menuItemText: {
+    fontSize: 18,
+    fontWeight: "500",
     color: "#222",
-    paddingVertical: 14,
-    borderBottomWidth: 1,
-    borderBottomColor: "#888",
+  },
+  logoutBtn: {
+    marginTop: 32,
+    marginBottom: 8,
+    alignSelf: "center",
+    width: "90%",
+  },
+  logoutBtnInner: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 0,
+    minWidth: 120,
+  },
+  logoutText: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 18,
   },
 });

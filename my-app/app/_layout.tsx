@@ -34,6 +34,7 @@ export default function RootLayout() {
       <Stack.Screen name="invitefriends" options={{ headerShown: false }} />
       <Stack.Screen name="settings" options={{ headerShown: false }} />
       <Stack.Screen name="logout" options={{ headerShown: false }} />
+      <Stack.Screen name="profileinfo" options={{ headerShown: false }} />
 
       <Stack.Screen name="+not-found" />
     </Stack>

@@ -1,80 +1,81 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Image } from "react-native";
-import { useRouter } from "expo-router";
-import Colors from "../constants/Colors";
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
-export default function LogoutScreen() {
-  const router = useRouter();
-  const [loggingOut, setLoggingOut] = useState(false);
-
-  const handleLogout = () => {
-    setLoggingOut(true);
-    // Add your logout logic here (e.g., clear tokens, reset state)
-    setTimeout(() => {
-      setLoggingOut(false);
-      // Redirect to login or welcome screen
-      router.replace("/login");
-    }, 1000);
-  };
-
+export default function LogoutScreen({ navigation }: any) {
   return (
-    <SafeAreaView style={styles.overlay}>
-        
-        
-
-      <View style={styles.modalBox}>
-        <Text style={styles.title}>LOG OUT</Text>
-        <Text style={styles.message}>Are You Sure You Want To Log Out.</Text>
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation?.goBack?.()}>
+          <Ionicons name="arrow-back" size={26} color="#222" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Log Out</Text>
+        <View style={{ width: 26 }} />
+      </View>
+      {/* Content */}
+      <View style={styles.content}>
+        <Text style={styles.question}>Are You Sure You Want To Log Out?</Text>
         <View style={styles.buttonRow}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={handleLogout}
-            disabled={loggingOut}
-          >
-            <Text style={styles.buttonText}>Yes</Text>
+          <TouchableOpacity style={styles.buttonShadow}>
+            <LinearGradient
+              colors={["#4fc3f7", "#ffe082"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Yes</Text>
+            </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => router.back()}
-            disabled={loggingOut}
-          >
-            <Text style={styles.buttonText}>No</Text>
+          <TouchableOpacity style={styles.buttonShadow}>
+            <LinearGradient
+              colors={["#4fc3f7", "#ffe082"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>No</Text>
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       </View>
-      <Image source={require("../assets/images/cry-cute.gif")} resizeMode="contain"
-         style={{ width: 200, height: 200, marginBottom: 20 ,marginTop:20}} />
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  overlay: {
+  container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor2 ,
+    backgroundColor: "#fff",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 50,
+    backgroundColor: "#e3f2fd",
+    justifyContent: "space-between",
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#222",
+    textAlign: "center",
+  },
+  content: {
+ 
     justifyContent: "center",
     alignItems: "center",
   },
-  modalBox: {
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#222",
-    borderRadius: 4,
-    padding: 32,
-    width: 320,
-    alignItems: "center",
-  },
-  title: {
-    fontWeight: "bold",
-    fontSize: 25,
-    marginBottom: 18,
-    textAlign: "center",
-    color: "#black",
-  },
-  message: {
-    fontSize: 20,
-    color: "#222",
-    marginBottom: 28,
+  question: {
+    fontSize: 16,
+    color: "#000",
+    fontWeight: "500",
+    marginBottom: 0,
+    paddingHorizontal: 20,
+    paddingVertical: 50,
     textAlign: "center",
   },
   buttonRow: {
@@ -82,16 +83,27 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 18,
   },
+  buttonShadow: {
+    borderRadius: 12,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 10,
+    marginHorizontal: 8,
+  },
   button: {
-    backgroundColor: Colors.primary,
+    borderRadius: 12,
     paddingVertical: 12,
-    paddingHorizontal: 28,
-    borderRadius: 4,
-    marginHorizontal: 6,
+    paddingHorizontal: 32,
+    minWidth: 135,
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
+    color: "#000",
     fontWeight: "bold",
-    fontSize: 18,
-    color: Colors.text_Light,
+    fontSize: 24,
+    fontFamily: "Inter_600SemiBold",
   },
 });

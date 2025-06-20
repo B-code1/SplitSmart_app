@@ -1,113 +1,85 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView } from "react-native";
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import Colors from "../constants/Colors";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons, FontAwesome5, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 
-export default function HelpSupport() {
+export default function HelpSupportScreen({ navigation }: any) {
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
-      <View style={styles.headerRow}>
-        <TouchableOpacity onPress={() => router.back()}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation?.goBack?.()}>
           <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Help & Support</Text>
+        <Text style={styles.headerTitle}>Help And Support</Text>
         <View style={{ width: 26 }} />
       </View>
-
-      {/* Logo Bar */}
-      <View style={styles.logoBar}>
-        <Text style={styles.logoBarText}>Splitsmart</Text>
-        <Image
-          source={require("../assets/images/Logo.png")}
-          style={styles.logo}
-        />
+      {/* List */}
+      <View style={styles.list}>
+        <TouchableOpacity style={styles.listItem}>
+          <FontAwesome5 name="question-circle" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>FAQ</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <MaterialCommunityIcons name="account-question" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Support Contact Information</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <Feather name="file-text" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Terms Of Service</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
       </View>
-
-      {/* Menu Items */}
-      <TouchableOpacity style={styles.menuItem}>
-        <MaterialCommunityIcons name="comment-question-outline" size={32} color="#fff" style={styles.menuIcon} />
-        <Text style={styles.menuText}>FAQ’s</Text>
-        <Ionicons name="chevron-forward" size={28} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem}>
-        <MaterialIcons name="support-agent" size={32} color="#fff" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Support Contact Information</Text>
-        <Ionicons name="chevron-forward" size={28} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem}>
-        <MaterialIcons name="description" size={32} color="#fff" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Terms Of Service</Text>
-        <Ionicons name="chevron-forward" size={28} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingTop: 16,
+    backgroundColor: "#fff",
   },
-  headerRow: {
+  header: {
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 50,
+    backgroundColor: "#e3f2fd",
     justifyContent: "space-between",
-    paddingHorizontal: 24,
-    marginBottom: 8,
-    marginTop: 30,
-    alignSelf: "stretch",
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#222",
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#000",
     textAlign: "center",
   },
-  logoBar: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: Colors.backgroundColor2,
-    alignSelf: "center",
-    borderRadius: 4,
-    marginVertical: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-    gap: 8,
+  list: {
+    marginTop: 24,
   },
-  logoBarText: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: "#222",
-    marginRight: 6,
-  },
-  logo: {
-    width: 32,
-    height: 32,
-    resizeMode: "contain",
-  },
-  menuItem: {
+  listItem: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 22,
     paddingHorizontal: 18,
     borderBottomWidth: 1,
-    borderBottomColor: "#888",
+    borderBottomColor: "#f0f0f0",
   },
-  menuIcon: {
-    marginRight: 16,
+  icon: {
+    marginRight: 18,
+    width: 28,
+    textAlign: "center",
   },
-  menuText: {
+  listText: {
+    fontSize: 20,
+    color: "#000",
     flex: 1,
-    fontSize: 24,
-    color: "black",
     fontWeight: "500",
   },
-    menuArrow: {
-        marginLeft: 16,
-    },
-});
+  chevron: {
+    marginLeft: 8,
+    width: 24,
+    textAlign: "right",
+  },
+  });

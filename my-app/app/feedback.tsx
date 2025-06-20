@@ -1,129 +1,183 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Colors from "../constants/Colors";
-import { router } from "expo-router";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from "react-native";
+import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 
-const faces: { name: "emoticon-angry-outline" | "emoticon-sad-outline" | "emoticon-neutral-outline" | "emoticon-happy-outline" | "emoticon-excited-outline"; value: number }[] = [
-  { name: "emoticon-angry-outline", value: 1 },
-  { name: "emoticon-sad-outline", value: 2 },
-  { name: "emoticon-neutral-outline", value: 3 },
-  { name: "emoticon-happy-outline", value: 4 },
-  { name: "emoticon-excited-outline", value: 5 },
+const emojis = [
+  { key: "happy", icon: "smile", label: "Very Satisfied" },
+  { key: "angry", icon: "angry", label: "Angry" },
+  { key: "sad", icon: "sad-tear", label: "Sad" },
+  { key: "love", icon: "grin-hearts", label: "Loved" },
+  { key: "neutral", icon: "meh", label: "Neutral" },
 ];
 
-export default function Feedback() {
-  const [selected, setSelected] = useState<number | null>(null);
+export default function FeedbackScreen({ navigation }: any) {
+  const [selected, setSelected] = useState<string | null>(null);
   const [comment, setComment] = useState("");
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>Feedback</Text>
-      <Text style={styles.title}>Share Your Feedbacks!</Text>
-      <Text style={styles.subtitle}>How Satisfied Are You?</Text>
-      <View style={styles.facesRow}>
-        {faces.map((face) => (
-          <TouchableOpacity
-            key={face.value}
-            onPress={() => setSelected(face.value)}
-            style={[
-              styles.faceCircle,
-              selected === face.value && styles.faceCircleSelected,
-            ]}
-          >
-            <MaterialCommunityIcons
-              name={face.name}
-              size={38}
-              color={selected === face.value ? "#fff" : "#222"}
-            />
-          </TouchableOpacity>
-        ))}
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation?.goBack?.()}>
+          <Ionicons name="arrow-back" size={26} color="#222" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Feedback</Text>
+        <View style={{ width: 26 }} />
       </View>
-      <TextInput
-        style={styles.input}
-        placeholder="Add  a Comment..."
-        placeholderTextColor="#888"
-        value={comment}
-        onChangeText={setComment}
-        multiline
-      />
-      <TouchableOpacity style={styles.submitBtn}>
-        <Text style={styles.submitBtnText}>Submit Now</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <Text style={styles.title}>Share Your Feedbacks!</Text>
+        <Text style={styles.label}>How Satisfied Are You?</Text>
+        <View style={styles.emojiRow}>
+          {emojis.map((e) => (
+            <TouchableOpacity
+              key={e.key}
+              style={[
+                styles.emojiBtn,
+                selected === e.key && styles.emojiSelected,
+              ]}
+              onPress={() => setSelected(e.key)}
+              activeOpacity={0.7}
+            >
+              <FontAwesome5
+                name={e.icon as any}
+                size={44}
+                color="#FFD600"
+                solid
+                style={{ textShadowColor: "#000", textShadowRadius: 2 }}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+        <Text style={styles.label2}>Tell Us More (Optional)</Text>
+        <View style={styles.inputShadow}>
+          <TextInput
+            style={styles.input}
+            placeholder="Add  a Comment..."
+            placeholderTextColor="#bbb"
+            value={comment}
+            onChangeText={setComment}
+            multiline
+            numberOfLines={4}
+          />
+        </View>
+        <TouchableOpacity style={styles.submitBtn}>
+          <LinearGradient
+            colors={["#4fc3f7", "#ffe082"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.submitBtnInner}
+          >
+            <Text style={styles.submitText}>Submit Now</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    padding: 24,
-    alignItems: "center",
+    backgroundColor: "ffff",
   },
   header: {
-    fontWeight: "bold",
-    fontSize: 25,
-    marginTop: 30,
-    marginBottom: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 50,
+    backgroundColor: "#e3f2fd",
+    justifyContent: "space-between",
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+    color: "#000",
     textAlign: "center",
-    color: Colors.text_Light,
   },
   title: {
-    fontWeight: "bold",
     fontSize: 24,
-    marginBottom: 18,
+    fontWeight: "500",
+    color: "#000",
     textAlign: "center",
-    color: "#222",
+    marginTop: 20,
+    marginBottom: 35,
   },
-  subtitle: {
-    fontWeight: "bold",
+  label: {
     fontSize: 16,
-    marginBottom: 10,
-    alignSelf: "flex-start",
+    color: "#000",
+    fontWeight: "500",
+    marginLeft: 28,
+    marginBottom: 8,
   },
-  facesRow: {
+  emojiRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    marginBottom: 24,
-    marginTop: 4,
-  },
-  faceCircle: {
-    backgroundColor: "#fff933",
-    borderRadius: 30,
-    width: 54,
-    height: 54,
+    justifyContent: "space-evenly",
     alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 4,
-    opacity: 0.7,
+    marginBottom: 50,
   },
-  faceCircleSelected: {
-    backgroundColor: "#03b6fc",
-    opacity: 1,
+  emojiBtn: {
+    padding: 6,
+    borderRadius: 30,
+  },
+  emojiSelected: {
+    backgroundColor: "#fffde7 ",
+    borderWidth: 2,
+    borderColor: "#FFD600",
+  },
+  label2: {
+    fontSize: 16,
+    color: "#000",
+    fontWeight: "500",
+    marginLeft: 20,
+
+    marginBottom: 25,
+  },
+  inputShadow: {
+    backgroundColor: "#fff",
+    borderRadius: 14,
+    marginHorizontal: 18,
+    marginBottom: 28,
+    shadowColor: "#000",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 10,
+    elevation: 5,
   },
   input: {
-    width: "100%",
-    minHeight: 80,
-    backgroundColor: "#eee",
-    borderRadius: 12,
-    padding: 14,
+    minHeight: 87,
     fontSize: 16,
-    marginBottom: 24,
-    color: "#222",
+    color: "#000",
+    padding: 14,
+    borderRadius: 12,
+    backgroundColor: "#fff",
     textAlignVertical: "top",
   },
   submitBtn: {
-    width: "100%",
-    backgroundColor: "#F1C40F",
+    marginHorizontal: 18,
+    marginTop: 10,
+    marginBottom: 30,
     borderRadius: 12,
-    paddingVertical: 16,
-    alignItems: "center",
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 2  , height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius:  8,
   },
-  submitBtnText: {
-    fontWeight: "bold",
-    fontSize: 18,
-    color: "#222",
+  submitBtnInner: {
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  submitText: {
+    color: "#000",
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  emojiIcon: {
+    textShadowColor: "#000",
+    textShadowRadius: 2,
   },
 });
