@@ -18,7 +18,7 @@ import CustomButton from "@/components/Custombutton";
 import Socials from "@/components/Socials";
 import TandC from "@/components/TandC";
 import { IconSymbol } from "@/components/IconSymbol";
-import LinearGradient from "react-native-linear-gradient";
+import { LinearGradient } from "expo-linear-gradient";
 const signUpScreen = () => {
   function setEmail(text: string): void {
     throw new Error("Function not implemented.");
@@ -139,7 +139,7 @@ const signUpScreen = () => {
               <TandC />
             </View>
           </LinearGradient>
-          
+
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Full Name</Text>

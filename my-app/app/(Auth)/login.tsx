@@ -12,51 +12,72 @@ import {
 import { router } from "expo-router";
 import Authstyles from "./authStyle";
 import styles from "../styles";
-import Colors from "../../constants/Colors";
+import { Colors } from "../../constants/Colors";
 import DividerOr from "../../components/Divider";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import CustomButton from "../../components/Custombutton";
 import Socials from "../../components/Socials";
 import TandC from "../../components/TandC";
 import React from "react";
-import { useState } from "react";
-import axios from "axios";
+//mport axios from "axios";
 import { IconSymbol } from "@/components/IconSymbol";
 
 // You can configure the baseURL as needed
-const API = axios.create({
-  baseURL: "https://your-api-base-url.com", // Replace with your actual API base URL
-});
-
-
+//const API = axios.create({
+// baseURL: "https://your-api-base-url.com", // Replace with your actual API base URL
+//});
 
 const signUpScreen = () => {
   //const [message, setMessage] = useState('');
   //const [email, setEmail] = useState<string>('');
- // const [password, setPassword] = useState<string>('');
+
+  // const [password, setPassword] = useState<string>('');
+  // const [error, setError] = useState<string | null>('');
+
+  // this is what ebube has changed. he added authentication function. check the onpress? login.
+  // for usestate hooks, check onChageText in email and passsword
+  // const handleAuth = async()=>{
+  ////   if(!email || !password ){
+  //    setError("Please fill in all fields")
+  // }
+  //  try {
+  // const res = await API.post('/signup', { email, password });
+  // setMessage('Signup successful! You can now log in.');
+  // router.navigate('/login');
+  // } catch (err) {
+  //   let errorMsg = "An error occurred";
+  //   if (axios.isAxiosError(err)) {
+  //     errorMsg = err.response?.data?.message || err.message;
+  //   } else if (err instanceof Error) {
+  //    errorMsg = err.message;
+  //  }
+  //  setMessage(`Signup failed: ${errorMsg}`);
+  //}
+  // };
+
+  // const [password, setPassword] = useState<string>('');
   //const [error, setError] = useState<string | null>('');
 
+  // this is what ebube has changed. he added authentication function. check the onpress? login.
+  // for usestate hooks, check onChageText in email and passsword
+  // const handleAuth = async()=>{
+  //  if(!email || !password ){
+  //    setError("Please fill in all fields")
+  //  }
+  // try {
+  // const res = await API.post('/signup', { email, password });
+  // setMessage('Signup successful! You can now log in.');
+  // router.navigate('/login');
+  //} catch (err) {
+  // let errorMsg = "An error occurred";
+  // if (axios.isAxiosError(err)) {
+  //   errorMsg = err.response?.data?.message || err.message;
+  // } else if (err instanceof Error) {
+  //   errorMsg = err.message;
+  // }
+  // setMessage(`Signup failed: ${errorMsg}`);
+  // }
+  //};
 
-// this is what ebube has changed. he added authentication function. check the onpress? login.
-// for usestate hooks, check onChageText in email and passsword
-   // const handleAuth = async()=>{
-    //  if(!email || !password ){
-    //    setError("Please fill in all fields")
-    //  }
-      // try {
-     // const res = await API.post('/signup', { email, password });
-    // setMessage('Signup successful! You can now log in.');
-     // router.navigate('/login');
-    //} catch (err) {
-     // let errorMsg = "An error occurred";
-     // if (axios.isAxiosError(err)) {
-     //   errorMsg = err.response?.data?.message || err.message;
-     // } else if (err instanceof Error) {
-     //   errorMsg = err.message;
-     // }
-     // setMessage(`Signup failed: ${errorMsg}`);
-   // }
-     //};
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -65,7 +86,6 @@ const signUpScreen = () => {
         keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 20}
       >
         <ScrollView
-          
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -100,62 +120,116 @@ const signUpScreen = () => {
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
               <View style={Authstyles.inputRow}>
-              <IconSymbol name ="mail" size={20} color={Colors.white} style={{marginRight: 10}} />
+                <IconSymbol
+                  name="mail"
+                  size={20}
+                  color={Colors.white}
+                  style={{ marginRight: 10 }}
+                />
 
-              <TextInput
-                keyboardType="email-address"
-                autoCapitalize="none"
-                placeholder="Enter your email"
-                placeholderTextColor={Colors.white}
-                autoCorrect={false}
-              
-                style={Authstyles.txtfieldInput}
-              />
+                <TextInput
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  placeholder="Enter your email"
+                  placeholderTextColor={Colors.white}
+                  autoCorrect={false}
+                  style={Authstyles.txtfieldInput}
+                />
+
+                <TextInput
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  placeholder="Enter your email"
+                  placeholderTextColor={Colors.white}
+                  autoCorrect={false}
+                  style={Authstyles.txtfieldInput}
+                />
               </View>
             </View>
+            {/* </View> */}
 
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Password</Text>
-             <View style={Authstyles.inputRow}>
-              <IconSymbol name="eye.slash" size={20} color={Colors.white} style={{marginRight: 10}} />
-              <TextInput
-                secureTextEntry={true}
-                placeholder="Enter your password"
-                placeholderTextColor={Colors.white}
-                
-                style={Authstyles.txtfieldInput}
-              />
-            </View>
 
-           
+              <View style={Authstyles.inputRow}>
+                <IconSymbol
+                  name="eye.slash"
+                  size={20}
+                  color={Colors.white}
+                  style={{ marginRight: 10 }}
+                />
+                <TextInput
+                  secureTextEntry={true}
+                  placeholder="Enter your password"
+                  placeholderTextColor={Colors.white}
+                  style={Authstyles.txtfieldInput}
+                />
+              </View>
+
               <Text
                 style={{ color: "red", textAlign: "center", marginTop: 10 }}
-              >
-               
-              </Text>
-           
+              ></Text>
 
-            <View style={{ marginVertical: 20 }}>
+              <View style={{ marginVertical: 20 }}>
+                <CustomButton
+                  text={"LOGIN"}
+                  onPress={() => {
+                    router.navigate("/Home");
+                  }}
+                />
+              </View>
+
+              <View style={Authstyles.inputRow}>
+                <IconSymbol
+                  name="eye.slash"
+                  size={20}
+                  color={Colors.white}
+                  style={{ marginRight: 10 }}
+                />
+                <TextInput
+                  secureTextEntry={true}
+                  placeholder="Enter your password"
+                  placeholderTextColor={Colors.white}
+                  style={Authstyles.txtfieldInput}
+                />
+              </View>
+
+              <Text
+                style={{ color: "red", textAlign: "center", marginTop: 10 }}
+              ></Text>
+
+              <View style={{ marginVertical: 20 }}>
+                <CustomButton
+                  text={"LOGIN"}
+                  onPress={() => {
+                    router.navigate("/Home");
+                  }}
+                />
+              </View>
+              {/* i added this error to display any error on screen */}
+            </View>
+          </View>
+
+          <View>
+            <CustomButton
+              text={"LOGIN"}
+              onPress={() => {
+                router.navigate("/");
+              }}
+            />
+          </View>
+
+          <View style={{ marginVertical: 10, marginTop: 20 }}>
+            <View>
               <CustomButton
                 text={"LOGIN"}
                 onPress={() => {
-                  router.navigate("/Home");
+                  router.navigate("/");
                 }}
               />
             </View>
-                {/* i added this error to display any error on screen */}
-            </View>
-          </View>
 
-
-          <View>
-            <CustomButton text={"LOGIN"} onPress={()=>{
-              router.navigate("/");
-            }} />
-          </View>
-          
-          
-            <View style={{ marginVertical: 10 ,marginTop: 20}}>
+            <View style={{ marginVertical: 10, marginTop: 20 }}>
               <Text
                 style={{
                   color: Colors.text_Light,
@@ -163,51 +237,104 @@ const signUpScreen = () => {
                   fontSize: 16,
                   textAlign: "center",
                 }}
-              >Not a Registered User yet?{" "}
+              >
+                Not a Registered User yet?{" "}
+                <Text
+                  style={{
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "PoppinsBold",
+                    fontWeight: 400,
+                  }}
+                  onPress={() => {
+                    router.navigate("/signUp");
+                  }}
+                >
+                  Sign Up
+                </Text>
+              </Text>
+            </View>
+
+            <View style={{ marginTop: 10, marginBottom: 10 }}>
+              <DividerOr />
+            </View>
+            <View>
+              <Socials />
+            </View>
+
+            <View style={{ marginVertical: 10, marginTop: 20 }}>
               <Text
                 style={{
-                  color: "black",fontSize:20,fontFamily: "PoppinsBold",fontWeight:400,
-                }}
-                onPress={() => {
-                  router.navigate("/signUp");
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
                 }}
               >
-                Sign Up
+                Forgot Password?{" "}
               </Text>
-              </Text>
-
-            </View>
-          
-          <View style={{  marginTop: 10 , marginBottom: 10 }}>
-            <DividerOr />
-       
-         </View>
-         <View>
-          <Socials />
-          </View>
-          
-
-          <View style={{ marginVertical: 10, marginTop: 20 }}>
-            <Text
-              style={{
-                color: Colors.text_Light,
-                fontFamily: "PoppinsRegular",
-                fontSize: 16,
-                textAlign: "center",
-              }}
-            >
-              Forgot Password?{" "}
               <TouchableOpacity
                 onPress={() => router.navigate("/(Auth)/forgotPassword")}
+              ></TouchableOpacity>
+
+              <Text
+                style={{
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
               >
+                Not a Registered User yet?{" "}
                 <Text
-                  style={{ color: "#F1C40F", fontSize: 24, fontWeight: "400" }}
+                  style={{
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "PoppinsBold",
+                    fontWeight: 400,
+                  }}
+                  onPress={() => {
+                    router.navigate("/signUp");
+                  }}
                 >
-                  Click here
+                  Sign Up
                 </Text>
-              </TouchableOpacity>
-            </Text>
+              </Text>
+            </View>
           </View>
+          <View style={{ marginTop: 10, marginBottom: 10 }}>
+            <DividerOr />
+          </View>
+          <View>
+            <Socials />
+
+            <View style={{ marginVertical: 10, marginTop: 20 }}>
+              <Text
+                style={{
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >
+                Forgot Password?{" "}
+                <TouchableOpacity
+                  onPress={() => router.navigate("/(Auth)/forgotPassword")}
+                >
+                  <Text
+                    style={{
+                      color: "#F1C40F",
+                      fontSize: 24,
+                      fontWeight: "400",
+                    }}
+                  >
+                    Click here
+                  </Text>
+                </TouchableOpacity>
+              </Text>
+            </View>
+          </View>
+          {/* </View> */}
 
           <View style={{ marginTop: 30 }}>
             <TandC />
