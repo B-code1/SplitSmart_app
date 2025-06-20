@@ -55,8 +55,10 @@ export default function SendPaymentScreen() {
         ))}
 
         {/* Yesterday */}
+        <View style={styles.header}>
         <Text style={styles.sectionTitle}>Yesterday</Text>
         <View style={styles.sectionDivider} />
+        </View>
         {paymentsYesterday.map((item) => (
           <View key={item.id} style={styles.paymentRow}>
             <View>
@@ -149,13 +151,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 18,
     paddingTop: 50,
-    paddingBottom: 50,
+    paddingBottom: 55,
     backgroundColor: "#F3F9FD",
   },
   header:{
-    gap: 3,
-    
-    flexDirection: "row",
+    flexDirection: "row", 
+    alignItems: "center", 
+    marginVertical: 8, 
+    marginHorizontal: 12 
   },
   headerTitle: {
     fontSize: 24,
@@ -168,16 +171,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "400",
     color: "#000",
-    marginLeft: 18,
-    marginTop: 0,
-    marginBottom: 2,
+    
     fontFamily: "Inter_400Regular",
   },
   sectionDivider: {
+    flex: 1,
     height: 1,
     backgroundColor: "#000",
-   paddingLeft: 38,
-    marginBottom: 8,
+   
+    marginLeft: 40,
     opacity: 0.5,
   },
   paymentRow: {
