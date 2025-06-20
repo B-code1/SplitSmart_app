@@ -7,13 +7,13 @@ const CustomButton = ({ text, onPress }) => {
     <TouchableOpacity
       onPress={onPress}
       style={{
-        marginTop: 30,
+        marginTop: 40,
         alignSelf: "center",
         backgroundColor: Colors.primary,
         padding: 10,
         borderRadius: 5,
         height: 50,
-        width: "100%",
+        width: "90%",
         justifyContent: "center",
         alignItems: "center",
       }}
@@ -33,6 +33,5 @@ const CustomButton = ({ text, onPress }) => {
     </TouchableOpacity>
   );
 };
-``;
 
 export default CustomButton;

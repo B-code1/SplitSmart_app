@@ -10,11 +10,12 @@ import {
   Modal,
   Pressable,
   Button,
+  TextInput,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 import { router } from "expo-router";
-
+import Authstyles from "../(Auth)/authStyle";
 export default function Home() {
   const [menuVisible, setMenuVisible] = React.useState(false);
 
@@ -29,76 +30,68 @@ export default function Home() {
         <View style={{ width: 24 }} />
       </View>
 
+      <View style={styles.avatar}>
+        <TouchableOpacity>
+          <Text
+            style={{
+              fontWeight: 500,
+              textAlign: "center",
+            }}
+          >
+            Add {"\n"}
+            Group Image
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Avatar */}
+      <View style={{ width: "80%", marginVertical: 10 }}>
+        <Text style={{ fontSize: 18, fontWeight: 500, marginVertical: 10 }}>
+          Group Name
+        </Text>
+        <TextInput
+          placeholder="e.g, beach, class dues "
+          placeholderTextColor={"black"}
+          style={{
+            height: 50,
+            backgroundColor: "#F3F9FD",
+            borderRadius: 8,
+            borderWidth: 1,
+            padding: 10,
+          }}
+        />
+      </View>
+      <View style={{ width: "80%" }}>
+        <Text style={{ fontSize: 18, fontWeight: 500, marginVertical: 10 }}>
+          Expected Amount Per Person
+        </Text>
+        <TextInput
+          placeholder="N 0.00 "
+          placeholderTextColor={"black"}
+          style={{
+            height: 50,
+            backgroundColor: "#F3F9FD",
+            borderRadius: 8,
+            borderWidth: 1,
+            padding: 10,
+          }}
+        />
+      </View>
       <TouchableOpacity
         style={styles.grpContainer}
         onPress={() => {
-          router.navigate("/create");
+          router.navigate("/addMember");
         }}
       >
         <View>
           <View style={styles.innergrpContainer}>
             <Ionicons
-              name="add"
+              name="person-add"
               size={30}
-              color="black"
+              color="#3498DB"
               style={styles.innerIcon}
             />
             <Text style={styles.innerTxt}>Create New Group</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.grpContainer}
-        onPress={() => {
-          router.navigate("/join");
-        }}
-      >
-        <View>
-          <View style={styles.innergrpContainer}>
-            <Ionicons
-              name="people"
-              size={30}
-              color="black"
-              style={styles.innerIcon}
-            />
-            <Text style={styles.innerTxt}>Join Group</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.grpContainer}
-        onPress={() => {
-          router.navigate("/viewGroup");
-        }}
-      >
-        <View>
-          <View style={styles.innergrpContainer}>
-            <Ionicons
-              name="eye-outline"
-              size={30}
-              color="black"
-              style={styles.innerIcon}
-            />
-            <Text style={styles.innerTxt}>View Group details </Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.grpContainer}
-        onPress={() => {
-          router.navigate("/editGroup");
-        }}
-      >
-        <View>
-          <View style={styles.innergrpContainer}>
-            <Ionicons
-              name="pencil"
-              size={25}
-              color="black"
-              style={styles.innerIcon}
-            />
-            <Text style={styles.innerTxt}>Edit Group</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -133,32 +126,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#222",
   },
-  // logo: {
-  //   width: 32,
-  //   height: 32,
-  //   resizeMode: "contain",
-  // },
-  // welcomeText: {
-  //   marginHorizontal: 10,
-  //   fontSize: 17,
-  //   color: "white",
-  //   textAlign: "center",
-  //   marginBottom: 8,
-  //   marginTop: 8,
-  //   alignSelf: "stretch",
-  //   fontWeight: "500",
-  //   fontFamily: "Inter_500Medium",
-  // },
-
+  avatar: {
+    borderWidth: 1,
+    height: 150,
+    width: 150,
+    borderRadius: 80,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    // alignItems: "center",
+  },
   grpContainer: {
     backgroundColor: "#FFFFFFF",
     // borderWidth: 1,
-    width: "90%",
-    height: "10%",
+
     borderRadius: 8,
     alignSelf: "center",
-    marginVertical: 8,
-    borderWidth: 1,
+    marginVertical: 40,
   },
   innergrpContainer: {
     flexDirection: "row",
@@ -167,7 +151,6 @@ const styles = StyleSheet.create({
     marginTop: "5%",
   },
   innerIcon: {
-    color: " black",
     alignSelf: "flex-end",
     marginRight: 16,
     marginBottom: 8,
@@ -176,5 +159,6 @@ const styles = StyleSheet.create({
   innerTxt: {
     fontSize: 20,
     fontWeight: 600,
+    color: "#3498DB",
   },
 });
