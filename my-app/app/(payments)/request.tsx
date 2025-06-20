@@ -1,278 +1,357 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Modal, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import Colors from "../../constants/Colors"; 
-export default function RequestPayment() {
+import { LinearGradient } from 'expo-linear-gradient';
+
+const paymentsToday = [
+  { id: 1, name: "Sulaimon O (You)", owes: true, amount: "2,500" },
+  { id: 2, name: "Adeola B (You)", owes: false, amount: "2,500" },
+];
+const paymentsYesterday = [
+  { id: 3, name: "Sulaimon O (You)", owes: true, amount: "2,500" },
+  { id: 4, name: "Adeola B (You)", owes: false, amount: "2,500" },
+];
+
+export default function SendPaymentScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
-        <ScrollView
-            contentContainerStyle={styles.scrollView}
-            showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps="handled"
-        >
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#222" />
+      <View style={styles.headerRow}>
+        <TouchableOpacity>
+          <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Request Payment</Text>
-        <View style={{ width: 24 }} /> {/* Placeholder for alignment */}
+        <Text style={styles.headerTitle}>Send Payment</Text>
+        <View style={{ width: 26 }} />
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
-        {/* Today */}
-        <Text style={styles.sectionLabel}>Today</Text>
-        <View style={styles.paymentRow}>
-          <View>
-            <Text style={styles.name}>Sulaimon O</Text>
-            <Text style={styles.owes}>Owes</Text>
-          </View>
-          <View style={styles.amountRequest}>
-            <Text style={styles.amount}>₦ 2,500</Text>
-            <TouchableOpacity style={styles.requestBtn}>
-              <Text style={styles.requestBtnText}>Request</Text>
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+        <View style={styles.header}> 
+        <Text style={styles.sectionTitle}>Today</Text>
+        <View style={styles.sectionDivider} />
+        </View>
+        {paymentsToday.map((item) => (
+          <View key={item.id}>
+            
+              <Text style={styles.paymentName}>{item.name}</Text>
+              <View  style={styles.paymentRow}>
+              <Text style={styles.paymentOwes}>Owes</Text>
+              <Text style={styles.paymentAmount}>₦ {item.amount}</Text>
+            
+            <TouchableOpacity
+              style={styles.payBtnWrapper}
+              onPress={() => setModalVisible(true)}
+            >
+              <LinearGradient
+                colors={["#F1C40F", "#3498DB"]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 1, y: 0}}
+                style={styles.payBtn}
+              >
+                <Text style={styles.payBtnText}>Request</Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.paymentRow}>
-          <View>
-            <Text style={styles.name}>Adeola B (You)</Text>
           </View>
-        </View>
-        <View style={styles.divider} />
+        ))}
 
         {/* Yesterday */}
-        <Text style={styles.sectionLabel}>Yesterday</Text>
-        <View style={styles.paymentRow}>
-          <View>
-            <Text style={styles.name}>Sulaimon O</Text>
-            <Text style={styles.owes}>Owes</Text>
-          </View>
-          <View style={styles.amountRequest}>
-            <Text style={styles.amount}>₦ 2,500</Text>
-            <TouchableOpacity style={styles.requestBtn}>
-              <Text style={styles.requestBtnText}>Request</Text>
+        <View style={styles.header}>
+        <Text style={styles.sectionTitle}>Yesterday</Text>
+        <View style={styles.sectionDivider} />
+        </View>
+        {paymentsYesterday.map((item) => (
+           <View key={item.id}>
+            
+              <Text style={styles.paymentName}>{item.name}</Text>
+              <View  style={styles.paymentRow}>
+              <Text style={styles.paymentOwes}>Owes</Text>
+              <Text style={styles.paymentAmount}>₦ {item.amount}</Text>
+            
+            <TouchableOpacity
+              style={styles.payBtnWrapper}
+              onPress={() => setModalVisible(true)}
+            >
+              <LinearGradient
+                colors={["#F1C40F", "#3498DB"]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 1, y: 0}}
+                style={styles.payBtn}
+              >
+                <Text style={styles.payBtnText}>Request</Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.paymentRow}>
-          <View>
-            <Text style={styles.name}>Adeola B (You)</Text>
           </View>
-        </View>
-        <View style={styles.divider} />
+        ))}
+     
 
-        {/* Request Card */}
-        <View style={styles.requestCard}>
-          <Text style={styles.requestCardTitle}>Request</Text>
-          <Text style={styles.requestCardLabel}>Amount</Text>
-          <Text style={styles.requestCardAmount}>₦ 2,500</Text>
-          <Text style={styles.requestCardBalance}>Your available balance: ₦ 55,250</Text>
-          <Text style={styles.requestCardLabel}>Request To</Text>
-          <View style={styles.requestToRow}>
-            <View style={styles.avatarCircle}>
-              <Text style={styles.avatarText}>S</Text>
+      {/* Payment Modal */}
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalCard}>
+            <Text style={styles.modalTitle}>Request</Text>
+            <View style={styles.modalDivider} />
+            <Text style={styles.modalLabel}>Amount</Text>
+            <Text style={styles.modalAmount}>₦ 2,500</Text>
+            <Text style={styles.modalBalance}>Your available balance: ₦ 55,250</Text>
+            <View style={styles.modalDivider} />
+            <Text style={styles.modalLabel}>Request To</Text>
+            <View style={styles.modalPayToRow}>
+              <View style={styles.modalAvatar}>
+                
+              </View>
+              <View>
+                <Text style={styles.modalPayToName}>Adeola B</Text>
+                <Text style={styles.modalPayToEmail}>adeolab.@gmail.com</Text>
+              </View>
             </View>
-            <View>
-              <Text style={styles.requestToName}>Sulaimon O</Text>
-              <Text style={styles.requestToEmail}>sulaimon@gmail.com</Text>
+            <View style={styles.modalBtnRow}>
+              <TouchableOpacity
+                style={{ flex: 1, marginRight: 8 }}
+                onPress={() => setModalVisible(false)}
+              >
+                <LinearGradient
+                  colors={["#F1C40F", "#3498DB"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.modalBtn}
+                >
+                  <Text style={styles.modalBtnText}>Cancel</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ flex: 1, marginLeft: 8 }}>
+                <LinearGradient
+                  colors={["#F1C40F", "#3498DB"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.modalBtn}
+                >
+                  <Text style={styles.modalBtnText}>Request Now</Text>
+                </LinearGradient>
+              </TouchableOpacity>
             </View>
-          </View>
-          <View style={styles.requestCardBtnRow}>
-            <TouchableOpacity style={styles.cancelBtn}>
-              <Text style={styles.cancelBtnText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.requestNowBtn}>
-              <Text style={styles.requestNowBtnText}>Request Now</Text>
-            </TouchableOpacity>
           </View>
         </View>
-      </ScrollView>
-    </ScrollView>
+      </Modal>
+       </ScrollView>
     </SafeAreaView>
   );
-};
-
-export const options = {
- title:"",
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingTop: 16,
+    backgroundColor: "#FFFFFF",
   },
-    scrollView: {
-        flexGrow: 1,
-        
-    },
-  header: {
+  headerRow: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingBottom: 8,
-   
-    marginBottom: 8,
-    marginTop: 25,
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 55,
+    backgroundColor: "#F3F9FD",
+  },
+  header:{
+    flexDirection: "row", 
+    alignItems: "center", 
+    marginVertical: 8, 
+    marginHorizontal: 12 
   },
   headerTitle: {
-    flex: 1,
-    textAlign: "center",
     fontSize: 24,
-    fontWeight: "bold",
-    color: "#222",
+    fontWeight: "600",
+    color: "#000",
+    textAlign: "center",
+    fontFamily: "Inter_600SemiBold",
   },
-  sectionLabel: {
-    fontSize: 18,
-    color: "yellow",
-    marginLeft: 16,
-    marginTop: 16,
-    marginBottom: 4,
-    fontWeight: "500",
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "400",
+    color: "#000",
+    
+    fontFamily: "Inter_400Regular",
+  },
+  sectionDivider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#000",
+   
+    marginLeft: 40,
+    opacity: 0.5,
   },
   paymentRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-    marginBottom: 2,
-  },
-  name: {
-    fontSize: 20,
-    color: "#222",
-    fontWeight: "500",
-  },
-  owes: {
-    fontSize: 16,
-    color: "#fff",
-  },
-  amountRequest: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  amount: {
-    fontSize: 16,
-    color: "#222",
-    fontWeight: "bold",
-    marginRight: 8,
-  },
-  requestBtn: {
-    backgroundColor: "#eee",
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-  },
-  requestBtnText: {
-    color: "#222",
-    fontWeight: "bold",
-    fontSize: 14,
-  },
-  divider: {
-    height: 1,
-    backgroundColor: "#eee",
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  requestCard: {
-    borderWidth: 1,
-    borderColor: "#bbb",
-    borderRadius: 12,
-    margin: 16,
-    padding: 16,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
+    borderRadius: 12,
+    marginHorizontal: 7,
+    marginVertical: 3,
+    padding: 15,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
     elevation: 2,
+  
   },
-  requestCardTitle: {
+  paymentName: {
     fontSize: 24,
-    fontWeight: "bold",
-    color: "#222",
-    marginBottom: 8,
-    textAlign: "center",
-  },
-  requestCardLabel: {
-    fontSize: 13,
-    color: "#888",
-    marginTop: 8,
+    fontWeight: "600",
+    color: "#000",
     marginBottom: 2,
+    fontFamily: "Inter_600SemiBold",
+    marginLeft: 15,
+    marginTop: 2,
+
   },
-  requestCardAmount: {
-    fontSize: 22,
-    color: "#222",
-    fontWeight: "bold",
+ 
+  
+  paymentOwes: {
+    fontSize: 20,
+    color: "#000",
     marginBottom: 2,
-    textAlign: "center",
+    fontWeight: "400",
+    fontFamily: "Inter_500Medium",
   },
-  requestCardBalance: {
-    fontSize: 12,
-    color: "#888",
-    marginBottom: 8,
-    textAlign: "center",
+  paymentAmount: {
+    fontSize: 24,
+    fontWeight: "600",
+    color: "#000",
+    marginBottom: 2,
+    fontFamily: "Inter_600SemiBold",
+    alignSelf: "center",
+
   },
-  requestToRow: {
-    flexDirection: "row",
+  payBtnWrapper: {
+    justifyContent: "center",
     alignItems: "center",
-    marginVertical: 8,
-    gap: 10,
   },
-  avatarCircle: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: "#03b6fc",
+  payBtn: {
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 28,
+    minWidth: 80,
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 10,
+    elevation: 3,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
   },
-  avatarText: {
+  payBtnText: {
+    color: "#000",
+    fontWeight: "500",
+    fontSize: 20,
+    
+    fontFamily: "Inter_500Medium",
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.18)",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  modalCard: {
+    width: "96%",
+    backgroundColor: "#3498DB",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    padding: 22,
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  modalTitle: {
     color: "#fff",
-    fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 24,
+    fontWeight: "500",
+    marginBottom: 8,
+    alignSelf: "center",
   },
-  requestToName: {
-    fontSize: 17,
-    color: "#222",
-    fontWeight: "bold",
+  modalDivider: {
+    height: 1,
+    backgroundColor: "#000",
+    opacity: 0.3,
+    width: "100%",
+    marginVertical: 8,
   },
-  requestToEmail: {
-    fontSize: 14,
-    color: "#888",
+  modalLabel: {
+    color: "#fff",
+    fontSize: 16,
+    marginTop: 6,
+    marginBottom: 2,
+    alignSelf: "center",
   },
-  requestCardBtnRow: {
+  modalAmount: {
+    color: "#FFDD55",
+    fontSize: 24,
+    fontWeight: "500",
+    marginBottom: 2,
+    alignSelf: "center",
+  },
+  modalBalance: {
+    color: "#fff",
+    fontSize: 16,
+    marginBottom: 8,
+    alignSelf: "center",
+    fontWeight: "400",
+  },
+  modalPayToRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 16,
-    gap: 12,
+    
+    alignSelf: "flex-start",
+    marginTop: 8,
+    marginBottom: 18,
   },
-  cancelBtn: {
-    flex: 1,
-    backgroundColor: "#eee",
-    borderRadius: 8,
-    paddingVertical: 10,
+  modalAvatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#fff",
     alignItems: "center",
-    marginRight: 6,
+    justifyContent: "center",
+    marginRight: 12,
   },
-  cancelBtnText: {
+  modalPayToName: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "500",
+  },
+  modalPayToEmail: {
+    color: "#FFDD55",
+    fontSize: 16,
+    opacity: 0.8,
+    fontWeight: "400",
+  },
+  modalBtnRow: {
+    flexDirection: "row",
+    width: "100%",
+    marginTop: 8,
+  },
+  modalBtn: {
+    borderRadius: 10,
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 3,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+  },
+  modalBtnText: {
     color: "#222",
     fontWeight: "bold",
-    fontSize: 15,
-  },
-  requestNowBtn: {
-    flex: 1,
-    backgroundColor: "#03b6fc",
-    borderRadius: 8,
-    paddingVertical: 10,
-    alignItems: "center",
-    marginLeft: 6,
-  },
-  requestNowBtnText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 15,
-    },
-});
+    fontSize: 16,
+   },
+  });

@@ -32,25 +32,27 @@ export default function SendPaymentScreen() {
         <View style={styles.sectionDivider} />
         </View>
         {paymentsToday.map((item) => (
-          <View key={item.id} style={styles.paymentRow}>
-            <View>
+          <View key={item.id}>
+            
               <Text style={styles.paymentName}>{item.name}</Text>
+              <View  style={styles.paymentRow}>
               <Text style={styles.paymentOwes}>Owes</Text>
               <Text style={styles.paymentAmount}>₦ {item.amount}</Text>
-            </View>
+            
             <TouchableOpacity
               style={styles.payBtnWrapper}
               onPress={() => setModalVisible(true)}
             >
               <LinearGradient
-                colors={["#4fc3f7", "#ffe082"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+                colors={["#F1C40F", "#3498DB"]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 1, y: 0}}
                 style={styles.payBtn}
               >
                 <Text style={styles.payBtnText}>Pay</Text>
               </LinearGradient>
             </TouchableOpacity>
+          </View>
           </View>
         ))}
 
@@ -60,28 +62,30 @@ export default function SendPaymentScreen() {
         <View style={styles.sectionDivider} />
         </View>
         {paymentsYesterday.map((item) => (
-          <View key={item.id} style={styles.paymentRow}>
-            <View>
+           <View key={item.id}>
+            
               <Text style={styles.paymentName}>{item.name}</Text>
+              <View  style={styles.paymentRow}>
               <Text style={styles.paymentOwes}>Owes</Text>
               <Text style={styles.paymentAmount}>₦ {item.amount}</Text>
-            </View>
+            
             <TouchableOpacity
               style={styles.payBtnWrapper}
               onPress={() => setModalVisible(true)}
             >
               <LinearGradient
-                colors={["#4fc3f7", "#ffe082"]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 1 }}
+                colors={["#F1C40F", "#3498DB"]}
+                start={{ x: 1, y: 1 }}
+                end={{ x: 1, y: 0}}
                 style={styles.payBtn}
               >
                 <Text style={styles.payBtnText}>Pay</Text>
               </LinearGradient>
             </TouchableOpacity>
           </View>
+          </View>
         ))}
-      </ScrollView>
+     
 
       {/* Payment Modal */}
       <Modal
@@ -101,7 +105,7 @@ export default function SendPaymentScreen() {
             <Text style={styles.modalLabel}>Pay To</Text>
             <View style={styles.modalPayToRow}>
               <View style={styles.modalAvatar}>
-                <Ionicons name="person" size={32} color="#bbb" />
+                
               </View>
               <View>
                 <Text style={styles.modalPayToName}>Adeola B</Text>
@@ -114,7 +118,7 @@ export default function SendPaymentScreen() {
                 onPress={() => setModalVisible(false)}
               >
                 <LinearGradient
-                  colors={["#4fc3f7", "#ffe082"]}
+                  colors={["#F1C40F", "#3498DB"]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   style={styles.modalBtn}
@@ -124,7 +128,7 @@ export default function SendPaymentScreen() {
               </TouchableOpacity>
               <TouchableOpacity style={{ flex: 1, marginLeft: 8 }}>
                 <LinearGradient
-                  colors={["#4fc3f7", "#ffe082"]}
+                  colors={["#F1C40F", "#3498DB"]}
                   start={{ x: 0, y: 0 }}
                   end={{ x: 1, y: 1 }}
                   style={styles.modalBtn}
@@ -136,6 +140,7 @@ export default function SendPaymentScreen() {
           </View>
         </View>
       </Modal>
+       </ScrollView>
     </SafeAreaView>
   );
 }
@@ -186,32 +191,45 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#e3f2fd",
+    backgroundColor: "#fff",
     borderRadius: 12,
     marginHorizontal: 12,
-    marginVertical: 6,
+    marginVertical: 3,
     padding: 14,
     shadowColor: "#b3d8f7",
     shadowOffset: { width: 2, height: 4 },
     shadowOpacity: 0.12,
     shadowRadius: 6,
     elevation: 2,
+  
   },
   paymentName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#222",
-  },
-  paymentOwes: {
-    fontSize: 13,
-    color: "#888",
+    fontSize: 24,
+    fontWeight: "600",
+    color: "#000",
     marginBottom: 2,
+    fontFamily: "Inter_600SemiBold",
+    marginLeft: 15,
+    marginTop: 2,
+
+  },
+ 
+  
+  paymentOwes: {
+    fontSize: 20,
+    color: "#000",
+    marginBottom: 2,
+    fontWeight: "400",
+    fontFamily: "Inter_500Medium",
   },
   paymentAmount: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#222",
+    fontSize: 24,
+    fontWeight: "600",
+    color: "#000",
     marginBottom: 2,
+    fontFamily: "Inter_600SemiBold",
+    alignSelf: "center",
+
   },
   payBtnWrapper: {
     justifyContent: "center",
@@ -231,9 +249,11 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
   },
   payBtnText: {
-    color: "#222",
-    fontWeight: "bold",
-    fontSize: 16,
+    color: "#000",
+    fontWeight: "500",
+    fontSize: 20,
+    
+    fontFamily: "Inter_500Medium",
   },
   // Modal styles
   modalOverlay: {
@@ -244,50 +264,51 @@ const styles = StyleSheet.create({
   },
   modalCard: {
     width: "96%",
-    backgroundColor: "#2196f3",
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    backgroundColor: "#3498DB",
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
     padding: 22,
     alignItems: "center",
     marginBottom: 8,
   },
   modalTitle: {
     color: "#fff",
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontWeight: "500",
     marginBottom: 8,
     alignSelf: "center",
   },
   modalDivider: {
     height: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
     opacity: 0.3,
     width: "100%",
     marginVertical: 8,
   },
   modalLabel: {
     color: "#fff",
-    fontSize: 14,
+    fontSize: 16,
     marginTop: 6,
     marginBottom: 2,
-    alignSelf: "flex-start",
+    alignSelf: "center",
   },
   modalAmount: {
-    color: "#ffe082",
-    fontSize: 28,
-    fontWeight: "bold",
+    color: "#FFDD55",
+    fontSize: 24,
+    fontWeight: "500",
     marginBottom: 2,
-    alignSelf: "flex-start",
+    alignSelf: "center",
   },
   modalBalance: {
     color: "#fff",
-    fontSize: 13,
+    fontSize: 16,
     marginBottom: 8,
-    alignSelf: "flex-start",
+    alignSelf: "center",
+    fontWeight: "400",
   },
   modalPayToRow: {
     flexDirection: "row",
-    alignItems: "center",
+    
     alignSelf: "flex-start",
     marginTop: 8,
     marginBottom: 18,
@@ -303,13 +324,14 @@ const styles = StyleSheet.create({
   },
   modalPayToName: {
     color: "#fff",
-    fontSize: 18,
-    fontWeight: "bold",
+    fontSize: 24,
+    fontWeight: "500",
   },
   modalPayToEmail: {
-    color: "#fff",
-    fontSize: 13,
+    color: "#FFDD55",
+    fontSize: 16,
     opacity: 0.8,
+    fontWeight: "400",
   },
   modalBtnRow: {
     flexDirection: "row",

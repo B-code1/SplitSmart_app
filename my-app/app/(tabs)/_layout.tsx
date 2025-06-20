@@ -9,17 +9,30 @@ import { ReactNode } from "react";
 // import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
-// import TabBarBackground from "@/components/ui/TabBarBackground";
+import Ionicons from "@expo/vector-icons/Ionicons";
+ 
+
 
 export default function TabLayout() {
   
 
   return (
     <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors.primary,
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color, size }) => {
+          let iconName: React.ComponentProps<typeof Ionicons>["name"] = "home-outline";
+          if (route.name === "home") iconName = "home-outline";
+          else if (route.name === "groups") iconName = "people-outline";
+          else if (route.name === "payments") iconName = "card-outline";
+          else if (route.name === "activity") iconName = "stats-chart-outline";
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+         tabBarActiveTintColor: "#03b6fc",
+        tabBarInactiveTintColor: "#222",
+      
         headerShown: false,
         tabBarButton: HapticTab,
+        
         tabBarStyle: Platform.select({
           ios: {
             // Use a transparent background on iOS to show the blur effect
@@ -27,44 +40,37 @@ export default function TabLayout() {
           },
           default: {},
         }),
-      }}
+      })}
     >
       <Tabs.Screen
         name="Home"
         options={{
           title: "Home",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
-          ),
+         
         }}
       />
-      <Tabs.Screen
-        name="payments"
-        options={{
-          title: "Payments",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="case.fill" color={color} />
-          ),
-        }}
-
-      />
+     
       <Tabs.Screen
         name="groups"
         options={{
           title: "Groups",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="person.fill" color={color} />
-          ),
+         
         }}
       />
       <Tabs.Screen
         name="activity"
         options={{
           title: "Activity",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="gearshape.fill" color={color} />
-          ),
+          
         }}
+      />
+       <Tabs.Screen
+        name="payments"
+        options={{
+          title: "Payments",
+          
+        }}
+
       />
     </Tabs>
   );

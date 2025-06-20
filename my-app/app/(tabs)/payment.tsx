@@ -27,7 +27,8 @@ export default function PaymentScreen() {
           <Text style={styles.cardDesc}>transfer to someone</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.card} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.card} activeOpacity={0.8}
+          onPress={() => router.navigate("/(payments)/request")}>
          <Image style={styles.image}
             source={require("../../assets/images/Vector.png")}
             />
