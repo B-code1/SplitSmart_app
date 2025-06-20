@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "../../constants/Colors";
-import { Button } from "@react-navigation/elements";
 
 const Authstyles = StyleSheet.create({
   logoAuthImg: {
@@ -19,9 +18,7 @@ const Authstyles = StyleSheet.create({
   },
 
   fieldContainer: {
-   
     marginTop: 20,
-    
   },
   fieldText: {
     fontFamily: " PoppinsSemiBold",
@@ -56,13 +53,13 @@ const Authstyles = StyleSheet.create({
     marginTop: 20,
   },
   inputRow: {
-  flexDirection: "row",
-  alignItems: "center",
-  backgroundColor: Colors.backgroundColor2,
-  borderRadius: 8,
-  height: 58,
-  marginTop: 8,
-  paddingHorizontal: 10,
-},
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: Colors.backgroundColor2,
+    borderRadius: 8,
+    height: 58,
+    marginTop: 8,
+    paddingHorizontal: 10,
+  },
 });
 export default Authstyles;

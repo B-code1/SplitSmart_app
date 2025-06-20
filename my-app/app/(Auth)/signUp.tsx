@@ -4,23 +4,21 @@ import {
   Image,
   View,
   TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
 import { router } from "expo-router";
 import Authstyles from "./authStyle";
 import styles from "../styles";
-import Colors from "../../constants/Colors";
+import { Colors } from "../../constants/Colors";
 import DividerOr from "@/components/Divider";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import CustomButton from "@/components/Custombutton";
 
-
-import { ScrollView } from "react-native";
 import Socials from "@/components/Socials";
 import TandC from "@/components/TandC";
 import { IconSymbol } from "@/components/IconSymbol";
+import LinearGradient from "react-native-linear-gradient";
 const signUpScreen = () => {
   function setEmail(text: string): void {
     throw new Error("Function not implemented.");
@@ -42,7 +40,6 @@ const signUpScreen = () => {
             style={Authstyles.logoAuthImg}
             source={require("../../assets/images/Logo.png")}
           />
-
           <Text style={{ textAlign: "center", color: Colors.text_Light }}>
             organize.split.resolve
           </Text>
@@ -56,42 +53,128 @@ const signUpScreen = () => {
           >
             GET STARTED
           </Text>
+          <LinearGradient
+            colors={["#5DADE2", "#FFFFFF"]}
+            start={{ x: -1, y: 1 }}
+            end={{ x: 1, y: -1 }}
+            style={{
+              padding: 20,
+              borderRadius: 50,
+            }}
+          >
+            <View style={Authstyles.secondaryContainer}>
+              <View style={Authstyles.fieldContainer}>
+                <Text style={Authstyles.fieldText}>Full Name</Text>
+                <TextInput
+                  placeholder="Enter your full name"
+                  placeholderTextColor={Colors.white}
+                  style={Authstyles.txtfieldInput}
+                />
+              </View>
 
+              <View style={Authstyles.fieldContainer}>
+                <Text style={Authstyles.fieldText}>Email Address</Text>
+                <TextInput
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  placeholder="Enter your email"
+                  placeholderTextColor={Colors.white}
+                  autoCorrect={false}
+                  style={Authstyles.txtfieldInput}
+                />
+              </View>
+
+              <View style={Authstyles.fieldContainer}>
+                <Text style={Authstyles.fieldText}>Password</Text>
+                <TextInput
+                  secureTextEntry
+                  placeholder="Enter your password"
+                  placeholderTextColor={Colors.white}
+                  style={Authstyles.txtfieldInput}
+                />
+              </View>
+
+              <Text
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  marginVertical: 10,
+                }}
+              ></Text>
+
+              <View style={{ marginVertical: 20 }}>
+                <CustomButton
+                  text={"SIGN-UP"}
+                  onPress={() => {
+                    router.navigate("/login");
+                  }}
+                />
+              </View>
+
+              <Text
+                style={{
+                  fontFamily: "PoppinsRegular",
+                  color: Colors.text_Light,
+                  textAlign: "center",
+                  fontSize: 16,
+                }}
+              >
+                Already have an account?{" "}
+                <Text
+                  style={Authstyles.AccntDiv}
+                  onPress={() => router.navigate("/login")}
+                >
+                  Login
+                </Text>
+              </Text>
+            </View>
+
+            <View style={{ marginVertical: 10 }}>
+              <DividerOr />
+            </View>
+
+            <Socials />
+
+            <View style={{ marginTop: 30 }}>
+              <TandC />
+            </View>
+          </LinearGradient>
+          
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Full Name</Text>
               <View style={Authstyles.inputRow}>
-              <IconSymbol
-                name="person"
-                size={20}
-                color={Colors.white}
-                style={{ marginRight: 10 }}
-              />
-              <TextInput 
-                placeholder="Enter your full name"
-                placeholderTextColor={Colors.white}
-                style={Authstyles.txtfieldInput}
-              />
+                <IconSymbol
+                  name="person"
+                  size={20}
+                  color={Colors.white}
+                  style={{ marginRight: 10 }}
+                />
+                <TextInput
+                  placeholder="Enter your full name"
+                  placeholderTextColor={Colors.white}
+                  style={Authstyles.txtfieldInput}
+                />
               </View>
             </View>
 
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
               <View style={Authstyles.inputRow}>
-              <IconSymbol
-                name="mail"
-                size={20}
-                color={Colors.white}
-                style={{ marginRight: 10 }}
-                />  
-              <TextInput onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                placeholder="Enter your email"
-                placeholderTextColor={Colors.white}
-                autoCorrect={false}
-                style={Authstyles.txtfieldInput}
-              />
+                <IconSymbol
+                  name="mail"
+                  size={20}
+                  color={Colors.white}
+                  style={{ marginRight: 10 }}
+                />
+                <TextInput
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  placeholder="Enter your email"
+                  placeholderTextColor={Colors.white}
+                  autoCorrect={false}
+                  style={Authstyles.txtfieldInput}
+                />
               </View>
             </View>
 
@@ -103,29 +186,26 @@ const signUpScreen = () => {
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
               />
-              </View>
             </View>
-            <View style={Authstyles.fieldContainer}>
-              <Text style={Authstyles.fieldText}> Confirm Password</Text>
-              <View style={Authstyles.inputRow}>
-               <IconSymbol
+          </View>
+          <View style={Authstyles.fieldContainer}>
+            <Text style={Authstyles.fieldText}> Confirm Password</Text>
+            <View style={Authstyles.inputRow}>
+              <IconSymbol
                 name="eye.slash"
                 size={20}
                 color={Colors.white}
                 style={{ marginRight: 10 }}
-                 />
-              <TextInput  
+              />
+              <TextInput
                 secureTextEntry={true}
                 placeholder="**********"
                 placeholderTextColor={Colors.white}
                 style={Authstyles.txtfieldInput}
-                
               />
-              </View>
             </View>
-
-           
-            {/* <TouchableOpacity
+          </View>
+          {/* <TouchableOpacity
           style={Authstyles.Button}
           onPress={() => {
             // Handle sign up logic here
@@ -134,24 +214,31 @@ const signUpScreen = () => {
         >
           <Text style={Authstyles.ButtonText}>SIGN UP</Text>
         </TouchableOpacity> */}
-
-       <View style={{ marginVertical: 10 }}>
+          <View style={{ marginVertical: 10 }}>
             <DividerOr />
-       
-         </View>
-         <View>
-          <Socials />
-        </View>
-          <View style={{ marginVertical: 10 ,marginTop: 20}}>
-            <CustomButton text={"SIGN-UP"} onPress={() => {
-              // Handle sign up logic here
-              console.log("Sign Up button pressed");
-              router.navigate("/(tabs)/Home");
-            }} />
+          </View>
+          <View>
+            <Socials />
+          </View>
+          <View style={{ marginVertical: 10, marginTop: 20 }}>
+            <CustomButton
+              text={"SIGN-UP"}
+              onPress={() => {
+                // Handle sign up logic here
+                console.log("Sign Up button pressed");
+                router.navigate("/(tabs)/Home");
+              }}
+            />
           </View>
           <View style={{ marginVertical: 10 }}>
-            <Text style={{fontFamily: "PoppinsRegular", color: Colors.text_Light,
-               textAlign: "center",fontSize: 16}}>
+            <Text
+              style={{
+                fontFamily: "PoppinsRegular",
+                color: Colors.text_Light,
+                textAlign: "center",
+                fontSize: 16,
+              }}
+            >
               Already have an account?{" "}
               <Text
                 style={Authstyles.AccntDiv}
@@ -163,13 +250,9 @@ const signUpScreen = () => {
               </Text>
             </Text>
           </View>
-       
-        <View style={{marginTop: 30,}}>
-          <TandC />
-
-        </View>
-
-          
+          <View style={{ marginTop: 30 }}>
+            <TandC />
+          </View>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
