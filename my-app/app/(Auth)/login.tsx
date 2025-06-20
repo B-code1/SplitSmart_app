@@ -29,6 +29,7 @@ import { IconSymbol } from "@/components/IconSymbol";
 const signUpScreen = () => {
   //const [message, setMessage] = useState('');
   //const [email, setEmail] = useState<string>('');
+
   // const [password, setPassword] = useState<string>('');
   // const [error, setError] = useState<string | null>('');
 
@@ -52,6 +53,31 @@ const signUpScreen = () => {
   //  setMessage(`Signup failed: ${errorMsg}`);
   //}
   // };
+
+  // const [password, setPassword] = useState<string>('');
+  //const [error, setError] = useState<string | null>('');
+
+  // this is what ebube has changed. he added authentication function. check the onpress? login.
+  // for usestate hooks, check onChageText in email and passsword
+  // const handleAuth = async()=>{
+  //  if(!email || !password ){
+  //    setError("Please fill in all fields")
+  //  }
+  // try {
+  // const res = await API.post('/signup', { email, password });
+  // setMessage('Signup successful! You can now log in.');
+  // router.navigate('/login');
+  //} catch (err) {
+  // let errorMsg = "An error occurred";
+  // if (axios.isAxiosError(err)) {
+  //   errorMsg = err.response?.data?.message || err.message;
+  // } else if (err instanceof Error) {
+  //   errorMsg = err.message;
+  // }
+  // setMessage(`Signup failed: ${errorMsg}`);
+  // }
+  //};
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -109,12 +135,22 @@ const signUpScreen = () => {
                   autoCorrect={false}
                   style={Authstyles.txtfieldInput}
                 />
+
+                <TextInput
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  placeholder="Enter your email"
+                  placeholderTextColor={Colors.white}
+                  autoCorrect={false}
+                  style={Authstyles.txtfieldInput}
+                />
               </View>
             </View>
             {/* </View> */}
 
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Password</Text>
+
               <View style={Authstyles.inputRow}>
                 <IconSymbol
                   name="eye.slash"
@@ -143,74 +179,162 @@ const signUpScreen = () => {
                 />
               </View>
 
-              <View>
-                <CustomButton
-                  text={"LOGIN"}
-                  onPress={() => {
-                    router.navigate("/");
-                  }}
+              <View style={Authstyles.inputRow}>
+                <IconSymbol
+                  name="eye.slash"
+                  size={20}
+                  color={Colors.white}
+                  style={{ marginRight: 10 }}
+                />
+                <TextInput
+                  secureTextEntry={true}
+                  placeholder="Enter your password"
+                  placeholderTextColor={Colors.white}
+                  style={Authstyles.txtfieldInput}
                 />
               </View>
 
-              <View style={{ marginVertical: 10, marginTop: 20 }}>
+              <Text
+                style={{ color: "red", textAlign: "center", marginTop: 10 }}
+              ></Text>
+
+              <View style={{ marginVertical: 20 }}>
+                <CustomButton
+                  text={"LOGIN"}
+                  onPress={() => {
+                    router.navigate("/Home");
+                  }}
+                />
+              </View>
+              {/* i added this error to display any error on screen */}
+            </View>
+          </View>
+
+          <View>
+            <CustomButton
+              text={"LOGIN"}
+              onPress={() => {
+                router.navigate("/");
+              }}
+            />
+          </View>
+
+          <View style={{ marginVertical: 10, marginTop: 20 }}>
+            <View>
+              <CustomButton
+                text={"LOGIN"}
+                onPress={() => {
+                  router.navigate("/");
+                }}
+              />
+            </View>
+
+            <View style={{ marginVertical: 10, marginTop: 20 }}>
+              <Text
+                style={{
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >
+                Not a Registered User yet?{" "}
                 <Text
                   style={{
-                    color: Colors.text_Light,
-                    fontFamily: "PoppinsRegular",
-                    fontSize: 16,
-                    textAlign: "center",
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "PoppinsBold",
+                    fontWeight: 400,
+                  }}
+                  onPress={() => {
+                    router.navigate("/signUp");
                   }}
                 >
-                  Not a Registered User yet?{" "}
-                  <Text
-                    style={{
-                      color: "black",
-                      fontSize: 20,
-                      fontFamily: "PoppinsBold",
-                      fontWeight: 400,
-                    }}
-                    onPress={() => {
-                      router.navigate("/signUp");
-                    }}
-                  >
-                    Sign Up
-                  </Text>
+                  Sign Up
                 </Text>
-              </View>
+              </Text>
             </View>
+
             <View style={{ marginTop: 10, marginBottom: 10 }}>
               <DividerOr />
             </View>
             <View>
               <Socials />
+            </View>
 
-              <View style={{ marginVertical: 10, marginTop: 20 }}>
+            <View style={{ marginVertical: 10, marginTop: 20 }}>
+              <Text
+                style={{
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >
+                Forgot Password?{" "}
+              </Text>
+              <TouchableOpacity
+                onPress={() => router.navigate("/(Auth)/forgotPassword")}
+              ></TouchableOpacity>
+
+              <Text
+                style={{
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >
+                Not a Registered User yet?{" "}
                 <Text
                   style={{
-                    color: Colors.text_Light,
-                    fontFamily: "PoppinsRegular",
-                    fontSize: 16,
-                    textAlign: "center",
+                    color: "black",
+                    fontSize: 20,
+                    fontFamily: "PoppinsBold",
+                    fontWeight: 400,
+                  }}
+                  onPress={() => {
+                    router.navigate("/signUp");
                   }}
                 >
-                  Forgot Password?{" "}
-                  <TouchableOpacity
-                    onPress={() => router.navigate("/(Auth)/forgotPassword")}
-                  >
-                    <Text
-                      style={{
-                        color: "#F1C40F",
-                        fontSize: 24,
-                        fontWeight: "400",
-                      }}
-                    >
-                      Click here
-                    </Text>
-                  </TouchableOpacity>
+                  Sign Up
                 </Text>
-              </View>
+              </Text>
             </View>
           </View>
+          <View style={{ marginTop: 10, marginBottom: 10 }}>
+            <DividerOr />
+          </View>
+          <View>
+            <Socials />
+
+            <View style={{ marginVertical: 10, marginTop: 20 }}>
+              <Text
+                style={{
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >
+                Forgot Password?{" "}
+                <TouchableOpacity
+                  onPress={() => router.navigate("/(Auth)/forgotPassword")}
+                >
+                  <Text
+                    style={{
+                      color: "#F1C40F",
+                      fontSize: 24,
+                      fontWeight: "400",
+                    }}
+                  >
+                    Click here
+                  </Text>
+                </TouchableOpacity>
+              </Text>
+            </View>
+          </View>
+          {/* </View> */}
 
           <View style={{ marginTop: 30 }}>
             <TandC />
@@ -220,4 +344,5 @@ const signUpScreen = () => {
     </SafeAreaView>
   );
 };
+
 export default signUpScreen;

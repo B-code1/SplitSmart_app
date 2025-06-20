@@ -17,38 +17,12 @@ import CustomButton from "@/components/Custombutton";
 
 import Socials from "@/components/Socials";
 import TandC from "@/components/TandC";
-
-import { LinearGradient } from "expo-linear-gradient";
 import { IconSymbol } from "@/components/IconSymbol";
-
+import LinearGradient from "react-native-linear-gradient";
 const signUpScreen = () => {
-  // const [username, setUsername] = useState("");
-  //const [email, setEmail] = useState("");
-  //const [password, setPassword] = useState("");
-  // const [error, setError] = useState("");
-
-  // const handleSignup = async () => {
-  // if (!username || !email || !password) {
-  //   setError("Please fill in all fields.");
-  //   return;
-  //}
-
-  //setError("");
-
-  // try {
-  //  const response = await API.post("/users/register", {
-  //    username,
-  //    email,
-  // password,
-  /// });
-
-  // console.log("Signup success:", response.data);
-  //router.navigate("/login");
-  //} catch (err: any) {
-  //  const msg = err?.response?.data?.message || "Signup failed.";
-  //  setError(msg);
-  //  }
-  // };
+  function setEmail(text: string): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -165,7 +139,7 @@ const signUpScreen = () => {
               <TandC />
             </View>
           </LinearGradient>
-          =======
+          
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Full Name</Text>

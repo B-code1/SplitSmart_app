@@ -1,73 +1,80 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Image } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import Colors from "../../constants/Colors";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 const TABS = ["All", "Sent", "Received", "Pending"];
-const DATA = [
+
+const payments = [
   {
     id: 1,
-    name: "jason",
-    desc: "paid to you",
-    time: "oct6. 4:25 PM",
-    amount: "₦2,500",
-    status: "received",
-    method: "via wallet",
+    name: "Kenny",
+    desc: "Owes You For Game Night",
+    amount: "2,500",
+    status: "Pending",
+    statusIcon: <MaterialIcons name="hourglass-empty" size={18} color="#888" />,
+    statusColor: "#888",
+    requested: "Oct 7",
+    time: "12:45 PM",
+    type: "Pending",
   },
-  // ...repeat as needed for demo
   {
     id: 2,
-    name: "jason",
-    desc: "paid to you",
-    time: "oct6. 4:25 PM",
-    amount: "₦2,500",
-    status: "received",
-    method: "via wallet",
+    name: "Jason",
+    desc: "Paid To You",
+    amount: "2,500",
+    status: "Received",
+    statusIcon: <Ionicons name="checkmark-circle" size={18} color="#2ecc40" />,
+    statusColor: "#2ecc40",
+    requested: "Oct 7",
+    time: "12:45 PM",
+    type: "Received",
   },
   {
     id: 3,
-    name: "jason",
-    desc: "paid to you",
-    time: "oct6. 4:25 PM",
-    amount: "₦2,500",
-    status: "received",
-    method: "via wallet",
+    name: "Adeola",
+    desc: "You Paid For Dinner Bill",
+    amount: "1,800",
+    status: "Sent",
+    statusIcon: <Ionicons name="checkmark-circle" size={18} color="#2ecc40" />,
+    statusColor: "#2ecc40",
+    requested: "Oct 6",
+    time: "11:25 PM",
+    type: "Sent",
   },
   {
     id: 4,
-    name: "jason",
-    desc: "paid to you",
-    time: "oct6. 4:25 PM",
-    amount: "₦2,500",
-    status: "received",
-    method: "via wallet",
+    name: "Tofunmi",
+    desc: "Hasn't Paid For Dinner Bill",
+    amount: "1,800",
+    status: "Pending",
+    statusIcon: <MaterialIcons name="hourglass-empty" size={18} color="#888" />,
+    statusColor: "#888",
+    requested: "Oct 6",
+    time: "11:20 PM",
+    type: "Pending",
   },
- 
 ];
 
-export default function SplitPayment() {
+export default function SplitPaymentScreen() {
   const [activeTab, setActiveTab] = useState("All");
+
+  const filteredPayments =
+    activeTab === "All"
+      ? payments
+      : payments.filter((p) => p.type === activeTab);
 
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerLogoRow}>
-          <Text style={styles.headerTitle}>SplitSmart</Text>
-          <Image
-            source={require("../../assets/images/Logo.png")}
-            style={styles.logo}
-          />
-        </View>
-        <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#222" />
+      <View style={styles.headerRow}>
+        <TouchableOpacity>
+          <Ionicons name="arrow-back" size={26} color="#222" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Split Payment</Text>
+        <TouchableOpacity>
+          <Ionicons name="settings-outline" size={24} color="#222" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.welcomeText}>
-        Welcome to SplitSmart! Let’s show you how you can split bill MOF free/easy.
-      </Text>
-      <Text style={styles.pageTitle}>Split Payment</Text>
 
       {/* Tabs */}
       <View style={styles.tabsRow}>
@@ -92,170 +99,171 @@ export default function SplitPayment() {
         ))}
       </View>
 
-      {/* List */}
-      <ScrollView style={{ flex: 1 }}>
-        {DATA.map((item) => (
-          <View key={item.id} style={styles.listRow}>
-            <View style={styles.avatarCircle}>
-              <Ionicons name="person" size={28} color="#bbb" />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.name}>{item.name}</Text>
-              <Text style={styles.desc}>{item.desc}</Text>
-              <Text style={styles.time}>{item.time}</Text>
-            </View>
-            <View style={styles.amountCol}>
-              <Text style={styles.amount}>{item.amount}</Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Ionicons name="checkmark-circle" size={14} color="white" style={{ marginRight: 2 }} />
-                <Text style={styles.statusText}>{item.status}</Text>
+      {/* Payment Cards */}
+      <ScrollView contentContainerStyle={{ paddingBottom: 90 }}>
+        {filteredPayments.map((item) => (
+          <View key={item.id} style={styles.card}>
+            <View style={styles.cardRow}>
+              <View style={styles.avatar}>
+                <Ionicons name="person" size={38} color="#636363" />
               </View>
-              <Text style={styles.methodText}>{item.method}</Text>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.cardName}>{item.name}</Text>
+                <Text style={styles.cardDesc}>{item.desc}</Text>
+              </View>
+              <View style={{ alignItems: "flex-end" }}>
+                <Text style={styles.cardAmount}>₦{item.amount}</Text>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  {item.statusIcon}
+                  <Text style={[styles.cardStatus, { color: item.statusColor }]}>
+                    {item.status}
+                  </Text>
+                </View>
+              </View>
+            </View>
+            <View style={styles.cardFooter}>
+              <Text style={styles.cardFooterText}>Requested {item.requested}</Text>
+              <Text style={styles.cardFooterText}>{item.time}</Text>
             </View>
           </View>
         ))}
       </ScrollView>
+
+      {/* Bottom Tab Bar */}
+      
+      
     </SafeAreaView>
   );
 }
 
-export const options = {
-  title: "",
-};
+const CARD_BG = "#D9F0FF";
+const TAB_BG = "#AFDDFB";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingTop: 16,
+    backgroundColor: "#ffff",
   },
-  header: {
+  headerRow: {
     flexDirection: "row",
     alignItems: "center",
-    alignSelf: "stretch",
-    justifyContent: "center",
-    marginBottom: 8,
-    marginTop: 19,
-    paddingHorizontal: 16,
-
-   
-
-  },
-  headerLogoRow: {
-    flexDirection: "row",
-    alignSelf:"center",
-    alignItems: "center",
-    flex: 1,
-  },
-  headerTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#222",
-    marginRight: 6,
-  },
-  logo: {
-    width: 32,
-    height:32,
-    resizeMode: "contain",
-    alignItems:"center",
-    justifyContent:"center",
-    marginRight: 8,
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 50,
+    
+  
+    backgroundColor: "#D9F0FF",
+    marginTop:  0,
+    
     
   },
-  backBtn: {
-    padding: 4,
-    borderRadius: 16,
-    backgroundColor: "#eee",
-  },
-  welcomeText: {
-    fontSize: 16,
-    color: "#ffff",
+  headerTitle: {
+    fontSize: 24,
     fontWeight: "500",
+    color: "#000",
     textAlign: "center",
-    marginBottom: 8,
-    marginTop: 4,
-  },
-  pageTitle: {
-    fontSize: 20,
-    color: "#222",
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 10,
+    fontFamily: "Inter_500Medium",
   },
   tabsRow: {
     flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: 10,
+    justifyContent: "space-between",
+    backgroundColor: "#fff",
+    paddingHorizontal: 12,
+    
+    marginBottom: 6,
     gap: 8,
   },
   tabBtn: {
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 16,
-    backgroundColor: Colors.primary,
+    flex: 1,
+    backgroundColor: TAB_BG,
+    borderRadius: 10,
+    paddingVertical: 7,
     marginHorizontal: 2,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#b3d8f7",
   },
   tabBtnActive: {
-    backgroundColor: "#03b6fc",
+    backgroundColor: "#3498DB",
+    borderColor: "#03b6fc",
   },
   tabBtnText: {
-    color: "#888",
-    fontWeight: "bold",
-    fontSize: 14,
+    color: "#222",
+    fontSize: 15,
+    fontWeight: "500",
   },
   tabBtnTextActive: {
     color: "#fff",
+    fontWeight: "bold",
   },
-  listRow: {
+  card: {
+    backgroundColor: CARD_BG,
+    borderRadius: 20,
+    marginHorizontal: 12,
+    marginVertical: 7,
+    padding: 14,
+    shadowColor: "#000",
+    shadowOffset: { width: 2, height: 5 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
+    elevation: 5,
+    width: "95%",
+    height: 120,
+  },
+  cardRow: {
     flexDirection: "row",
-    alignItems: "flex-start",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    gap: 12,
+    alignItems: "center",
+    marginBottom: 8,
   },
-  avatarCircle: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: "#eee",
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 10,
+    marginRight: 12,
+    borderWidth: 1,
+    borderColor: "#b3d8f7",
   },
-  name: {
-    fontSize: 18,
+  cardName: {
+    fontSize: 24,
+    fontWeight: "600",
+    color: "#000",
+    textTransform: "capitalize",
+    fontFamily: "Inter_600SemiBold",
+  },
+  cardDesc: {
+    fontSize: 15,
+    color: "#000",
+    opacity: 0.7,
+    marginBottom: 2,
+    fontFamily: "Inter_400Regular",
+    fontWeight: "400",
+  },
+  cardAmount: {
+    fontSize: 19,
+    fontWeight: "bold",
     color: "#222",
-    fontWeight: "bold",
   },
-  desc: {
-    fontSize: 13,
-    color: Colors.primary,
-    marginBottom: 2,
+  cardStatus: {
+    fontSize: 14,
+    marginLeft: 4,
+    fontWeight: "500",
   },
-  time: {
-    fontSize: 12,
-    color: "#fff",
-    marginBottom: 2,
-  },
-  amountCol: {
-    alignItems: "flex-end",
-    minWidth: 80,
-  },
-  amount: {
-    fontSize: 16,
-    color: "black",
-    fontWeight: "bold",
-  },
-  statusText: {
-    fontSize: 12,
-    color: "#fff",
-    marginLeft: 2,
-  },
-  methodText: {
-    fontSize: 12,
-    color: "black",
+  cardFooter: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderTopWidth: 1,
+    borderTopColor: "#b3d8f7",
+    paddingTop: 4,
     marginTop: 2,
   },
+  cardFooterText: {
+    fontSize: 14,
+    color: "#222",
+    opacity: 0.7,
+  },
+  
 });

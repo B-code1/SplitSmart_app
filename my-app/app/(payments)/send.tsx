@@ -1,274 +1,335 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Modal, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
-import Colors from "../../constants/Colors"; // Adjust the path as necessary
+import { LinearGradient } from 'expo-linear-gradient';
 
+const paymentsToday = [
+  { id: 1, name: "Sulaimon O (You)", owes: true, amount: "2,500" },
+  { id: 2, name: "Adeola B (You)", owes: false, amount: "2,500" },
+];
+const paymentsYesterday = [
+  { id: 3, name: "Sulaimon O (You)", owes: true, amount: "2,500" },
+  { id: 4, name: "Adeola B (You)", owes: false, amount: "2,500" },
+];
 
-export default function SendPayment() {
+export default function SendPaymentScreen() {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#222" />
+      <View style={styles.headerRow}>
+        <TouchableOpacity>
+          <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Send Payment</Text>
-        <View style={{ width: 24 }} /> {/* Placeholder for alignment */}
+        <View style={{ width: 26 }} />
       </View>
 
-      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
-        {/* Today */}
-        <Text style={styles.sectionLabel}>Today</Text>
-        <View style={styles.paymentRow}>
-          <View>
-            <Text style={styles.name}>Sulaimon O (You)</Text>
-            <Text style={styles.owes}>Owes</Text>
-          </View>
-          <View style={styles.amountRequest}>
-            <Text style={styles.amount}>₦ 2,500</Text>
-            <TouchableOpacity style={styles.payBtn}>
-              <Text style={styles.payBtnText}>Pay</Text>
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
+        <View style={styles.header}> 
+        <Text style={styles.sectionTitle}>Today</Text>
+        <View style={styles.sectionDivider} />
+        </View>
+        {paymentsToday.map((item) => (
+          <View key={item.id} style={styles.paymentRow}>
+            <View>
+              <Text style={styles.paymentName}>{item.name}</Text>
+              <Text style={styles.paymentOwes}>Owes</Text>
+              <Text style={styles.paymentAmount}>₦ {item.amount}</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.payBtnWrapper}
+              onPress={() => setModalVisible(true)}
+            >
+              <LinearGradient
+                colors={["#4fc3f7", "#ffe082"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.payBtn}
+              >
+                <Text style={styles.payBtnText}>Pay</Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
-        </View>
-        <View style={styles.paymentRow}>
-          <View>
-            <Text style={styles.name}>Adeola B</Text>
-          </View>
-        </View>
-        <View style={styles.divider} />
+        ))}
 
         {/* Yesterday */}
-        <Text style={styles.sectionLabel}>Yesterday</Text>
-        <View style={styles.paymentRow}>
-          <View>
-            <Text style={styles.name}>Sulaimon O (You)</Text>
-            <Text style={styles.owes}>Owes</Text>
-          </View>
-          <View style={styles.amountRequest}>
-            <Text style={styles.amount}>₦ 2,500</Text>
-            <TouchableOpacity style={styles.payBtn}>
-              <Text style={styles.payBtnText}>Pay</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.header}>
+        <Text style={styles.sectionTitle}>Yesterday</Text>
+        <View style={styles.sectionDivider} />
         </View>
-        <View style={styles.paymentRow}>
-          <View>
-            <Text style={styles.name}>Adeola B</Text>
-          </View>
-        </View>
-        <View style={styles.divider} />
-
-        {/* Pay Card */}
-        <View style={styles.payCard}>
-          <Text style={styles.payCardTitle}>Pay</Text>
-          <Text style={styles.payCardLabel}>Amount</Text>
-          <Text style={styles.payCardAmount}>₦ 2,500</Text>
-          <Text style={styles.payCardBalance}>Your available balance: ₦ 55,250</Text>
-          <Text style={styles.payCardLabel}>Pay To</Text>
-          <View style={styles.payToRow}>
-            <View style={styles.avatarCircle}>
-              <Text style={styles.avatarText}>A</Text>
-            </View>
+        {paymentsYesterday.map((item) => (
+          <View key={item.id} style={styles.paymentRow}>
             <View>
-              <Text style={styles.payToName}>Adeola B</Text>
-              <Text style={styles.payToEmail}>adeola@gmail.com</Text>
+              <Text style={styles.paymentName}>{item.name}</Text>
+              <Text style={styles.paymentOwes}>Owes</Text>
+              <Text style={styles.paymentAmount}>₦ {item.amount}</Text>
+            </View>
+            <TouchableOpacity
+              style={styles.payBtnWrapper}
+              onPress={() => setModalVisible(true)}
+            >
+              <LinearGradient
+                colors={["#4fc3f7", "#ffe082"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.payBtn}
+              >
+                <Text style={styles.payBtnText}>Pay</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
+
+      {/* Payment Modal */}
+      <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalCard}>
+            <Text style={styles.modalTitle}>Pay</Text>
+            <View style={styles.modalDivider} />
+            <Text style={styles.modalLabel}>Amount</Text>
+            <Text style={styles.modalAmount}>₦ 2,500</Text>
+            <Text style={styles.modalBalance}>Your available balance: ₦ 55,250</Text>
+            <View style={styles.modalDivider} />
+            <Text style={styles.modalLabel}>Pay To</Text>
+            <View style={styles.modalPayToRow}>
+              <View style={styles.modalAvatar}>
+                <Ionicons name="person" size={32} color="#bbb" />
+              </View>
+              <View>
+                <Text style={styles.modalPayToName}>Adeola B</Text>
+                <Text style={styles.modalPayToEmail}>adeolab.@gmail.com</Text>
+              </View>
+            </View>
+            <View style={styles.modalBtnRow}>
+              <TouchableOpacity
+                style={{ flex: 1, marginRight: 8 }}
+                onPress={() => setModalVisible(false)}
+              >
+                <LinearGradient
+                  colors={["#4fc3f7", "#ffe082"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.modalBtn}
+                >
+                  <Text style={styles.modalBtnText}>Cancel</Text>
+                </LinearGradient>
+              </TouchableOpacity>
+              <TouchableOpacity style={{ flex: 1, marginLeft: 8 }}>
+                <LinearGradient
+                  colors={["#4fc3f7", "#ffe082"]}
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 1 }}
+                  style={styles.modalBtn}
+                >
+                  <Text style={styles.modalBtnText}>Pay Now</Text>
+                </LinearGradient>
+              </TouchableOpacity>
             </View>
           </View>
-          <View style={styles.payCardBtnRow}>
-            <TouchableOpacity style={styles.cancelBtn}>
-              <Text style={styles.cancelBtnText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.payNowBtn}>
-              <Text style={styles.payNowBtnText}>Pay Now</Text>
-            </TouchableOpacity>
-          </View>
         </View>
-      </ScrollView>
+      </Modal>
     </SafeAreaView>
   );
 }
 
-// Hide the folder name/title in the header if using Expo Router
-export const options = {
-  title: "",
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingTop: 8,
+    backgroundColor: "#FFFFFF",
   },
-    scrollView: {
-        paddingHorizontal: 16,
-    },
-  header: {
+  headerRow: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingBottom: 8,
-    
-    marginBottom: 8,
-    marginTop: 25,
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 55,
+    backgroundColor: "#F3F9FD",
+  },
+  header:{
+    flexDirection: "row", 
+    alignItems: "center", 
+    marginVertical: 8, 
+    marginHorizontal: 12 
   },
   headerTitle: {
-    flex: 1,
-    textAlign: "center",
     fontSize: 24,
-    fontWeight: "bold",
-    color: "#222",
+    fontWeight: "600",
+    color: "#000",
+    textAlign: "center",
+    fontFamily: "Inter_600SemiBold",
   },
-  sectionLabel: {
-    fontSize: 15,
-    color: "yellow",
-    marginLeft: 16,
-    marginTop: 16,
-    marginBottom: 4,
-    fontWeight: "500",
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "400",
+    color: "#000",
+    
+    fontFamily: "Inter_400Regular",
+  },
+  sectionDivider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#000",
+   
+    marginLeft: 40,
+    opacity: 0.5,
   },
   paymentRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
+    backgroundColor: "#e3f2fd",
+    borderRadius: 12,
+    marginHorizontal: 12,
+    marginVertical: 6,
+    padding: 14,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  paymentName: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#222",
+  },
+  paymentOwes: {
+    fontSize: 13,
+    color: "#888",
     marginBottom: 2,
   },
-  name: {
-    fontSize: 22,
-    color: "#222",
-    fontWeight: "500",
-  },
-  owes: {
-    fontSize: 15,
-    color: "#fff",
-  },
-  amountRequest: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  amount: {
+  paymentAmount: {
     fontSize: 18,
-    color: "#222",
     fontWeight: "bold",
-    marginRight: 8,
+    color: "#222",
+    marginBottom: 2,
+  },
+  payBtnWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
   },
   payBtn: {
-    backgroundColor: "#eee",
-    borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 4,
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 28,
+    minWidth: 80,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 3,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
   },
   payBtnText: {
     color: "#222",
     fontWeight: "bold",
     fontSize: 16,
   },
-  divider: {
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.18)",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  modalCard: {
+    width: "96%",
+    backgroundColor: "#2196f3",
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    padding: 22,
+    alignItems: "center",
+    marginBottom: 8,
+  },
+  modalTitle: {
+    color: "#fff",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 8,
+    alignSelf: "center",
+  },
+  modalDivider: {
     height: 1,
-    backgroundColor: "#eee",
-    marginVertical: 8,
-    marginHorizontal: 16,
-  },
-  payCard: {
-    borderWidth: 1,
-    borderColor: "#bbb",
-    borderRadius: 12,
-    margin: 16,
-    padding: 16,
     backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOpacity: 0.04,
-    shadowRadius: 4,
-    elevation: 2,
+    opacity: 0.3,
+    width: "100%",
+    marginVertical: 8,
   },
-  payCardTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#222",
-    marginBottom: 8,
-    textAlign: "center",
-  },
-  payCardLabel: {
-    fontSize: 15,
-    color: "#888",
-    marginTop: 8,
+  modalLabel: {
+    color: "#fff",
+    fontSize: 14,
+    marginTop: 6,
     marginBottom: 2,
+    alignSelf: "flex-start",
   },
-  payCardAmount: {
-    fontSize: 22,
-    color: "#222",
+  modalAmount: {
+    color: "#ffe082",
+    fontSize: 28,
     fontWeight: "bold",
     marginBottom: 2,
-    textAlign: "center",
+    alignSelf: "flex-start",
   },
-  payCardBalance: {
-    fontSize: 12,
-    color: "#888",
+  modalBalance: {
+    color: "#fff",
+    fontSize: 13,
     marginBottom: 8,
-    textAlign: "center",
+    alignSelf: "flex-start",
   },
-  payToRow: {
+  modalPayToRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 8,
-    gap: 10,
+    alignSelf: "flex-start",
+    marginTop: 8,
+    marginBottom: 18,
   },
-  avatarCircle: {
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    backgroundColor: Colors.primary,
+  modalAvatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 10,
+    marginRight: 12,
   },
-  avatarText: {
+  modalPayToName: {
     color: "#fff",
-    fontWeight: "bold",
     fontSize: 18,
-  },
-  payToName: {
-    fontSize: 18,
-    color: "#222",
     fontWeight: "bold",
   },
-  payToEmail: {
-    fontSize: 14,
-    color: "#888",
+  modalPayToEmail: {
+    color: "#fff",
+    fontSize: 13,
+    opacity: 0.8,
   },
-  payCardBtnRow: {
+  modalBtnRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 16,
-    gap: 12,
+    width: "100%",
+    marginTop: 8,
   },
-  cancelBtn: {
-    flex: 1,
-    backgroundColor: "#eee",
-    borderRadius: 8,
-    paddingVertical: 10,
+  modalBtn: {
+    borderRadius: 10,
+    paddingVertical: 12,
     alignItems: "center",
-    marginRight: 6,
+    justifyContent: "center",
+    elevation: 3,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 2, height: 4 },
+    shadowOpacity: 0.18,
+    shadowRadius: 8,
   },
-  cancelBtnText: {
+  modalBtnText: {
     color: "#222",
     fontWeight: "bold",
-    fontSize: 15,
-  },
-  payNowBtn: {
-    flex: 1,
-    backgroundColor: "#03b6fc",
-    borderRadius: 8,
-    paddingVertical: 10,
-    alignItems: "center",
-    marginLeft: 6,
-  },
-  payNowBtnText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 15,
-  },
-});
+    fontSize: 16,
+   },
+  });
