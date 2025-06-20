@@ -1,14 +1,215 @@
+// import React from "react";
+// import {
+//   View,
+//   Text,
+//   StyleSheet,
+//   SafeAreaView,
+//   TouchableOpacity,
+// } from "react-native";
+// import { Colors } from "@/constants/Colors";
+// import { Ionicons } from "@expo/vector-icons";
+// import { router } from "expo-router";
 
+// const Groups = () => {
+//   return (
+//     <SafeAreaView>
+//       {/* Header */}
+//       <View style={styles.header}>
+//         <TouchableOpacity onPress={() => router.back()}>
+//           <Ionicons name="arrow-back" size={24} color="#222" />
+//         </TouchableOpacity>
+//         <Text style={styles.headerTitle}>Group</Text>
+//         <View style={{ width: 24 }} />
+//       </View>
+//     </SafeAreaView>
+//   );
+// };
+// export default Groups;
 
-import React from 'react';
-import { View, Text } from 'react-native';
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: Colors.backgroundColor,
+//     paddingTop: 16,
+//   },
+//   header: {
+//     flexDirection: "row",
+//     alignItems: "center",
+//     paddingHorizontal: 16,
+//     paddingBottom: 8,
+//     height: "40%",
+//     marginBottom: 8,
+//     marginTop: 25,
+//     backgroundColor: "#AFDDFB",
+//     borderTopRightRadius: 60,
+//     borderTopLeftRadius: 60,
+//   },
+//   headerTitle: {
+//     flex: 1,
+//     textAlign: "center",
+//     fontSize: 24,
+//     fontWeight: "bold",
+//     color: "#222",
+//   },
+// });
 
-const Groups = () => {
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  Modal,
+  Pressable,
+  Button,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import Colors from "../../constants/Colors";
+import { router } from "expo-router";
+
+export default function Home() {
+  const [menuVisible, setMenuVisible] = React.useState(false);
+
   return (
-    <View className="flex-1 items-center justify-center">
-      <Text className="text-2xl font-bold">Groups</Text>
-      <Text className="text-gray-500 mt-2">This is the Groups screen.</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={24} color="#222" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Group</Text>
+        <View style={{ width: 24 }} />
+      </View>
+
+      <TouchableOpacity style={styles.grpContainer}>
+        <View>
+          <View style={styles.innergrpContainer}>
+            <Ionicons
+              name="add"
+              size={30}
+              color="black"
+              style={styles.innerIcon}
+            />
+            <Text style={styles.innerTxt}>Create New Group</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.grpContainer}>
+        <View>
+          <View style={styles.innergrpContainer}>
+            <Ionicons
+              name="people"
+              size={30}
+              color="black"
+              style={styles.innerIcon}
+            />
+            <Text style={styles.innerTxt}>Join Group</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.grpContainer}>
+        <View>
+          <View style={styles.innergrpContainer}>
+            <Ionicons
+              name="eye-outline"
+              size={30}
+              color="black"
+              style={styles.innerIcon}
+            />
+            <Text style={styles.innerTxt}>View Group details </Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.grpContainer}>
+        <View>
+          <View style={styles.innergrpContainer}>
+            <Ionicons
+              name="pencil"
+              size={25}
+              color="black"
+              style={styles.innerIcon}
+            />
+            <Text style={styles.innerTxt}>Edit Group</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
-export default Groups;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+    paddingTop: 16,
+    alignItems: "center",
+  },
+
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+    height: "20%",
+    marginBottom: 8,
+    marginTop: 25,
+    backgroundColor: "#AFDDFB",
+    borderTopRightRadius: 60,
+    borderTopLeftRadius: 60,
+  },
+  headerTitle: {
+    flex: 1,
+    textAlign: "center",
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#222",
+  },
+  // logo: {
+  //   width: 32,
+  //   height: 32,
+  //   resizeMode: "contain",
+  // },
+  // welcomeText: {
+  //   marginHorizontal: 10,
+  //   fontSize: 17,
+  //   color: "white",
+  //   textAlign: "center",
+  //   marginBottom: 8,
+  //   marginTop: 8,
+  //   alignSelf: "stretch",
+  //   fontWeight: "500",
+  //   fontFamily: "Inter_500Medium",
+  // },
+
+  grpContainer: {
+    backgroundColor: "#FFFFFFF",
+    // borderWidth: 1,
+    width: "90%",
+    height: "10%",
+    borderRadius: 8,
+    alignSelf: "center",
+    marginVertical: 8,
+    borderWidth: 1,
+  },
+  innergrpContainer: {
+    flexDirection: "row",
+    alignSelf: "center",
+    verticalAlign: "middle",
+    marginTop: "5%",
+  },
+  innerIcon: {
+    color: " black",
+    alignSelf: "flex-end",
+    marginRight: 16,
+    marginBottom: 8,
+    gap: 12,
+  },
+  innerTxt: {
+    fontSize: 20,
+    fontWeight: 600,
+  },
+});
