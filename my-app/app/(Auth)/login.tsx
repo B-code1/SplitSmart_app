@@ -1,55 +1,62 @@
-import { router } from "expo-router";
-import React, { useState } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
-  Image,
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
   Text,
+  Image,
+  View,
   TextInput,
   TouchableOpacity,
-  View,
+  KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-import CustomButton from "../../components/Custombutton";
+import { router } from "expo-router";
+import Authstyles from "./authStyle";
+import styles from "../styles";
+import Colors from "../../constants/Colors";
 import DividerOr from "../../components/Divider";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import CustomButton from "../../components/Custombutton";
 import Socials from "../../components/Socials";
 import TandC from "../../components/TandC";
-import Colors from "../../constants/Colors";
-import styles from "../styles";
-import Authstyles from "./authStyle";
+import React from "react";
+import { useState } from "react";
+import axios from "axios";
+import { IconSymbol } from "@/components/IconSymbol";
 
-import API from "@/lib/api";
-// import AsyncStorage from "@react-native-async-storage/async-storage"; // Optional for token storage
+// You can configure the baseURL as needed
+const API = axios.create({
+  baseURL: "https://your-api-base-url.com", // Replace with your actual API base URL
+});
 
-const LoginScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      setError("Please fill in all fields");
-      return;
+
+const signUpScreen = () => {
+  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [error, setError] = useState<string | null>('');
+
+
+// this is what ebube has changed. he added authentication function. check the onpress? login.
+// for usestate hooks, check onChageText in email and passsword
+    const handleAuth = async()=>{
+      if(!email || !password ){
+        setError("Please fill in all fields")
+      }
+       try {
+      const res = await API.post('/signup', { email, password });
+      setMessage('Signup successful! You can now log in.');
+      router.navigate('/login');
+    } catch (err) {
+      let errorMsg = "An error occurred";
+      if (axios.isAxiosError(err)) {
+        errorMsg = err.response?.data?.message || err.message;
+      } else if (err instanceof Error) {
+        errorMsg = err.message;
+      }
+      setMessage(`Signup failed: ${errorMsg}`);
     }
-
-    setError("");
-
-    try {
-      const res = await API.post("/users/login", { email, password });
-
-      // Optional: Save token to AsyncStorage
-      // await AsyncStorage.setItem("token", res.data.token);
-
-      console.log("Login success:", res.data);
-      router.navigate("/(tabs)/Home");
-    } catch (err: any) {
-      const msg = err?.response?.data?.message || "Login failed. Try again.";
-      setError(msg);
-    }
-  };
-
+     };
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -58,6 +65,7 @@ const LoginScreen = () => {
         keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 20}
       >
         <ScrollView
+          
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
         >
@@ -77,7 +85,6 @@ const LoginScreen = () => {
             Welcome to SplitSmart Let’s show you how you can split bill NOT
             friendship
           </Text>
-
           <Text
             style={{
               textAlign: "center",
@@ -89,10 +96,12 @@ const LoginScreen = () => {
           >
             LOGIN
           </Text>
-
           <View style={Authstyles.secondaryContainer}>
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Email Address</Text>
+              <View style={Authstyles.inputRow}>
+              <IconSymbol name ="mail" size={20} color={Colors.white} style={{marginRight: 10}} />
+
               <TextInput
                 keyboardType="email-address"
                 autoCapitalize="none"
@@ -102,12 +111,15 @@ const LoginScreen = () => {
                 onChangeText={setEmail}
                 style={Authstyles.txtfieldInput}
               />
+              </View>
             </View>
 
             <View style={Authstyles.fieldContainer}>
               <Text style={Authstyles.fieldText}>Password</Text>
+             <View style={Authstyles.inputRow}>
+              <IconSymbol name="eye.slash" size={20} color={Colors.white} style={{marginRight: 10}} />
               <TextInput
-                secureTextEntry
+                secureTextEntry={true}
                 placeholder="Enter your password"
                 placeholderTextColor={Colors.white}
                 onChangeText={setPassword}
@@ -131,34 +143,43 @@ const LoginScreen = () => {
                 }}
               />
             </View>
+                {/* i added this error to display any error on screen */}
+            {error && <Text style={{color: "red"}}> {error} </Text> }
 
-            <Text
-              style={{
-                color: Colors.text_Light,
-                fontFamily: "PoppinsRegular",
-                fontSize: 16,
-                textAlign: "center",
-              }}
-            >
-              Not a Registered User yet?{" "}
+
+          <View>
+            <CustomButton text={"LOGIN"} onPress={handleAuth} />
+          </View>
+          
+          
+            <View style={{ marginVertical: 10 ,marginTop: 20}}>
               <Text
                 style={{
-                  color: "black",
-                  fontSize: 20,
-                  fontFamily: "PoppinsBold",
-                  fontWeight: "400",
+                  color: Colors.text_Light,
+                  fontFamily: "PoppinsRegular",
+                  fontSize: 16,
+                  textAlign: "center",
                 }}
-                onPress={() => router.navigate("/signUp")}
+              >Not a Registered User yet?{" "}
+              <Text
+                style={{
+                  color: "black",fontSize:20,fontFamily: "PoppinsBold",fontWeight:400,
+                }}
+                onPress={() => {
+                  router.navigate("/signUp");
+                }}
               >
                 Sign Up
               </Text>
-            </Text>
-          </View>
+              </Text>
 
-          <View style={{ marginTop: 10, marginBottom: 10 }}>
+            </View>
+          </View>
+          <View style={{  marginTop: 10 , marginBottom: 10 }}>
             <DividerOr />
-          </View>
-
+       
+         </View>
+         <View>
           <Socials />
 
           <View style={{ marginVertical: 10, marginTop: 20 }}>
@@ -191,5 +212,4 @@ const LoginScreen = () => {
     </SafeAreaView>
   );
 };
-
-export default LoginScreen;
+export default signUpScreen;

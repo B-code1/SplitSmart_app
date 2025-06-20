@@ -1,23 +1,12 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  Modal,
-  Pressable,
-  Button,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, SafeAreaView, ScrollView,Modal,Pressable, Button } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../constants/Colors";
+import Colors from "../../constants/Colors"; 
 import { router } from "expo-router";
 
 export default function Home() {
   const [menuVisible, setMenuVisible] = React.useState(false);
-
+  
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -29,23 +18,12 @@ export default function Home() {
         />
       </View>
       <Text style={styles.welcomeText}>
-        Welcome to SplitSmart! Lets show you how you can split bill NOT
-        friendship.
+        Welcome to SplitSmart! Let's show you how you can split bill NOT friendship.
       </Text>
       <View style={styles.headerIcons}>
-        <Ionicons
-          name="notifications-outline"
-          size={22}
-          color="#fff"
-          style={styles.headerIcon}
-        />
-        <TouchableOpacity onPress={() => setMenuVisible(true)}>
-          <Ionicons
-            name="menu-outline"
-            size={22}
-            color="#fff"
-            style={styles.headerIcon}
-          />
+        <Ionicons name="notifications-outline" size={22} color="#fff" style={styles.headerIcon} />
+         <TouchableOpacity onPress={() => setMenuVisible(true)}>
+          <Ionicons name="menu-outline" size={22} color="#fff" style={styles.headerIcon} />
         </TouchableOpacity>
       </View>
 
@@ -53,9 +31,7 @@ export default function Home() {
       <View style={styles.groupCard}>
         <View style={styles.groupProfile}>
           <View style={styles.groupProfileImage}>
-            <Text style={styles.groupProfileImageText}>
-              Group{"\n"}Profile{"\n"}Image
-            </Text>
+            <Text style={styles.groupProfileImageText}>Group{"\n"}Profile{"\n"}Image</Text>
           </View>
         </View>
         <View style={{ flex: 1, marginLeft: 12 }}>
@@ -64,11 +40,12 @@ export default function Home() {
         <TouchableOpacity>
           <Ionicons name="create-outline" size={22} color="#222" />
         </TouchableOpacity>
+        
       </View>
 
       {/* Create Group */}
       <TouchableOpacity onPress={() => router.navigate("/(tabs)/groups")}>
-        <Text style={styles.sectionTitle}>Create Group</Text>
+      <Text style={styles.sectionTitle}>Create Group</Text>
       </TouchableOpacity>
 
       {/* Circle Image */}
@@ -80,20 +57,21 @@ export default function Home() {
       </View>
 
       {/* Quick Settings and Activity */}
-      <Text style={styles.quickText}>Access Quick Settings</Text>
+      <Text style={styles.quickText} >
+    
+      Access Quick Settings</Text>
       <Text style={styles.quickText}>View Recent Activity</Text>
 
       {/* Send Payment */}
       <Text style={styles.sectionTitle}>Send Payment</Text>
       <View style={styles.buttonRow}>
-        <TouchableOpacity
-          style={styles.actionButton}
+        <TouchableOpacity style={styles.actionButton}
           onPress={() => router.push("../../(payments)/send")}
         >
-          <Text style={styles.actionButtonText}>Send Payment</Text>
+          <Text style={styles.actionButtonText}
+          >Send Payment</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.actionButton}
+        <TouchableOpacity style={styles.actionButton}
           onPress={() => router.push("../../payment")}
         >
           <Text style={styles.actionButtonText}>Create Bill</Text>
@@ -110,61 +88,57 @@ export default function Home() {
             <Text style={styles.menuItem}>Profile Information</Text>
 
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setMenuVisible(false);
-                  router.push("/settings");
-                }}
-              >
-                <Text style={styles.menuItem}> Account Settings</Text>
+              <TouchableOpacity onPress={() => {
+                setMenuVisible(false);
+                router.push("/settings");
+              }}>
+              <Text style={styles.menuItem}> Account Settings</Text>
               </TouchableOpacity>
             </View>
-
+            
             <Text style={styles.menuItem}>Payment Method</Text>
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setMenuVisible(false);
-                  router.push("/help");
-                }}
-              >
-                <Text style={styles.menuItem}>Help & Support</Text>
+              <TouchableOpacity onPress={() => {
+                setMenuVisible(false);
+                router.push("/help");
+              }}>
+              <Text style={styles.menuItem}>Help & Support</Text>
+              </TouchableOpacity>
+
+            </View> 
+            <View>
+              <TouchableOpacity onPress={() => {
+                setMenuVisible(false);
+                router.push("/invitefriends");
+              }}>
+              <Text style={styles.menuItem}>Invite Friends</Text>
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setMenuVisible(false);
-                  router.push("/invitefriends");
-                }}
-              >
-                <Text style={styles.menuItem}>Invite Friends</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setMenuVisible(false);
-                  router.push("/feedback");
-                }}
-              >
-                <Text style={styles.menuItem}>FeedBack</Text>
+              <TouchableOpacity onPress={() => {
+                setMenuVisible(false);
+                router.push("/feedback");
+              }}>
+              <Text style={styles.menuItem}>FeedBack</Text>
               </TouchableOpacity>
             </View>
 
+
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setMenuVisible(false);
-                  router.push("/logout");
-                }}
-              >
-                <Text style={styles.menuItem}>Logout</Text>
+              <TouchableOpacity onPress={() => {
+                setMenuVisible(false);
+                router.push("/logout");
+              }}>
+              <Text style={styles.menuItem}>Logout</Text>
               </TouchableOpacity>
             </View>
+            
           </View>
         </Pressable>
       </Modal>
+    
+      
+     
     </SafeAreaView>
   );
 }
@@ -296,7 +270,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 15,
   },
-  overlay: {
+   overlay: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.2)",
     justifyContent: "flex-start",
