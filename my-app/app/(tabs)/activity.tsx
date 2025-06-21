@@ -143,7 +143,7 @@ export default function ActivityScreen({ navigation }: any) {
               </View>
               <TouchableOpacity onPress={() => toggleVisibility(idx)}>
                 <Ionicons
-                  name={visibleCards[idx] ? "eye-off-outline" : "eye-outline"}
+                  name={visibleCards[idx] ?  "eye-outline" : "eye-off-outline"}
                   size={22}
                   color="#222"
                 />

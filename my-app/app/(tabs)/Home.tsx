@@ -42,12 +42,14 @@ export default function HomeScreen() {
 
       {/* Group Image */}
       <View style={styles.ovalActionsRow}>
-  <View >
+  <View  style={styles.ovalImageWrapper}>
+    <View style={styles.ovalImageTrue}>
     <Image
       source={require("../../assets/images/home.png")} // Replace with your image path
-      style={styles.ovalImageTrue}
+      style={{width: 200, height: 270, borderRadius: 115, }}
       resizeMode="cover"
     />
+    </View>
   </View>
   <View style={styles.ovalActionsList}>
     <TouchableOpacity onPress={() => router.navigate("/")}>
@@ -257,20 +259,20 @@ ovalImageWrapper: {
   marginRight: 8,
 },
 ovalImageTrue: {
-  width: 160,
+  width: 200,
   height: 270,
   borderRadius: 115, // half of height for perfect oval
   overflow: "hidden",
-  backgroundColor: "#fff",
+  backgroundColor: "#ddd",  
   shadowColor: "#000",
-  shadowOffset: { width: 0, height: 2 },
+  shadowOffset: { width: 2, height: 2 },
   shadowOpacity: 0.15,
-  shadowRadius: 6,
-  elevation: 3,
+  shadowRadius: 8,
+  elevation: 5,
 },
 ovalImage: {
   width: 160,
-  height: 290,
+  height: 270,
 },
 
 ovalActionsList: {
@@ -278,9 +280,9 @@ ovalActionsList: {
   justifyContent: "space-between",
   alignItems: "flex-start",
   height: 290,
-  marginLeft: 8,
+  marginLeft: 2,
   paddingVertical: 0,
-  padding: 6,
+  padding: 4,
 },
 ovalActionText: {
   fontSize: 16,
