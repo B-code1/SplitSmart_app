@@ -21,52 +21,54 @@ const API = axios.create({
 
 export default function SignUpScreen({ navigation }: any) {
   const [showPassword, setShowPassword] = useState(false);
-  const [form, setForm] = useState({ username: '', email: '', password: '' });
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
   //const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const handleSignUp = async () => {
     if (!form.username || !form.email || !form.password) {
       setError("Please fill in all fields.");
       return;
     }
-   
-    
+
     // Handle sign up logic here
-   // console.log("Sign Up Successful", form);
-   // navigation.navigate("Home");
+    // console.log("Sign Up Successful", form);
+    // navigation.navigate("Home");
     //setError(''); // Clear error on success
-      try {
-          const res = await API.post('api/users/register', form);
-          Alert.alert('Success', 'Registration successful!');
-          router.navigate("/Home");
-        } catch (err) {
-  console.error("Signup error:", err);
-  if (err && typeof err === "object" && "response" in err) {
-    // @ts-ignore
-    setError(err.response?.data?.message || 'Signup failed');
-    // @ts-ignore
-    console.log("API error:", err.response?.data);
-  } else {
-    setError('Signup failed');
-  }
-}
+    try {
+      const res = await API.post("api/users/register", form);
+      Alert.alert("Success", "Registration successful!");
+      router.navigate("/Home");
+    } catch (err) {
+      console.error("Signup error:", err);
+      if (err && typeof err === "object" && "response" in err) {
+        // @ts-ignore
+        setError(err.response?.data?.message || "Signup failed");
+        // @ts-ignore
+        console.log("API error:", err.response?.data);
+      } else {
+        setError("Signup failed");
+      }
+    }
   };
 
   return (
-    <LinearGradient
-      colors={["#2196f3", "#81d4fa"]}
-      style={styles.gradientBg}
-    >
+    <LinearGradient colors={["#2196f3", "#81d4fa"]} style={styles.gradientBg}>
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           {/* Logo and Title */}
           <View>
             <Image
               source={require("../../assets/images/Logo.png")}
-              style={{ width: 100, height: 100, alignSelf: "center", marginTop: 20 }} />
+              style={{
+                width: 100,
+                height: 100,
+                alignSelf: "center",
+                marginTop: 20,
+              }}
+            />
           </View>
-            
+
           <Text style={styles.getStarted}>GET STARTED</Text>
 
           {/* Form Card */}
@@ -132,20 +134,20 @@ export default function SignUpScreen({ navigation }: any) {
             </TouchableOpacity>
             {/* Sign Up Button */}
             {error ? (
-  <Text style={{ color: "red", textAlign: "center", marginBottom: 8 }}>
-    {error}
-  </Text>
-) : null}
-            <TouchableOpacity style={styles.signUpBtn}
-              onPress={handleSignUp}>
+              <Text
+                style={{ color: "red", textAlign: "center", marginBottom: 8 }}
+              >
+                {error}
+              </Text>
+            ) : null}
+            <TouchableOpacity style={styles.signUpBtn} onPress={handleSignUp}>
               <LinearGradient
                 colors={["#FFD600", "#2196f3"]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 0 }}
                 style={styles.signUpBtnInner}
               >
-                <Text style={styles.signUpText}
-                >SIGN UP</Text>
+                <Text style={styles.signUpText}>SIGN UP</Text>
               </LinearGradient>
             </TouchableOpacity>
             {/* Or Divider */}
@@ -170,7 +172,9 @@ export default function SignUpScreen({ navigation }: any) {
             {/* Already have account */}
             <View style={styles.bottomRow}>
               <Text style={styles.haveAccount}>Already Have An Account?</Text>
-              <TouchableOpacity onPress={() => navigation?.navigate?.("SignIn")}>
+              <TouchableOpacity
+                onPress={() => navigation?.navigate?.("SignIn")}
+              >
                 <Text style={styles.signInText}> Sign In</Text>
               </TouchableOpacity>
             </View>
