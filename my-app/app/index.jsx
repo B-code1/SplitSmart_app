@@ -72,12 +72,12 @@ const Index = () => {
       style={{ flex: 1 }}
     >
       <SafeAreaView style={styles.safeArea}>
-        {/* Header with Skip button */}
+        {/* Header with Skip button
         <View style={styles.header}>
           <TouchableOpacity onPress={skipOnboarding}>
             <Text style={styles.skipText}>Skip</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Main Content */}
         <View style={styles.content}>
