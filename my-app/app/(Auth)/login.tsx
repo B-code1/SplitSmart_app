@@ -41,10 +41,16 @@ export default function LoginScreen({ navigation }: any) {
           const res = await API.post('api/users/login', { email, password });
     
           const token = res.data.token;
-          await AsyncStorage.setItem("token", token);
+
+         
+          
     
           Alert.alert("Success", "Login successful!");
           router.navigate("/(tabs)/Home");
+          // Optionally, you can store the token in AsyncStorage for future use
+          // await AsyncStorage.setItem('token', token);
+          
+         await AsyncStorage.setItem('userToken', token);
           console.log(`Login successful! Token: ${token}`);
         } catch (err) {
           if (err instanceof AxiosError) {
@@ -114,7 +120,7 @@ export default function LoginScreen({ navigation }: any) {
                   onPress={() => setShowPassword((v) => !v)}
                 >
                   <Ionicons
-                    name={showPassword ? "eye-off-outline" : "eye-outline"}
+                    name={showPassword ?   "eye-outline" : "eye-off-outline"}
                     size={22}
                     color="#222"
                   />

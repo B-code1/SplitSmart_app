@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons, MaterialIcons, FontAwesome } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 const FILTERS = ["All", "Payment", "Bills", "Groups"];
 
@@ -71,7 +72,7 @@ export default function ActivityScreen({ navigation }: any) {
     <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation?.goBack?.()}>
+        <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Activity</Text>
@@ -168,18 +169,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 70,
+    
+    backgroundColor: "#F3F9FD",
     justifyContent: "space-between",
     borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: "600",
     color: "#000",
     textAlign: "center",
+    fontFamily: "Inter_600SemiBold",
   },
   filtersRow: {
     flexDirection: "row",

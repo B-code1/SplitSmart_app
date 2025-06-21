@@ -86,7 +86,7 @@ marginLeft:24
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.buttonShadow}>
           <LinearGradient
-            colors={["#4fc3f7", "#ffe082"]}
+            colors={["#3498DB", "#F1C40F"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.button}
@@ -96,7 +96,7 @@ marginLeft:24
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonShadow}>
           <LinearGradient
-            colors={["#4fc3f7", "#ffe082"]}
+            colors={["#3498DB", "#F1C40F"]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 1 }}
             style={styles.button}

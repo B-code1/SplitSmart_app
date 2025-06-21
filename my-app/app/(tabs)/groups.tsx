@@ -18,6 +18,7 @@ import { router } from "expo-router";
 export default function Home() {
   const [menuVisible, setMenuVisible] = React.useState(false);
 
+  
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -28,80 +29,30 @@ export default function Home() {
         <Text style={styles.headerTitle}>Create A Group</Text>
         <View style={{ width: 24 }} />
       </View>
-
-      <TouchableOpacity
-        style={styles.grpContainer}
-        onPress={() => {
-          router.navigate("/create");
-        }}
-      >
-        <View>
-          <View style={styles.innergrpContainer}>
-            <Ionicons
-              name="add"
-              size={30}
-              color="black"
-              style={styles.innerIcon}
-            />
-            <Text style={styles.innerTxt}>Create New Group</Text>
-          </View>
-        </View>
+      {/* Group Options */}
+       <View style={styles.content}>
+      <TouchableOpacity style={styles.actionBtn} onPress={() => router.push("/(Group)/create")}>
+        <Ionicons name="add" size={26} color="#222" style={styles.icon} />
+        <Text style={styles.actionText}>Create New Group</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.grpContainer}
-        onPress={() => {
-          router.navigate("/join");
-        }}
-      >
-        <View>
-          <View style={styles.innergrpContainer}>
-            <Ionicons
-              name="people"
-              size={30}
-              color="black"
-              style={styles.innerIcon}
-            />
-            <Text style={styles.innerTxt}>Join Group</Text>
-          </View>
-        </View>
+      <TouchableOpacity style={styles.actionBtn} onPress={() => router.push("/(Group)/join")}>
+        <Ionicons name="people-outline" size={24} color="#222" style={styles.icon} />
+        <Text style={styles.actionText}>Join Group</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.grpContainer}
-        onPress={() => {
-          router.navigate("/viewGroup");
-        }}
-      >
-        <View>
-          <View style={styles.innergrpContainer}>
-            <Ionicons
-              name="eye-outline"
-              size={30}
-              color="black"
-              style={styles.innerIcon}
-            />
-            <Text style={styles.innerTxt}>View Group details </Text>
-          </View>
-        </View>
+      <TouchableOpacity style={styles.actionBtn} onPress={() => router.push("/(Group)/addMember")}>
+        <Ionicons name="eye" size={24} color="#222" style={styles.icon} />
+        <Text style={styles.actionText}>View Group Details</Text>
       </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.grpContainer}
-        onPress={() => {
-          router.navigate("/editGroup");
-        }}
-      >
-        <View>
-          <View style={styles.innergrpContainer}>
-            <Ionicons
-              name="pencil"
-              size={25}
-              color="black"
-              style={styles.innerIcon}
-            />
-            <Text style={styles.innerTxt}>Edit Group</Text>
-          </View>
-        </View>
+      <TouchableOpacity style={styles.actionBtn} onPress={() => router.push("/(Group)/editGroup")}>
+        <Ionicons name="pencil" size={24} color="#222" style={styles.icon} />
+        <Text style={styles.actionText}>Edit Group</Text>
       </TouchableOpacity>
+    </View>
+      
+      
+          
+        
+      
     </SafeAreaView>
   );
 }
@@ -110,28 +61,29 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    paddingTop: 16,
-    alignItems: "center",
+    
+    
   },
 
   header: {
-    flexDirection: "row",
+   flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingBottom: 8,
-    height: "20%",
-    marginBottom: 8,
-    marginTop: 25,
+    paddingHorizontal: 18,
+    paddingTop: 70,
+    
     backgroundColor: "#AFDDFB",
-    borderTopRightRadius: 60,
-    borderTopLeftRadius: 60,
+    justifyContent: "space-between",
+    borderTopLeftRadius: 28,
+    
+    
   },
   headerTitle: {
     flex: 1,
     textAlign: "center",
     fontSize: 24,
     fontWeight: "bold",
-    color: "#222",
+    color: "#000",
+    fontFamily: "Inter_600SemiBold",
   },
   // logo: {
   //   width: 32,
@@ -150,31 +102,38 @@ const styles = StyleSheet.create({
   //   fontFamily: "Inter_500Medium",
   // },
 
-  grpContainer: {
-    backgroundColor: "#FFFFFFF",
-    // borderWidth: 1,
-    width: "90%",
-    height: "10%",
-    borderRadius: 8,
-    alignSelf: "center",
-    marginVertical: 8,
-    borderWidth: 1,
+ 
+  content: {
+    marginTop: 34,
+    width: "100%",
+    alignItems: "center",
+
   },
-  innergrpContainer: {
+  actionBtn: {
     flexDirection: "row",
-    alignSelf: "center",
-    verticalAlign: "middle",
-    marginTop: "5%",
+    alignItems: "center",
+    backgroundColor: "#F3F6F9",
+    borderRadius: 12,
+    paddingVertical: 18,
+    paddingHorizontal: 18,
+    marginBottom: 18,
+    width: "90%",
+    height: 60,
+    shadowColor: "#000",
+    shadowOffset: { width: 2, height: 6 },
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    elevation: 4,
+    padding: 12,
   },
-  innerIcon: {
-    color: " black",
-    alignSelf: "flex-end",
+  icon: {
     marginRight: 16,
-    marginBottom: 8,
-    gap: 12,
   },
-  innerTxt: {
-    fontSize: 20,
-    fontWeight: 600,
+  actionText: {
+    fontSize: 24,
+    color: "#000",
+    fontWeight: "500",
+    fontFamily: "Inter_500Medium",
+    flex: 1,
   },
 });

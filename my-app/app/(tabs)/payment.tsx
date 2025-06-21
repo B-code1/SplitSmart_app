@@ -71,13 +71,13 @@ const styles = StyleSheet.create({
   headerRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     paddingHorizontal: 18,
-    paddingTop: 12,
-    paddingBottom: 18,
-    backgroundColor: "#f6fbff",
-    marginTop: 30,
-    marginBottom: 29,
+    paddingTop: 70,
+    
+    backgroundColor: "#F3F9FD",
+    justifyContent: "space-between",
+    borderTopLeftRadius: 28,
+    
   },
   headerTitle: {
     fontSize: 24,

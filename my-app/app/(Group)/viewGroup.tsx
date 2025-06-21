@@ -164,15 +164,21 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    flexDirection: "row",
+   flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 70,
+    
+    backgroundColor: "#AFDDFB",
     justifyContent: "space-between",
     borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    outlineWidth: 2,
+    outlineColor: "#ccc",
+    shadowColor: "#000",
+    shadowOffset: { width: 3, height: 8 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 4,
   },
   headerTitle: {
     flex: 1,
@@ -182,11 +188,17 @@ const styles = StyleSheet.create({
     color: "#222",
   },
   signUpBtn: {
-    marginTop: 20,
+  justifyContent: "center",
     marginBottom: 10,
     borderRadius: 8,
     overflow: "hidden",
     padding: 20,
+     shadowColor: "#000",
+    shadowOffset: { width: 2, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 7,
+    elevation: 4,
+  
   },
   signUpBtnInner: {
     borderRadius: 8,

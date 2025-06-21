@@ -4,75 +4,31 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
+  TextInput,
   SafeAreaView,
   ScrollView,
-  Modal,
-  Pressable,
-  Button,
-  TextInput,
 } from "react-native";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../constants/Colors";
 import { router } from "expo-router";
-import Authstyles from "../(Auth)/authStyle";
-import CustomButton from "@/components/Custombutton";
-export default function Home() {
-  const [menuVisible, setMenuVisible] = React.useState(false);
 
-  // You can render EditGroupScreen here or elsewhere as needed
-  return <EditGroupScreen />;
-}
+const initialMembers = [
+  { name: "Adeola", initial: "A" },
+  { name: "Promise", initial: "P" },
+  { name: "Sulaimon", initial: "S" },
+];
 
-const EditGroupScreen = () => {
-  const [groupName, setGroupName] = useState(
-    "prefilled with existing group name"
-  );
-  const [groupDescription, setGroupDescription] = useState(
-    "prefilled with existing group description"
-  );
-  const [members, setMembers] = useState([
-    { id: 1, name: "Adaola", avatar: "A", color: "#4A90E2" },
-    { id: 2, name: "Promise", avatar: "P", color: "#4A90E2" },
-    { id: 3, name: "Solomon", avatar: "S", color: "#F39C12" },
-  ]);
+export default function EditGroupScreen({ navigation }: any) {
+  const [groupName, setGroupName] = useState("prefilled with existing group name");
+  const [groupDesc, setGroupDesc] = useState("prefilled with existing group descriptin");
+  const [members, setMembers] = useState(initialMembers);
 
-  const removeMember = (id: number) => {
-    setMembers(members.filter((member) => member.id !== id));
+  const handleRemoveMember = (idx: number) => {
+    setMembers(members.filter((_, i) => i !== idx));
   };
-
-  const addNewMember = () => {
-    // Logic to add new member would go here
-    console.log("Add new member pressed");
-  };
-
-  const saveChanges = () => {
-    // Logic to save changes would go here
-    console.log("Save changes pressed");
-  };
-
-  type Member = { id: number; name: string; avatar: string; color: string };
-
-  const renderMember = (member: Member) => (
-    <View key={member.id} style={styles.memberRow}>
-      <View style={styles.memberInfo}>
-        <View style={[styles.avatar, { backgroundColor: member.color }]}>
-          <Text style={styles.avatarText}>{member.avatar}</Text>
-        </View>
-        <Text style={styles.memberName}>{member.name}</Text>
-      </View>
-      <TouchableOpacity onPress={() => removeMember(member.id)}>
-        <Ionicons name="trash-outline" size={20} color="#666" />
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* <StatusBar barStyle="dark-content" backgroundColor="#E3F2FD" /> */}
-
-      {/* Header */}
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={24} color="#222" />
@@ -80,231 +36,223 @@ const EditGroupScreen = () => {
         <Text style={styles.headerTitle}>Edit Group</Text>
         <View style={{ width: 24 }} />
       </View>
-
-      <ScrollView style={styles.content}>
-        {/* Group Image */}
-        <View style={styles.imageSection}>
-          <View style={styles.imagePlaceholder}>
-            <Ionicons name="camera" size={30} color="#999" />
+      <ScrollView contentContainerStyle={{ alignItems: "center", paddingBottom: 30 }}>
+        {/* Avatar with camera icon */}
+        <View style={styles.avatarWrapper}>
+          <View style={styles.avatarCircle}>
+            <Ionicons name="camera-outline" size={28} color="#222" style={styles.cameraIcon} />
           </View>
         </View>
-
         {/* Group Name */}
-        <View style={styles.inputSection}>
-          <View style={styles.inputHeader}>
-            <Text style={styles.inputLabel}>Group Name</Text>
-            <TouchableOpacity>
-              <Ionicons name="pencil" size={18} color="#666" />
-            </TouchableOpacity>
-          </View>
+        <Text style={styles.label}>Group Name</Text>
+        <View style={styles.inputRow}>
           <TextInput
-            style={styles.textInput}
+            style={styles.input}
             value={groupName}
             onChangeText={setGroupName}
-            placeholder="Enter group name"
           />
+          <TouchableOpacity>
+            <MaterialIcons name="edit" size={22} color="#888" />
+          </TouchableOpacity>
         </View>
-
         {/* Group Description */}
-        <View style={styles.inputSection}>
-          <View style={styles.inputHeader}>
-            <Text style={styles.inputLabel}>Group Description</Text>
-            <TouchableOpacity>
-              <Ionicons name="pencil" size={18} color="#666" />
-            </TouchableOpacity>
-          </View>
+        <Text style={styles.label}>Group Description</Text>
+        <View style={styles.inputRow}>
           <TextInput
-            style={styles.textInput}
-            value={groupDescription}
-            onChangeText={setGroupDescription}
-            placeholder="Enter group description"
-            multiline
+            style={styles.input}
+            value={groupDesc}
+            onChangeText={setGroupDesc}
           />
+          <TouchableOpacity>
+            <MaterialIcons name="edit" size={22} color="#888" />
+          </TouchableOpacity>
         </View>
-
         {/* Members */}
-        <View style={styles.membersSection}>
-          <Text style={styles.membersTitle}>Members</Text>
-          {members.map(renderMember)}
-
-          {/* Add New Member Button */}
-          <TouchableOpacity
-            style={styles.addMemberButton}
-            onPress={() => router.navigate("/addMember")}
-          >
-            <Ionicons name="add" size={20} color="#4A90E2" />
+        <Text style={styles.label}>Members</Text>
+        <View style={{ width: "100%", paddingHorizontal: 30 }}>
+          {members.map((member, idx) => (
+            <View key={idx} style={styles.memberRow}>
+              <View style={styles.memberAvatar}>
+                <Text style={styles.memberInitial}>{member.initial}</Text>
+              </View>
+              <Text style={styles.memberName}>{member.name}</Text>
+              <TouchableOpacity onPress={() => handleRemoveMember(idx)}>
+                <Ionicons name="trash-outline" size={22} color="#888" />
+              </TouchableOpacity>
+            </View>
+          ))}
+          {/* Add new member */}
+          <TouchableOpacity style={styles.addMemberRow} onPress={() => router.navigate("/(Group)/addMember")}>
+            <Ionicons name="add" size={22} color="#3498DB" />
             <Text style={styles.addMemberText}>Add new member</Text>
           </TouchableOpacity>
         </View>
+        {/* Save Changes Button */}
+        <TouchableOpacity style={styles.saveBtn}>
+          <LinearGradient
+            colors={["#FFD600", "#2196f3"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.saveBtnInner}
+          >
+            <Text style={styles.saveBtnText}>Save Changes</Text>
+          </LinearGradient>
+        </TouchableOpacity>
       </ScrollView>
-
-      <TouchableOpacity
-        style={styles.signUpBtn}
-        onPress={() => router.navigate("/Home")}
-      >
-        <LinearGradient
-          colors={["#FFD600", "#2196f3"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.signUpBtnInner}
-        >
-          <Text style={styles.signUpText}>Save Changes</Text>
-        </LinearGradient>
-      </TouchableOpacity>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-    paddingTop: 16,
-    alignItems: "center",
-  },
-  Downcontainer: {
-    backgroundColor: "#f5f5f5",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: "#e0e0e0",
-    padding: 12,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
   header: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 70,
+    
+    backgroundColor: "#AFDDFB",
     justifyContent: "space-between",
     borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+    outlineWidth: 2,
+    outlineColor: "#ccc",
+    shadowColor: "#000",
+    shadowOffset: { width: 3, height: 8 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 4,
+
   },
   headerTitle: {
     flex: 1,
     textAlign: "center",
     fontSize: 24,
     fontWeight: "bold",
-    color: "#222",
+    color: "#000",
   },
-  signUpBtn: {
-    marginTop: 20,
-    marginBottom: 10,
-    borderRadius: 8,
-    overflow: "hidden",
-    width: "80%",
-    // padding: 20,
+  avatarWrapper: {
+    alignItems: "center",
+    marginVertical: 18,
   },
-  signUpBtnInner: {
-    borderRadius: 8,
-    paddingVertical: 12,
+  avatarCircle: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    borderWidth: 1,
+    borderColor: "#000",
+    backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 4,
   },
-  signUpText: {
-    color: "#222",
-    fontWeight: "bold",
-    fontSize: 28,
-    letterSpacing: 1,
+  cameraIcon: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 2,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
   },
-  membersSection: {
-    marginBottom: 20,
+  label: {
+    color: "#000",
+    fontSize: 24,
+    fontWeight: "400",
+    marginTop: 12,
+    marginBottom: 6,
+    marginLeft: 30,
+    alignSelf: "flex-start",
+    letterSpacing: 0.5,
+    fontFamily: "Inter_400Regular",
   },
-  membersTitle: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-    marginBottom: 16,
+  inputRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#F3F9FD",
+    borderRadius: 10,
+    marginHorizontal: 30,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 3, height: 5 },
+    shadowOpacity: 0.10,
+    shadowRadius: 4,
+    elevation: 6,
+  },
+  input: {
+    flex: 1,
+    height: 48,
+    fontSize: 15,
+    color: "#000",
+    backgroundColor: "transparent",
+    fontWeight: "300",
+    fontFamily: "Inter_300Light",
   },
   memberRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#F0F0F0",
+    marginBottom: 10,
+    backgroundColor: "transparent",
   },
-  memberInfo: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  avatar: {
+  memberAvatar: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    justifyContent: "center",
+    backgroundColor: "#5DADE2",
     alignItems: "center",
+    justifyContent: "center",
     marginRight: 12,
   },
-  avatarText: {
+  memberInitial: {
     color: "#fff",
-    fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "bold",
+    fontSize: 18,
   },
   memberName: {
+    flex: 1,
     fontSize: 16,
-    color: "#333",
+    color: "#000",
+    fontWeight: "400",
   },
-  addMemberButton: {
+  addMemberRow: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 12,
     marginTop: 8,
+    marginBottom: 18,
+    marginLeft: 2,
   },
   addMemberText: {
+    color: "#3498DB",
+    fontWeight: "bold",
     fontSize: 16,
-    color: "#4A90E2",
-    marginLeft: 8,
+    marginLeft: 6,
   },
-  bottomSection: {
-    padding: 16,
-    borderTopWidth: 1,
-    borderTopColor: "#E0E0E0",
+  saveBtn: {
+    width: "85%",
+    alignSelf: "center",
+    borderRadius: 10,
+    overflow: "hidden",
+    marginTop: 18,
   },
-  content: {
-    flex: 1,
-    padding: 16,
-  },
-  imageSection: {
+  saveBtnInner: {
+    borderRadius: 10,
+    paddingVertical: 13,
     alignItems: "center",
-    marginBottom: 30,
-  },
-  imagePlaceholder: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: "#F5F5F5",
-    borderWidth: 2,
-    borderColor: "#E0E0E0",
-    borderStyle: "dashed",
     justifyContent: "center",
-    alignItems: "center",
   },
-  inputSection: {
-    marginBottom: 24,
-  },
-  inputHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  inputLabel: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#333",
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: "#E0E0E0",
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 12,
-    fontSize: 14,
-    color: "#666",
-    backgroundColor: "#F9F9F9",
+  saveBtnText: {
+    color: "#000",
+    fontWeight: "bold",
+    fontSize: 20, 
+    letterSpacing: 1,
+    fontFamily: "Inter_700Bold",
   },
 });

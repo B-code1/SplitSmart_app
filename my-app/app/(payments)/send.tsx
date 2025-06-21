@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView, Modal, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from 'expo-linear-gradient';
-
+import { router } from "expo-router";
 const paymentsToday = [
   { id: 1, name: "Sulaimon O (You)", owes: true, amount: "2,500" },
   { id: 2, name: "Adeola B (You)", owes: false, amount: "2,500" },
@@ -19,7 +19,8 @@ export default function SendPaymentScreen() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.headerRow}>
-        <TouchableOpacity>
+        <TouchableOpacity 
+          onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Send Payment</Text>
@@ -151,13 +152,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   headerRow: {
-    flexDirection: "row",
+   flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 55,
+    paddingTop: 70,
+    
     backgroundColor: "#F3F9FD",
+    justifyContent: "space-between",
+    borderTopLeftRadius: 28,
   },
   header:{
     flexDirection: "row", 

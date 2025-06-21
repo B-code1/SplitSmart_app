@@ -15,9 +15,33 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 import { router } from "expo-router";
-import Authstyles from "../(Auth)/authStyle";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from "react-native";
 export default function Home() {
   const [menuVisible, setMenuVisible] = React.useState(false);
+  const BASE_URL = 'https://splitsmart-project.onrender.com/'; 
+  
+  const [groupName, setGroupName] = useState('');
+  const [expectedAmount, setExpectedAmount] = useState('');
+  const [groupImage, setGroupImage] = useState(null);
+
+  const handleNext = () => {
+  if (!groupName) {
+    Alert.alert("Please enter a group name");
+    return;
+  }
+  router.navigate({
+    pathname: "/addMember",
+    params: {
+      groupName,
+      amount: expectedAmount,
+      groupImage: groupImage ?? "",
+    },
+  });
+};
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -45,38 +69,31 @@ export default function Home() {
       </View>
 
       {/* Avatar */}
-      <View style={{ width: "80%", marginVertical: 10 }}>
-        <Text style={{ fontSize: 18, fontWeight: 500, marginVertical: 10 }}>
-          Group Name
-        </Text>
-        <TextInput
-          placeholder="e.g, beach, class dues "
-          placeholderTextColor={"black"}
-          style={{
-            height: 50,
-            backgroundColor: "#F3F9FD",
-            borderRadius: 8,
-            borderWidth: 1,
-            padding: 10,
-          }}
-        />
-      </View>
-      <View style={{ width: "80%" }}>
-        <Text style={{ fontSize: 18, fontWeight: 500, marginVertical: 10 }}>
-          Expected Amount Per Person
-        </Text>
-        <TextInput
-          placeholder="N 0.00 "
-          placeholderTextColor={"black"}
-          style={{
-            height: 50,
-            backgroundColor: "#F3F9FD",
-            borderRadius: 8,
-            borderWidth: 1,
-            padding: 10,
-          }}
-        />
-      </View>
+   
+<View style={{ width: "90%", marginBottom: 18 }}>
+  <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 8 }}>
+    Group Name
+  </Text>
+  <TextInput
+    placeholder="e.g, beach, class dues..."
+    placeholderTextColor="#8a8a8a"
+    style={styles.inputBox}
+  />
+</View>
+<View style={{ width: "90%", marginBottom: 18 }}>
+  <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 8 }}>
+    Expected Amount Per Person
+  </Text>
+  <TextInput
+    placeholder="₦0.00"
+    placeholderTextColor="#8a8a8a"
+    style={styles.inputBox}
+    keyboardType="numeric"
+    onChangeText={(text) => setExpectedAmount(text)}
+
+  />
+
+</View>
       <TouchableOpacity
         style={styles.grpContainer}
         onPress={() => {
@@ -91,7 +108,7 @@ export default function Home() {
               color="#3498DB"
               style={styles.innerIcon}
             />
-            <Text style={styles.innerTxt}>Create New Group</Text>
+            <Text style={styles.innerTxt}>Add  Group Members</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -103,20 +120,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    paddingTop: 16,
     alignItems: "center",
+   
   },
 
   header: {
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 70,
+    
+    backgroundColor: "#AFDDFB",
     justifyContent: "space-between",
     borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+     outlineWidth: 2,
+    outlineColor: "#ccc",
+    shadowColor: "#000",
+    shadowOffset: { width: 3, height: 8 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 4,
+    
   },
   headerTitle: {
     flex: 1,
@@ -133,31 +157,56 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "white",
+    marginTop: 20,
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 2,
+
     // alignItems: "center",
   },
   grpContainer: {
-    backgroundColor: "#FFFFFFF",
-    // borderWidth: 1,
-
+    width: "90%",
+    backgroundColor: "#fff",
     borderRadius: 8,
-    alignSelf: "center",
-    marginVertical: 40,
+    borderWidth: 1,
+    borderColor: "#fff",
+    padding: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    marginVertical: 10,
+
   },
   innergrpContainer: {
     flexDirection: "row",
-    alignSelf: "center",
-    verticalAlign: "middle",
-    marginTop: "5%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   innerIcon: {
-    alignSelf: "flex-end",
-    marginRight: 16,
-    marginBottom: 8,
-    gap: 12,
+    marginRight: 10,
   },
   innerTxt: {
-    fontSize: 20,
-    fontWeight: 600,
+    fontSize: 24,
     color: "#3498DB",
+    fontWeight: "500",
+    fontFamily: "Inter_600SemiBold",
   },
+  inputBox: {
+  height: 50,
+  backgroundColor: "#F3F9FD",
+  borderRadius: 12,
+  borderWidth: 0,
+  paddingHorizontal: 16,
+  fontSize: 17,
+  fontWeight: "500",
+  color: "#222",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.08,
+  shadowRadius: 6,
+  elevation: 2,
+  marginBottom: 4,
+},
 });

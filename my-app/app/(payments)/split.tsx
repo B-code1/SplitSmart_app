@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-
+import { router } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
 const TABS = ["All", "Sent", "Received", "Pending"];
 
 const payments = [
@@ -67,7 +68,8 @@ export default function SplitPaymentScreen() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.headerRow}>
-        <TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Split Payment</Text>
@@ -145,17 +147,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffff",
   },
   headerRow: {
-    flexDirection: "row",
+   flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
+    paddingTop: 70,
     
-  
-    backgroundColor: "#D9F0FF",
-    marginTop:  0,
-    
+    backgroundColor: "#F3F9FD",
+    justifyContent: "space-between",
+    borderTopLeftRadius: 28,
     
   },
   headerTitle: {
