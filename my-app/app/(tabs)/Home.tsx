@@ -41,16 +41,42 @@ export default function HomeScreen() {
 </View>
 
       {/* Group Image */}
-      <View style={styles.actionsRow}>
-  <Image
-    source={{ uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" }}
-    style={styles.ovalImage}
-  />
-  <View style={styles.actionsList}>
-    <Text style={styles.actionText}>Create Group</Text>
-    <Text style={styles.actionText}>Access Quick Settings</Text>
-    <Text style={styles.actionText}>View Recent Activity</Text>
-    <Text style={styles.actionText}>Send Payment</Text>
+      <View style={styles.ovalActionsRow}>
+  <View >
+    <Image
+      source={require("../../assets/images/home.png")} // Replace with your image path
+      style={styles.ovalImageTrue}
+      resizeMode="cover"
+    />
+  </View>
+  <View style={styles.ovalActionsList}>
+    <TouchableOpacity onPress={() => router.navigate("/")}>
+    <Text style={{color:"#000", fontFamily:"inter",
+fontSize: 18, fontWeight: "bold", marginBottom: 18, textAlign: "left" ,
+
+    }}>Create Group</Text>
+    </TouchableOpacity>
+    <TouchableOpacity onPress={() => router.navigate("/")}>
+    <Text style={{
+color:"#000", fontFamily:"inter", 
+fontSize: 18, fontWeight: "bold", marginBottom: 18, textAlign: "left",
+marginLeft:35}}>Access Quick{"\n"}Settings</Text>
+    </TouchableOpacity>
+    <TouchableOpacity>
+<Text style={{
+color:"#000", fontFamily:"inter",
+fontSize: 18, fontWeight: "bold", marginBottom: 18, textAlign: "left",
+marginLeft:40
+}}>View Recent{"\n"}Activity</Text>
+    </TouchableOpacity>
+    
+    <TouchableOpacity onPress={() => router.navigate("/")}>
+    <Text style={{ 
+color:"#000", fontFamily:"inter",
+fontSize: 18, fontWeight: "bold", marginBottom: 18, textAlign: "left",
+marginLeft:24
+    }}>Send Payment</Text>
+    </TouchableOpacity>
   </View>
 </View>
 
@@ -63,7 +89,7 @@ export default function HomeScreen() {
             end={{ x: 1, y: 1 }}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Send  Payment</Text>
+            <Text style={styles.buttonText}>Send Payment</Text>
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonShadow}>
@@ -73,7 +99,7 @@ export default function HomeScreen() {
             end={{ x: 1, y: 1 }}
             style={styles.button}
           >
-            <Text style={styles.buttonText}>Create Bill</Text>
+            <Text style={styles.buttonText}> Create  Bill   </Text>
           </LinearGradient>
         </TouchableOpacity>
       </View>
@@ -102,7 +128,9 @@ export default function HomeScreen() {
               <TouchableOpacity onPress={() => router.navigate("/profileinfo")}>
               <MenuItem icon={<Ionicons name="person" size={28} color="#2196f3" />} label="Profile Information" />
               </TouchableOpacity>
+              <TouchableOpacity onPress={() => router.navigate("/settings")}>
               <MenuItem icon={<MaterialIcons name="settings" size={28} color="#2196f3" />} label="Account Settings" />
+              </TouchableOpacity>
               <MenuItem icon={<MaterialCommunityIcons name="cash" size={28} color="#2196f3" />} label="PaymentMethods" /> 
           <TouchableOpacity onPress={() => router.navigate("/feedback")}>
               <MenuItem icon={<Feather name="message-square" size={28} color="#2196f3" />} label="Feedback" />
@@ -209,40 +237,65 @@ iconBtnBig: {
 },
 // ...existing code...
   
-actionsRow: {
+ovalActionsRow: {
   flexDirection: "row",
   alignItems: "center",
-  justifyContent: "center",
-  marginTop: 38,
-  marginBottom: 8,
+  justifyContent: "flex-start",
   width: "100%",
+  
+  marginTop: 20,
+  paddingBottom: 30,
+  marginBottom: 8,
+  paddingHorizontal: 0,
+
+
+},
+ovalImageWrapper: {
+  alignItems: "center",
+  justifyContent: "center",
+  marginLeft: 0,
+  marginRight: 8,
+},
+ovalImageTrue: {
+  width: 160,
+  height: 270,
+  borderRadius: 115, // half of height for perfect oval
+  overflow: "hidden",
+  backgroundColor: "#fff",
+  shadowColor: "#000",
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.15,
+  shadowRadius: 6,
+  elevation: 3,
 },
 ovalImage: {
-  width: 169,
-  height:  229,
-  borderRadius: 100,
-  marginLeft: 10,
-  marginRight: 18,
-  resizeMode: "cover",
+  width: 160,
+  height: 290,
 },
-actionsList: {
+
+ovalActionsList: {
+  flex: 1,
   justifyContent: "space-between",
-  height: 180,
-  marginLeft: 0,
+  alignItems: "flex-start",
+  height: 290,
+  marginLeft: 8,
+  paddingVertical: 0,
+  padding: 6,
 },
-actionText: {
+ovalActionText: {
   fontSize: 16,
   color: "#222",
   fontWeight: "bold",
-  marginBottom: 12,
+  marginBottom: 18,
+  textAlign: "left",
 },
 // ...existing code...
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    marginTop: 35,
-    marginBottom: 12,
-    gap: 18,
+    marginTop: 10,
+    marginBottom: 0,
+    gap: 10,
   },
   buttonShadow: {
     borderRadius: 12,
@@ -257,13 +310,15 @@ actionText: {
     paddingVertical: 12,
     paddingHorizontal: 28,
     minWidth: 120,
+    minHeight: 50,
     alignItems: "center",
     justifyContent: "center",
   },
   buttonText: {
-    color: "#222",
-    fontWeight: "bold",
-    fontSize: 16,
+    color: "#fff",
+    fontWeight: "500",
+    fontSize: 18,
+    fontFamily: "Inter_600SemiBold",
   },
   
   menuOverlay: {

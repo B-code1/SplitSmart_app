@@ -16,7 +16,7 @@ const index = () => {
      
       
       <View>
-        <TouchableOpacity  style={styles.Button} onPress={() => router.navigate('/(tabs)/Home')}>
+        <TouchableOpacity  style={styles.Button} onPress={() => router.navigate('/(Auth)/login')}>
           
         
           <Text style={styles.ButtonText}>Next</Text>

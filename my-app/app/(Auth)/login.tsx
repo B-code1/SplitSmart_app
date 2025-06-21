@@ -1,348 +1,338 @@
-import { SafeAreaView } from "react-native-safe-area-context";
+import React, { useState } from "react";
 import {
-  Text,
-  Image,
   View,
+  Text,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
+  StyleSheet,
+  SafeAreaView,
   ScrollView,
-  Platform,
+  Image,
+  Alert,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Ionicons, FontAwesome, AntDesign } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+import axios, { AxiosError } from "axios";
 import { router } from "expo-router";
-import Authstyles from "./authStyle";
-import styles from "../styles";
-import { Colors } from "../../constants/Colors";
-import DividerOr from "../../components/Divider";
-import CustomButton from "../../components/Custombutton";
-import Socials from "../../components/Socials";
-import TandC from "../../components/TandC";
-import React from "react";
-//mport axios from "axios";
-import { IconSymbol } from "@/components/IconSymbol";
 
-// You can configure the baseURL as needed
-//const API = axios.create({
-// baseURL: "https://your-api-base-url.com", // Replace with your actual API base URL
-//});
+// Create an Axios instance for API calls
+const API = axios.create({
+  baseURL: "https://splitsmart-project.onrender.com/", // Replace with your actual API base URL
+});
 
-const signUpScreen = () => {
-  //const [message, setMessage] = useState('');
-  //const [email, setEmail] = useState<string>('');
+export default function LoginScreen({ navigation }: any) {
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
-  // const [password, setPassword] = useState<string>('');
-  // const [error, setError] = useState<string | null>('');
+  const handlelogin =  async() => {
+    if (!email || !password) {
+      setError("Please fill in all fields");
+      return;
+    }
+    // Here you would typically handle the login logic, e.g., API call
+    console.log("Logging in with:", { email, password});
 
-  // this is what ebube has changed. he added authentication function. check the onpress? login.
-  // for usestate hooks, check onChageText in email and passsword
-  // const handleAuth = async()=>{
-  ////   if(!email || !password ){
-  //    setError("Please fill in all fields")
-  // }
-  //  try {
-  // const res = await API.post('/signup', { email, password });
-  // setMessage('Signup successful! You can now log in.');
-  // router.navigate('/login');
-  // } catch (err) {
-  //   let errorMsg = "An error occurred";
-  //   if (axios.isAxiosError(err)) {
-  //     errorMsg = err.response?.data?.message || err.message;
-  //   } else if (err instanceof Error) {
-  //    errorMsg = err.message;
-  //  }
-  //  setMessage(`Signup failed: ${errorMsg}`);
-  //}
-  // };
-
-  // const [password, setPassword] = useState<string>('');
-  //const [error, setError] = useState<string | null>('');
-
-  // this is what ebube has changed. he added authentication function. check the onpress? login.
-  // for usestate hooks, check onChageText in email and passsword
-  // const handleAuth = async()=>{
-  //  if(!email || !password ){
-  //    setError("Please fill in all fields")
-  //  }
-  // try {
-  // const res = await API.post('/signup', { email, password });
-  // setMessage('Signup successful! You can now log in.');
-  // router.navigate('/login');
-  //} catch (err) {
-  // let errorMsg = "An error occurred";
-  // if (axios.isAxiosError(err)) {
-  //   errorMsg = err.response?.data?.message || err.message;
-  // } else if (err instanceof Error) {
-  //   errorMsg = err.message;
-  // }
-  // setMessage(`Signup failed: ${errorMsg}`);
-  // }
-  //};
+    // Reset error on successful login
+    setError(null);
+    try {
+          const res = await API.post('api/users/login', { email, password });
+    
+          const token = res.data.token;
+          await AsyncStorage.setItem("token", token);
+    
+          Alert.alert("Success", "Login successful!");
+          router.navigate("/(tabs)/Home");
+          console.log(`Login successful! Token: ${token}`);
+        } catch (err) {
+          if (err instanceof AxiosError) {
+            console.error(err.response?.data);
+            setError(err.response?.data?.message || 'Login failed');
+          } else {
+            console.error(err);
+            setError('An unexpected error occurred');
+          }
+        }
+      
+    
+    // Navigate to the next screen or perform further actions
+  }
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 20}
-      >
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          keyboardShouldPersistTaps="handled"
-        >
-          <Image
-            style={Authstyles.logoAuthImg}
-            source={require("../../assets/images/Logo.png")}
-          />
-
-          <Text
-            style={{
-              textAlign: "center",
-              color: Colors.text_Light,
-              fontFamily: "PoppinsRegular",
-              fontSize: 18,
-            }}
-          >
-            Welcome to SplitSmart Let’s show you how you can split bill NOT
-            friendship
-          </Text>
-          <Text
-            style={{
-              textAlign: "center",
-              color: Colors.text_Light,
-              fontFamily: "PoppinsBold",
-              fontSize: 20,
-              marginTop: 15,
-            }}
-          >
-            LOGIN
-          </Text>
-          <View style={Authstyles.secondaryContainer}>
-            <View style={Authstyles.fieldContainer}>
-              <Text style={Authstyles.fieldText}>Email Address</Text>
-              <View style={Authstyles.inputRow}>
-                <IconSymbol
-                  name="mail"
-                  size={20}
-                  color={Colors.white}
-                  style={{ marginRight: 10 }}
-                />
-
-                <TextInput
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  placeholder="Enter your email"
-                  placeholderTextColor={Colors.white}
-                  autoCorrect={false}
-                  style={Authstyles.txtfieldInput}
-                />
-
-                <TextInput
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  placeholder="Enter your email"
-                  placeholderTextColor={Colors.white}
-                  autoCorrect={false}
-                  style={Authstyles.txtfieldInput}
-                />
-              </View>
-            </View>
-            {/* </View> */}
-
-            <View style={Authstyles.fieldContainer}>
-              <Text style={Authstyles.fieldText}>Password</Text>
-
-              <View style={Authstyles.inputRow}>
-                <IconSymbol
-                  name="eye.slash"
-                  size={20}
-                  color={Colors.white}
-                  style={{ marginRight: 10 }}
-                />
-                <TextInput
-                  secureTextEntry={true}
-                  placeholder="Enter your password"
-                  placeholderTextColor={Colors.white}
-                  style={Authstyles.txtfieldInput}
-                />
-              </View>
-
-              <Text
-                style={{ color: "red", textAlign: "center", marginTop: 10 }}
-              ></Text>
-
-              <View style={{ marginVertical: 20 }}>
-                <CustomButton
-                  text={"LOGIN"}
-                  onPress={() => {
-                    router.navigate("/Home");
-                  }}
-                />
-              </View>
-
-              <View style={Authstyles.inputRow}>
-                <IconSymbol
-                  name="eye.slash"
-                  size={20}
-                  color={Colors.white}
-                  style={{ marginRight: 10 }}
-                />
-                <TextInput
-                  secureTextEntry={true}
-                  placeholder="Enter your password"
-                  placeholderTextColor={Colors.white}
-                  style={Authstyles.txtfieldInput}
-                />
-              </View>
-
-              <Text
-                style={{ color: "red", textAlign: "center", marginTop: 10 }}
-              ></Text>
-
-              <View style={{ marginVertical: 20 }}>
-                <CustomButton
-                  text={"LOGIN"}
-                  onPress={() => {
-                    router.navigate("/Home");
-                  }}
-                />
-              </View>
-              {/* i added this error to display any error on screen */}
-            </View>
-          </View>
-
-          <View>
-            <CustomButton
-              text={"LOGIN"}
-              onPress={() => {
-                router.navigate("/");
-              }}
-            />
-          </View>
-
-          <View style={{ marginVertical: 10, marginTop: 20 }}>
+    <LinearGradient colors={["#2196f3", "#81d4fa"]} style={styles.gradientBg}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          {/* Logo and Title */}
+          <View style={styles.logoSection}>
+            <Text style={styles.logoS}>S</Text>
             <View>
-              <CustomButton
-                text={"LOGIN"}
-                onPress={() => {
-                  router.navigate("/");
-                }}
+              <Text style={styles.logoSplit}>PLIT</Text>
+              <Text style={styles.logoMart}>MART</Text>
+            </View>
+          </View>
+          <Text style={styles.tagline}>organize . split. resolve.</Text>
+          <Text style={styles.getStarted}>WELCOME BACK!</Text>
+
+          {/* Form Card */}
+          <View style={styles.formCard}>
+            {/* Email */}
+            <Text style={styles.label}>Email Address</Text>
+            <LinearGradient
+              colors={["#81c6fa", "#5bb6f9"]}
+              style={styles.inputGradient}
+            >
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Your Email"
+                placeholderTextColor="#fff"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                onChangeText={(text) => setEmail(text)}
               />
-            </View>
+            </LinearGradient>
+            {/* Password */}
 
-            <View style={{ marginVertical: 10, marginTop: 20 }}>
-              <Text
-                style={{
-                  color: Colors.text_Light,
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 16,
-                  textAlign: "center",
-                }}
-              >
-                Not a Registered User yet?{" "}
-                <Text
-                  style={{
-                    color: "black",
-                    fontSize: 20,
-                    fontFamily: "PoppinsBold",
-                    fontWeight: 400,
-                  }}
-                  onPress={() => {
-                    router.navigate("/signUp");
-                  }}
-                >
-                  Sign Up
-                </Text>
-              </Text>
-            </View>
-
-            <View style={{ marginTop: 10, marginBottom: 10 }}>
-              <DividerOr />
-            </View>
-            <View>
-              <Socials />
-            </View>
-
-            <View style={{ marginVertical: 10, marginTop: 20 }}>
-              <Text
-                style={{
-                  color: Colors.text_Light,
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 16,
-                  textAlign: "center",
-                }}
-              >
-                Forgot Password?{" "}
-              </Text>
-              <TouchableOpacity
-                onPress={() => router.navigate("/(Auth)/forgotPassword")}
-              ></TouchableOpacity>
-
-              <Text
-                style={{
-                  color: Colors.text_Light,
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 16,
-                  textAlign: "center",
-                }}
-              >
-                Not a Registered User yet?{" "}
-                <Text
-                  style={{
-                    color: "black",
-                    fontSize: 20,
-                    fontFamily: "PoppinsBold",
-                    fontWeight: 400,
-                  }}
-                  onPress={() => {
-                    router.navigate("/signUp");
-                  }}
-                >
-                  Sign Up
-                </Text>
-              </Text>
-            </View>
-          </View>
-          <View style={{ marginTop: 10, marginBottom: 10 }}>
-            <DividerOr />
-          </View>
-          <View>
-            <Socials />
-
-            <View style={{ marginVertical: 10, marginTop: 20 }}>
-              <Text
-                style={{
-                  color: Colors.text_Light,
-                  fontFamily: "PoppinsRegular",
-                  fontSize: 16,
-                  textAlign: "center",
-                }}
-              >
-                Forgot Password?{" "}
+            <Text style={styles.label}>Password</Text>
+            <LinearGradient
+              colors={["#81c6fa", "#5bb6f9"]}
+              style={styles.inputGradient}
+            >
+              <View style={styles.passwordRow}>
+                <TextInput
+                  style={[styles.input, { flex: 1, marginRight: 0 }]}
+                  placeholder="Enter Your Password"
+                  placeholderTextColor="#fff"
+                  secureTextEntry={!showPassword}
+                  autoCapitalize="none"
+                  onChangeText={(text) => setPassword(text)}
+                  value={password}
+                />
                 <TouchableOpacity
-                  onPress={() => router.navigate("/(Auth)/forgotPassword")}
+                  style={styles.eyeBtn}
+                  onPress={() => setShowPassword((v) => !v)}
                 >
-                  <Text
-                    style={{
-                      color: "#F1C40F",
-                      fontSize: 24,
-                      fontWeight: "400",
-                    }}
-                  >
-                    Click here
-                  </Text>
+                  <Ionicons
+                    name={showPassword ? "eye-off-outline" : "eye-outline"}
+                    size={22}
+                    color="#222"
+                  />
                 </TouchableOpacity>
+              </View>
+              
+              
+            </LinearGradient>
+            <Text style={{ color: "red", textAlign: "center", marginVertical: 10 }}>
+                {error}
               </Text>
+              
+            <TouchableOpacity>
+              <Text style={styles.forgot}>Forgot Password?</Text>
+            </TouchableOpacity>
+            {/* Sign In Button */}
+            <TouchableOpacity style={styles.signInBtn}
+              onPress={handlelogin}>
+              <LinearGradient
+                colors={["#FFD600", "#2196f3"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.signInBtnInner}
+              >
+                <Text style={styles.signInText}>SIGN IN</Text>
+              </LinearGradient>
+            </TouchableOpacity>
+            {/* Or Divider */}
+            <View style={styles.dividerRow}>
+              <View style={styles.divider} />
+              <Text style={styles.orText}>Or</Text>
+              <View style={styles.divider} />
             </View>
-          </View>
-          {/* </View> */}
-
-          <View style={{ marginTop: 30 }}>
-            <TandC />
+            {/* Sign In With */}
+            <Text style={styles.signInWith}>Sign In With</Text>
+            <View style={styles.socialRow}>
+              <TouchableOpacity style={styles.socialBtn}>
+                <FontAwesome name="facebook" size={24} color="#1877f3" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialBtn}>
+                <AntDesign name="google" size={24} color="#ea4335" />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialBtn}>
+                <Image resizeMode="contain"
+                  source={require("../../assets/images/twitter.png")}
+                  style={{ width: 24, height: 24 }}
+                  />
+              </TouchableOpacity>
+            </View>
           </View>
         </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+      </SafeAreaView>
+    </LinearGradient>
   );
-};
+}
 
-export default signUpScreen;
+const styles = StyleSheet.create({
+  gradientBg: {
+    flex: 1,
+    paddingTop: 0,
+  },
+  logoSection: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 18,
+    marginBottom: 0,
+  },
+  logoS: {
+    fontSize: 54,
+    color: "#FFD600",
+    fontWeight: "bold",
+    marginRight: 4,
+    letterSpacing: 2,
+  },
+  logoSplit: {
+    fontSize: 22,
+    color: "#fff",
+    fontWeight: "bold",
+    letterSpacing: 2,
+    marginBottom: -2,
+  },
+  logoMart: {
+    fontSize: 18,
+    color: "#FFD600",
+    fontWeight: "bold",
+    letterSpacing: 2,
+  },
+  tagline: {
+    color: "#fff",
+    fontSize: 11,
+    textAlign: "center",
+    marginTop: 2,
+    marginBottom: 10,
+    letterSpacing: 1,
+  },
+  getStarted: {
+    color: "#fff",
+    fontSize: 22,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 18,
+    letterSpacing: 1,
+  },
+  formCard: {
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    padding: 24,
+    paddingTop: 32,
+    marginTop: 0,
+    flex: 1,
+    minHeight: 500,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 12,
+    elevation: 8,
+  },
+  label: {
+    color: "#222",
+    fontSize: 15,
+    fontWeight: "bold",
+    marginBottom: 4,
+    marginTop: 16,
+  },
+  inputGradient: {
+    borderRadius: 8,
+    marginBottom: 6,
+    marginTop: 0,
+    padding: 0,
+    overflow: "hidden",
+  },
+  input: {
+    backgroundColor: "transparent",
+    borderRadius: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    fontSize: 15,
+    color: "#fff",
+    fontWeight: "500",
+  },
+  passwordRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 0,
+  },
+  eyeBtn: {
+    position: "absolute",
+    right: 10,
+    top: 10,
+    padding: 2,
+  },
+  forgot: {
+    color: "#FFD600",
+    fontSize: 13,
+    marginTop: 2,
+    marginBottom: 10,
+    fontWeight: "500",
+  },
+  signInBtn: {
+    marginTop: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+    overflow: "hidden",
+  },
+  signInBtnInner: {
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  signInText: {
+    color: "#222",
+    fontWeight: "bold",
+    fontSize: 28,
+    letterSpacing: 1,
+  },
+  dividerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "#b3d8f7",
+  },
+  orText: {
+    color: "#888",
+    fontSize: 15,
+    marginHorizontal: 10,
+    fontWeight: "500",
+  },
+  signInWith: {
+    color: "#FFD600",
+    fontWeight: "bold",
+    fontSize: 18,
+    textAlign: "center",
+    marginBottom: 10,
+    marginTop: 0,
+    letterSpacing: 1,
+  },
+  socialRow: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 18,
+    gap: 18,
+  },
+  socialBtn: {
+    marginHorizontal: 10,
+    backgroundColor: "#fff",
+    borderRadius: 50,
+    padding: 6,
+    elevation: 2,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+  },
+});

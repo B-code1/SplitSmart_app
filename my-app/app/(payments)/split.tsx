@@ -72,7 +72,7 @@ export default function SplitPaymentScreen() {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Split Payment</Text>
         <TouchableOpacity>
-          <Ionicons name="settings-outline" size={24} color="#222" />
+          <Ionicons name="options-outline" size={24} color="#222" />
         </TouchableOpacity>
       </View>
 

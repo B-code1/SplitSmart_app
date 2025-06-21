@@ -1,109 +1,108 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from "react-native";
-import { Ionicons, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
-import { router } from "expo-router";
-import Colors from "../constants/Colors";
-
-export default function AccountSetting() {
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { Ionicons, Feather, MaterialCommunityIcons, FontAwesome, Entypo } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+export default function AccountSettingsScreen() {
+  const router = useRouter();
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
-      <View style={styles.headerRow}>
+      <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Account Setting</Text>
+        <Text style={styles.headerTitle}>Account Settings</Text>
         <View style={{ width: 26 }} />
       </View>
-
-      {/* Menu Items */}
-      <TouchableOpacity style={styles.menuItem}>
-        <Ionicons name="person-outline" size={28} color="#fff" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Account</Text>
-        <Ionicons name="chevron-forward" size={24} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem}>
-        <Ionicons name="notifications-outline" size={28} color="#222" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Notification</Text>
-        <Ionicons name="chevron-forward" size={24} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem}>
-        <MaterialCommunityIcons name="shield-check-outline" size={28} color="#222" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Security</Text>
-        <Ionicons name="chevron-forward" size={24} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem}>
-        <MaterialIcons name="language" size={28} color="#222" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Language</Text>
-        <Ionicons name="chevron-forward" size={24} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem}>
-        <Ionicons name="help-circle-outline" size={28} color="#222" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Help</Text>
-        <Ionicons name="chevron-forward" size={24} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem}>
-        <MaterialIcons name="desktop-windows" size={28} color="#222" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Display</Text>
-        <Ionicons name="chevron-forward" size={24} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.menuItem} onPress={() => router.push("/logout")}>
-        <MaterialCommunityIcons name="logout" size={28} color="#222" style={styles.menuIcon} />
-        <Text style={styles.menuText}>Logout</Text>
-        <Ionicons name="chevron-forward" size={24} color="#222" style={styles.menuArrow} />
-      </TouchableOpacity>
-    </SafeAreaView>
+      {/* List */}
+      <View style={styles.list}>
+        <TouchableOpacity style={styles.listItem}>
+          <Ionicons name="person-outline" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Account</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <Ionicons name="notifications-outline" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Notification</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <MaterialCommunityIcons name="shield-check" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Security</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <Feather name="globe" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Language</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <Ionicons name="help-circle-outline" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Help</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <Feather name="monitor" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Display</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.listItem}>
+          <Entypo name="log-out" size={24} color="#222" style={styles.icon} />
+          <Text style={styles.listText}>Log Out</Text>
+          <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.backgroundColor,
-    paddingTop: 16,
+    backgroundColor: "#fff",
   },
-  headerRow: {
+  header: {
     flexDirection: "row",
     alignItems: "center",
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 50,
+    backgroundColor: "#e3f2fd",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-    marginBottom: 8,
-    marginTop: 30,
-    alignSelf: "stretch",
   },
   headerTitle: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#fff",
+    fontSize: 24,
+    fontWeight: "600",
+    color: "#000",
+    fontFamily: 'inter',
     textAlign: "center",
   },
-  menuItem: {
+  list: {
+    marginTop: 24,
+  },
+  listItem: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 22,
     paddingHorizontal: 18,
     borderBottomWidth: 1,
-    borderBottomColor: "#888",
+    borderBottomColor: "#f0f0f0",
   },
-  menuIcon: {
+  icon: {
     marginRight: 18,
-    color: "#222",
     width: 28,
+    textAlign: "center",
   },
-  menuText: {
-    flex: 1,
+  listText: {
     fontSize: 20,
-    color: "#222",
+    color: "#000",
+    flex: 1,
     fontWeight: "500",
+    fontFamily: 'inter',
   },
-  menuArrow: {
+  chevron: {
     marginLeft: 8,
-    color: "#fff",
+    width: 24,
+    textAlign: "right",
   },
 });

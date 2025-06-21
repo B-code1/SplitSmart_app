@@ -4,291 +4,314 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Image,
-  SafeAreaView,
   ScrollView,
-  Modal,
-  Pressable,
-  Button,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import Colors from "../../constants/Colors";
-import { router } from "expo-router";
+import { Ionicons, MaterialIcons, FontAwesome } from "@expo/vector-icons";
 
-export default function Home() {
-  const [menuVisible, setMenuVisible] = React.useState(false);
+const FILTERS = ["All", "Payment", "Bills", "Groups"];
+
+const DATA = [
+  {
+    name: "Peace Joined Holiday Hangout Crew",
+    date: "Oct 7. 2:00 PM",
+    actions: [],
+    showPay: false,
+    showAccept: false,
+    showDecline: false,
+    type: "Groups",
+  },
+  {
+    name: "Your Share For Movie Snacks (1,200) Is Due In 2 Days.",
+    date: "Oct 1. 12:00 AM",
+    actions: [],
+    showPay: true,
+    showAccept: false,
+    showDecline: false,
+    type: "Payment",
+  },
+  {
+    name: "Precious Invited You To A Group",
+    date: "Oct 1. 12:00 AM",
+    actions: [],
+    showPay: false,
+    showAccept: true,
+    showDecline: true,
+    type: "Groups",
+  },
+  {
+    name: "Kenny Declined Your 3,000 Request",
+    date: "Oct 1. 12:00 AM",
+    actions: [],
+    showPay: false,
+    showAccept: false,
+    showDecline: false,
+    type: "Bills",
+  },
+];
+
+export default function ActivityScreen({ navigation }: any) {
+  const [selected, setSelected] = useState("All");
+
+  const [visibleCards, setVisibleCards] = useState<{ [key: number]: boolean }>({});
+
+  const filteredData =
+    selected === "All"
+      ? DATA
+      : DATA.filter((item) => item.type === selected);
+
+  const toggleVisibility = (idx: number) => {
+    setVisibleCards((prev) => ({
+      ...prev,
+      [idx]: !prev[idx],
+    }));
+  };
+
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#222" />
+        <TouchableOpacity onPress={() => navigation?.goBack?.()}>
+          <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Activity</Text>
-        <View style={{ width: 24 }} />
-        <View style={styles.innergrpContainer}>
-          <Pressable>
-            <Ionicons name="options" size={30} color="Black" />
-          </Pressable>
-        </View>
+        <TouchableOpacity>
+          <Ionicons name="options-outline" size={26} color="#222" />
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.headerItems}>
-        <Pressable>
-          <Text style={styles.headerItemsTxt}>All</Text>
-        </Pressable>
-        <Pressable>
-          <Text style={styles.headerItemsTxt}>Payments</Text>
-        </Pressable>
-        <Pressable>
-          <Text style={styles.headerItemsTxt}>Bills</Text>
-        </Pressable>
-        <Pressable>
-          <Text style={styles.headerItemsTxt}>Group</Text>
-        </Pressable>
+      {/* Filters */}
+      <View style={styles.filtersRow}>
+        {FILTERS.map((f) => (
+          <TouchableOpacity
+            key={f}
+            style={[
+              styles.filterBtn,
+              selected === f && styles.filterBtnActive,
+            ]}
+            onPress={() => setSelected(f)}
+          >
+            <Text
+              style={[
+                styles.filterText,
+                selected === f && styles.filterTextActive,
+              ]}
+            >
+              {f}
+            </Text>
+          </TouchableOpacity>
+        ))}
       </View>
 
-      {/* Content*/}
-      <View style={styles.mainContainer}>
-        <View style={styles.mainSub1}>
-          <View style={styles.avatar}>
-            <Ionicons name="person" size={25} color="#9D8D9D" />
+      {/* Activity Cards */}
+      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
+        {filteredData.map((item, idx) => (
+          <View key={idx} style={styles.card}>
+            <View style={styles.cardRow}>
+              <View style={styles.avatar}>
+                <Ionicons name="person" size={32} color="#90a4ae" />
+              </View>
+              <View style={{ flex: 1 }}>
+                {visibleCards[idx] ? (
+                  <>
+                    <Text style={styles.cardName}>{item.name}</Text>
+                    {item.showPay && (
+                      <TouchableOpacity style={styles.payNowBtn}>
+                        <Text style={styles.payNowText}>Pay Now!</Text>
+                      </TouchableOpacity>
+                    )}
+                    {(item.showAccept || item.showDecline) && (
+                      <View style={styles.actionRow}>
+                        {item.showAccept && (
+                          <TouchableOpacity style={styles.acceptBtn}>
+                            <Text style={styles.acceptText}>Accept</Text>
+                          </TouchableOpacity>
+                        )}
+                        {item.showDecline && (
+                          <TouchableOpacity style={styles.declineBtn}>
+                            <Text style={styles.declineText}>
+                              Decline <Text style={{ color: "#e53935" }}>✖️</Text>
+                            </Text>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    )}
+                  </>
+                ) : (
+                  <Text style={styles.cardName}>••••••••••••••••••••••••••••••••</Text>
+                )}
+              </View>
+              <TouchableOpacity onPress={() => toggleVisibility(idx)}>
+                <Ionicons
+                  name={visibleCards[idx] ? "eye-off-outline" : "eye-outline"}
+                  size={22}
+                  color="#222"
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.cardFooter}>
+              <Text style={styles.cardFooterText}>{item.date}</Text>
+            </View>
           </View>
-          <View style={styles.Names}>
-            <Text style={styles.NamesTxt}>Kosi</Text>
-            <Text style={styles.NamesSubTxt}>Paid category due</Text>
-          </View>
-          <View style={styles.icons}>
-            <Ionicons name="eye-outline" size={25} color="Black" />
-            <Text style={styles.NamesSubTxt}>Oct 18</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: "column" }}>
-          <View style={styles.mainSub2}></View>
-          <Text style={styles.AmtTxt}>₦ 3,300</Text>
-        </View>
-      </View>
-
-      <View style={styles.mainContainer}>
-        <View style={styles.mainSub1}>
-          <View style={styles.avatar}>
-            <Ionicons name="person" size={25} color="#9D8D9D" />
-          </View>
-          <View style={styles.Names}>
-            <Text style={styles.NamesTxt}>Kosi</Text>
-            <Text style={styles.NamesSubTxt}>category due overdue soon</Text>
-          </View>
-          <View style={styles.icons}>
-            <Ionicons name="eye-outline" size={25} color="Black" />
-            <Text style={styles.NamesSubTxt}>Oct 28</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: "column" }}>
-          <View style={styles.mainSub2}></View>
-          <Text style={styles.AmtTxt}>Due: Nov,12</Text>
-        </View>
-      </View>
-
-      <View style={styles.mainContainer}>
-        <View style={styles.mainSub1}>
-          <View style={styles.avatar}>
-            <Ionicons name="person" size={25} color="#9D8D9D" />
-          </View>
-          <View style={styles.Names}>
-            <Text style={styles.NamesTxt}>Kosi</Text>
-            <Text style={styles.NamesSubTxt}>Yemi invited you to a group</Text>
-          </View>
-          <View style={styles.icons}>
-            <Ionicons name="eye-off-outline" size={25} color="Black " />
-            <Text style={styles.NamesSubTxt}>Oct 18</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: "column" }}>
-          <View style={styles.mainSub2}></View>
-          <Text style={styles.AmtTxt}>₦ 3,300</Text>
-        </View>
-      </View>
-      <View style={styles.mainContainer}>
-        <View style={styles.mainSub1}>
-          <View style={styles.avatar}>
-            <Ionicons name="person" size={25} color="#9D8D9D" />
-          </View>
-          <View style={styles.Names}>
-            <Text style={styles.NamesTxt}>Kosi</Text>
-            <Text style={styles.NamesSubTxt}>Paid category due</Text>
-          </View>
-          <View style={styles.icons}>
-            <Ionicons name="eye-outline" size={25} color="Black" />
-            <Text style={styles.NamesSubTxt}>Oct 18</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: "column" }}>
-          <View style={styles.mainSub2}></View>
-          <Text style={styles.AmtTxt}>₦ 3,300</Text>
-        </View>
-      </View>
-
-      <View style={styles.mainContainer}>
-        <View style={styles.mainSub1}>
-          <View style={styles.avatar}>
-            <Ionicons name="person" size={25} color="#9D8D9D" />
-          </View>
-          <View style={styles.Names}>
-            <Text style={styles.NamesTxt}>Kosi</Text>
-            <Text style={styles.NamesSubTxt}>category due overdue soon</Text>
-          </View>
-          <View style={styles.icons}>
-            <Ionicons name="eye-outline" size={25} color="Black" />
-            <Text style={styles.NamesSubTxt}>Oct 28</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: "column" }}>
-          <View style={styles.mainSub2}></View>
-          <Text style={styles.AmtTxt}>Due: Nov,12</Text>
-        </View>
-      </View>
-
-      <View style={styles.mainContainer}>
-        <View style={styles.mainSub1}>
-          <View style={styles.avatar}>
-            <Ionicons name="person" size={25} color="#9D8D9D" />
-          </View>
-          <View style={styles.Names}>
-            <Text style={styles.NamesTxt}>Kosi</Text>
-            <Text style={styles.NamesSubTxt}>yemi invited you to a group</Text>
-          </View>
-          <View style={styles.icons}>
-            <Ionicons name="eye-off-outline" size={25} color="Black" />
-            <Text style={styles.NamesSubTxt}>Oct 18</Text>
-          </View>
-        </View>
-        <View style={{ flexDirection: "column" }}>
-          <View style={styles.mainSub2}></View>
-          <Text style={styles.AmtTxt}>₦ 3,300</Text>
-        </View>
-      </View>
-    </SafeAreaView>
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    paddingTop: 16,
-    alignItems: "center",
-  },
-  headerRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "stretch",
-    justifyContent: "center",
-    marginBottom: 4,
-    marginTop: 25,
-    paddingHorizontal: 16,
+    backgroundColor: "#ffff",
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 16,
-    paddingBottom: 8,
-    height: "20%",
-    marginBottom: 8,
-    marginTop: 25,
-    backgroundColor: "#AFDDFB",
-    borderTopRightRadius: 60,
-    borderTopLeftRadius: 60,
+    paddingHorizontal: 18,
+    paddingTop: 50,
+    paddingBottom: 50,
+    backgroundColor: "#e3f2fd",
+    justifyContent: "space-between",
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
   },
   headerTitle: {
-    flex: 1,
-    textAlign: "center",
     fontSize: 24,
-    fontWeight: "bold",
-    color: "#222",
-  },
-  logo: {
-    width: 32,
-    height: 32,
-    resizeMode: "contain",
-  },
-  welcomeText: {
-    marginHorizontal: 10,
-    fontSize: 17,
-    color: "white",
+    fontWeight: "600",
+    color: "#000",
     textAlign: "center",
-    marginBottom: 8,
-    marginTop: 8,
-    alignSelf: "stretch",
+  },
+  filtersRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 10,
+    marginTop: 18,
+    marginBottom: 10,
+  },
+  filterBtn: {
+    backgroundColor: "#AFDDFB",
+    borderRadius: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 18,
+    marginHorizontal: 2,
+    borderWidth: 1,
+    borderColor: "#e3f2fd",
+  },
+  filterBtnActive: {
+    backgroundColor: "#2196f3",
+    borderColor: "#2196f3",
+  },
+  filterText: {
+    color: "#000",
     fontWeight: "500",
-    fontFamily: "Inter_500Medium",
+    fontSize: 16,
   },
-  actTxt: {
-    color: "Black",
-    fontSize: 20,
-    fontWeight: 600,
+  filterTextActive: {
+    color: "#fff",
   },
-  innergrpContainer: {
+  card: {
+    backgroundColor: "#ffff",
+    borderRadius: 16,
+    marginHorizontal: 10,
+    marginVertical: 8,
+    padding: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 3, height: 6 },
+    shadowOpacity: 0.13,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  cardRow: {
     flexDirection: "row",
-    paddingRight: 15,
-
     alignItems: "center",
-    marginVertical: 20,
-    gap: "50%",
-  },
-  headerItems: {
-    flexDirection: "row",
-    gap: 30,
-  },
-  headerItemsTxt: {
-    fontSize: 20,
-  },
-  mainContainer: {
-    backgroundColor: "#D9F0FF",
-    width: "90%",
-    height: "20%",
-    borderRadius: 15,
-    alignSelf: "center",
-    marginVertical: 6,
-  },
-  mainSub1: {
-    flexDirection: "row",
-    gap: 25,
-    marginVertical: 15,
-    alignContent: "center",
-    alignSelf: "center",
-    paddingHorizontal: 20,
-  },
-  mainSub2: {
-    height: 1,
-    width: "100%",
-    backgroundColor: "black",
+    marginBottom: 8,
   },
   avatar: {
-    width: 55,
-    height: 55,
-    borderRadius: 30,
-    backgroundColor: "white",
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
-    // marginRight:
+    marginRight: 14,
+    backgroundColor: "#b3d8f7",
   },
-  Names: {},
-  NamesTxt: {
-    fontSize: 25,
-    fontWeight: 600,
+  cardName: {
+    fontSize: 17,
+    fontWeight: "700",
+    color: "#000",
+    marginBottom: 4,
+    fontFamily: "Inter_600SemiBold",
+
   },
-  NamesSubTxt: {
-    fontSize: 15,
+  payNowBtn: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    alignSelf: "flex-start",
+    marginTop: 2,
+    marginBottom: 2,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    elevation: 1,
   },
-  icons: {
+  payNowText: {
+    color: "#222",
+    fontWeight: "bold",
+    fontSize: 13,
+  },
+  actionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 2,
     gap: 10,
   },
-  AmtTxt: {
-    fontSize: 18,
-    textAlign: "right",
-    marginHorizontal: 20,
-    marginVertical: 5,
-    fontWeight: 600,
+  acceptBtn: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    marginRight: 8,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  acceptText: {
+    color: "#388e3c",
+    fontWeight: "bold",
+    fontSize: 13,
+  },
+  declineBtn: {
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    shadowColor: "#b3d8f7",
+    shadowOffset: { width: 1, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  declineText: {
+    color: "#e53935",
+    fontWeight: "bold",
+    fontSize: 13,
+  },
+  cardFooter: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    borderTopWidth: 1,
+    borderTopColor: "#d0e6f7",
+    paddingTop: 6,
+    marginTop: 8,
+  },
+  cardFooterText: {
+    fontSize: 12,
+    color: "#90a4ae",
   },
 });
