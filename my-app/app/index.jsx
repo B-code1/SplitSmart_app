@@ -82,7 +82,7 @@ const Index = () => {
       <View>
         <TouchableOpacity
           style={styles.Button}
-          onPress={() => router.navigate("/login")}
+          onPress={() => router.navigate("/(tabs)/Home")}
         >
           <Text style={styles.ButtonText}>Next</Text>
         </TouchableOpacity>
