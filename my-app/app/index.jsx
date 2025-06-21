@@ -79,15 +79,64 @@ const Index = () => {
           </TouchableOpacity>
         </View> */}
 
-      <View>
-        <TouchableOpacity
-          style={styles.Button}
-          onPress={() => router.navigate("/(tabs)/Home")}
-        >
-          <Text style={styles.ButtonText}>Next</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        {/* Main Content */}
+        <View style={styles.content}>
+          <Image source={currentData.image} style={styles.bgImage} />
+
+          <Text style={styles.mainTxt}>{currentData.title}</Text>
+
+          <Text style={styles.subTxt}>{currentData.subtitle}</Text>
+        </View>
+
+        {/* Bottom Section */}
+        <View style={styles.bottomSection}>
+          {/* Page Indicators */}
+          <View style={styles.pageIndicatorContainer}>
+            {onboardingData.map((_, index) => (
+              <View
+                key={index}
+                style={[
+                  styles.pageIndicator,
+                  index === currentIndex
+                    ? styles.activePageIndicator
+                    : styles.inactivePageIndicator,
+                ]}
+              />
+            ))}
+          </View>
+
+          {/* Navigation Buttons */}
+          <View style={styles.navigationContainer}>
+            {/* Previous Button */}
+            <TouchableOpacity
+              style={[
+                styles.navButton,
+                currentIndex === 0 && styles.disabledButton,
+              ]}
+              onPress={prevSlide}
+              disabled={currentIndex === 0}
+            >
+              <Ionicons
+                name="chevron-back"
+                size={24}
+                color={currentIndex === 0 ? "#999" : "#333"}
+              />
+            </TouchableOpacity>
+
+            {/* Next/Get Started Button */}
+            <TouchableOpacity style={styles.nextButton} onPress={nextSlide}>
+              {currentIndex === onboardingData.length - 1 ? (
+                <Text style={styles.nextButtonText}>Get Started</Text>
+              ) : (
+                <Ionicons name="chevron-forward" size={24} color="#333" />
+              )}
+            </TouchableOpacity>
+          </View>
+
+          {/* Bottom Indicator Line */}
+          <View style={styles.bottomIndicator} />
+        </View>
+      </SafeAreaView>
     </LinearGradient>
   );
 };
