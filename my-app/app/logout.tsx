@@ -7,6 +7,12 @@ import { useRouter } from "expo-router";
 
 export default function LogoutScreen() {
   const router = useRouter();
+  const handleLogout = async () => {
+    // Clear user data from AsyncStorage or any other storage
+    // await AsyncStorage.removeItem("userToken");
+    // Navigate to login screen or home screen
+    router.push("/(Auth)/login");
+  };
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -21,7 +27,8 @@ export default function LogoutScreen() {
       <View style={styles.content}>
         <Text style={styles.question}>Are You Sure You Want To Log Out?</Text>
         <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.buttonShadow}>
+          <TouchableOpacity style={styles.buttonShadow}
+            onPress={handleLogout}>
             <LinearGradient
               colors={["#4fc3f7", "#ffe082"]}
               start={{ x: 0, y: 0 }}
@@ -38,7 +45,9 @@ export default function LogoutScreen() {
               end={{ x: 1, y: 1 }}
               style={styles.button}
             >
-              <Text style={styles.buttonText}>No</Text>
+              <Text style={styles.buttonText}
+              
+              >No</Text>
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -80,6 +89,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 50,
     textAlign: "center",
+    fontFamily: "Inter_500Medium",
+    lineHeight: 24,
   },
   buttonRow: {
     flexDirection: "row",

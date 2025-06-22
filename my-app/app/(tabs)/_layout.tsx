@@ -20,7 +20,7 @@ export default function TabLayout() {
             "home-outline";
           if (route.name === "home") iconName = "home-outline";
           else if (route.name === "groups") iconName = "people-outline";
-          else if (route.name === "payments") iconName = "card-outline";
+          else if (route.name === "payment") iconName = "wallet-outline";
           else if (route.name === "activity") iconName = "stats-chart-outline";
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -53,17 +53,18 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="payment"
+        options={{
+          title: "Payment",
+        }}
+      />
+      <Tabs.Screen
         name="activity"
         options={{
           title: "Activity",
         }}
       />
-      <Tabs.Screen
-        name="payments"
-        options={{
-          title: "Payments",
-        }}
-      />
+     
     </Tabs>
   );
 }

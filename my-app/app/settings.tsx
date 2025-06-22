@@ -16,7 +16,8 @@ export default function AccountSettingsScreen() {
       </View>
       {/* List */}
       <View style={styles.list}>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem}
+          onPress={() => router.push("/profileinfo")}>
           <Ionicons name="person-outline" size={24} color="#222" style={styles.icon} />
           <Text style={styles.listText}>Account</Text>
           <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
@@ -46,7 +47,8 @@ export default function AccountSettingsScreen() {
           <Text style={styles.listText}>Display</Text>
           <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem}
+          onPress={() => router.push("/logout")}>
           <Entypo name="log-out" size={24} color="#222" style={styles.icon} />
           <Text style={styles.listText}>Log Out</Text>
           <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
@@ -62,13 +64,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   header: {
-    flexDirection: "row",
+       flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 70,
+    
+    backgroundColor: "#F3F9FD",
     justifyContent: "space-between",
+    borderTopLeftRadius: 28,
   },
   headerTitle: {
     fontSize: 24,

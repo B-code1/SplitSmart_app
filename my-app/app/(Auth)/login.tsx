@@ -15,6 +15,7 @@ import { Ionicons, FontAwesome, AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import axios, { AxiosError } from "axios";
 import { router } from "expo-router";
+import { ActivityIndicator } from "react-native";
 
 // Create an Axios instance for API calls
 const API = axios.create({
@@ -26,6 +27,7 @@ export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handlelogin =  async() => {
     if (!email || !password) {
@@ -36,6 +38,7 @@ export default function LoginScreen({ navigation }: any) {
     console.log("Logging in with:", { email, password});
 
     // Reset error on successful login
+     setLoading(true);
     setError(null);
     try {
           const res = await API.post('api/users/login', { email, password });
@@ -61,28 +64,34 @@ export default function LoginScreen({ navigation }: any) {
             setError('An unexpected error occurred');
           }
         }
+         finally {
+    setLoading(false); // Stop spinner
+  }
       
     
     // Navigate to the next screen or perform further actions
   }
 
   return (
-    <LinearGradient colors={["#2196f3", "#81d4fa"]} style={styles.gradientBg}>
+    <LinearGradient colors={["#3498DB", "#3498DB"]} style={styles.gradientBg}>
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           {/* Logo and Title */}
-          <View style={styles.logoSection}>
-            <Text style={styles.logoS}>S</Text>
-            <View>
-              <Text style={styles.logoSplit}>PLIT</Text>
-              <Text style={styles.logoMart}>MART</Text>
-            </View>
-          </View>
-          <Text style={styles.tagline}>organize . split. resolve.</Text>
+          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", marginTop: 30 }}>
+          <Image
+            source={require("../../assets/images/Logo.png")}
+            style={{ width: 110, height: 110, marginRight: 10,marginTop: 26 }}
+          />
+         </View>
           <Text style={styles.getStarted}>WELCOME BACK!</Text>
-
+          
+          <View style={{ flex: 1, justifyContent: "center"}}>
           {/* Form Card */}
-          <View style={styles.formCard}>
+          <LinearGradient
+            colors={["#fff", "#3498DB"]}
+            style={styles.formCard}
+          >
+            
             {/* Email */}
             <Text style={styles.label}>Email Address</Text>
             <LinearGradient
@@ -129,13 +138,20 @@ export default function LoginScreen({ navigation }: any) {
               
               
             </LinearGradient>
-            <Text style={{ color: "red", textAlign: "center", marginVertical: 10 }}>
+            <Text style={{ color: "red", textAlign: "center", marginVertical: 6 }}>
                 {error}
               </Text>
               
-            <TouchableOpacity>
-              <Text style={styles.forgot}>Forgot Password?</Text>
+            <TouchableOpacity
+              onPress={() => router.push("/(Auth)/forgotPassword")}>
+
+               <Text style={styles.forgot}>
+             Forgot Password?</Text>
+                
             </TouchableOpacity>
+            {loading && (
+        <ActivityIndicator size="large" color="#2196f3" style={{ marginVertical: 10 }} />
+)}
             {/* Sign In Button */}
             <TouchableOpacity style={styles.signInBtn}
               onPress={handlelogin}>
@@ -158,19 +174,30 @@ export default function LoginScreen({ navigation }: any) {
             <Text style={styles.signInWith}>Sign In With</Text>
             <View style={styles.socialRow}>
               <TouchableOpacity style={styles.socialBtn}>
-                <FontAwesome name="facebook" size={24} color="#1877f3" />
+                <Image resizeMode="contain"
+                  source={require("../../assets/images/facebook.png")}
+                  style={{ width: 24, height: 24 }}
+                  />
               </TouchableOpacity>
               <TouchableOpacity style={styles.socialBtn}>
-                <AntDesign name="google" size={24} color="#ea4335" />
+                <Image resizeMode="contain"
+                  source={require("../../assets/images/google.png")}
+                  style={{ width: 24, height: 24 }}
+                  />
               </TouchableOpacity>
               <TouchableOpacity style={styles.socialBtn}>
                 <Image resizeMode="contain"
                   source={require("../../assets/images/twitter.png")}
-                  style={{ width: 24, height: 24 }}
+                  style={{ width: 24, height: 24 ,backgroundColor: "transparent"}}
                   />
               </TouchableOpacity>
             </View>
+
+            
+          </LinearGradient>
           </View>
+          {/* Sign Up Prompt */}
+          
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
@@ -181,71 +208,39 @@ const styles = StyleSheet.create({
   gradientBg: {
     flex: 1,
     paddingTop: 0,
+    
   },
-  logoSection: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 18,
-    marginBottom: 0,
-  },
-  logoS: {
-    fontSize: 54,
-    color: "#FFD600",
-    fontWeight: "bold",
-    marginRight: 4,
-    letterSpacing: 2,
-  },
-  logoSplit: {
-    fontSize: 22,
-    color: "#fff",
-    fontWeight: "bold",
-    letterSpacing: 2,
-    marginBottom: -2,
-  },
-  logoMart: {
-    fontSize: 18,
-    color: "#FFD600",
-    fontWeight: "bold",
-    letterSpacing: 2,
-  },
-  tagline: {
-    color: "#fff",
-    fontSize: 11,
-    textAlign: "center",
-    marginTop: 2,
-    marginBottom: 10,
-    letterSpacing: 1,
-  },
+  
   getStarted: {
     color: "#fff",
-    fontSize: 22,
-    fontWeight: "bold",
+    fontSize: 46,
+    fontWeight: "700",
     textAlign: "center",
-    marginBottom: 18,
+    marginBottom: 4,
     letterSpacing: 1,
+    marginTop: 14,
+    fontFamily: "inter",
+
   },
   formCard: {
-    backgroundColor: "#fff",
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    
+    borderTopLeftRadius: 39,
+    borderTopRightRadius: 39,
     padding: 24,
     paddingTop: 32,
     marginTop: 0,
     flex: 1,
-    minHeight: 500,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 8,
+   
+    
   },
   label: {
-    color: "#222",
-    fontSize: 15,
-    fontWeight: "bold",
+    color: "#000",
+    fontSize: 20,
+    fontWeight: "600",
     marginBottom: 4,
     marginTop: 16,
+    fontFamily: "inter",
+    
   },
   inputGradient: {
     borderRadius: 8,
@@ -258,10 +253,13 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     borderRadius: 8,
     paddingHorizontal: 14,
-    paddingVertical: 10,
+    
     fontSize: 15,
     color: "#fff",
     fontWeight: "500",
+    fontFamily: "inter",
+    width: "100%",
+    height: 50,
   },
   passwordRow: {
     flexDirection: "row",
@@ -275,9 +273,9 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   forgot: {
-    color: "#FFD600",
-    fontSize: 13,
-    marginTop: 2,
+    color: "rgb(156, 135, 49)",
+    fontSize:18 ,
+    marginTop: 0,
     marginBottom: 10,
     fontWeight: "500",
   },
@@ -294,10 +292,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   signInText: {
-    color: "#222",
+    color: "#000",
     fontWeight: "bold",
-    fontSize: 28,
+    fontSize: 36,
     letterSpacing: 1,
+    fontFamily: "inter",
   },
   dividerRow: {
     flexDirection: "row",
@@ -316,9 +315,9 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   signInWith: {
-    color: "#FFD600",
+    color: "rgb(141, 121, 42)",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize: 20,
     textAlign: "center",
     marginBottom: 10,
     marginTop: 0,
@@ -332,7 +331,7 @@ const styles = StyleSheet.create({
   },
   socialBtn: {
     marginHorizontal: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     borderRadius: 50,
     padding: 6,
     elevation: 2,

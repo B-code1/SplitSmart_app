@@ -66,7 +66,7 @@ export default function HomeScreen() {
           </View>
         </View>
         <View style={styles.ovalActionsList}>
-          <TouchableOpacity onPress={() => router.navigate("/")}>
+          <TouchableOpacity onPress={() => router.navigate("/(Group)/create")}>
             <Text
               style={{
                 color: "#000",
@@ -80,7 +80,7 @@ export default function HomeScreen() {
               Create Group
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => router.navigate("/")}>
+          <TouchableOpacity onPress={() => router.navigate("/settings")}>
             <Text
               style={{
                 color: "#000",
@@ -95,7 +95,7 @@ export default function HomeScreen() {
               Access Quick{"\n"}Settings
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.navigate("/activity")}>
             <Text
               style={{
                 color: "#000",
@@ -111,7 +111,7 @@ export default function HomeScreen() {
             </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => router.navigate("/")}>
+          <TouchableOpacity onPress={() => router.navigate("/(payments)/send")}>
             <Text
               style={{
                 color: "#000",
@@ -131,7 +131,9 @@ export default function HomeScreen() {
 
       {/* Buttons */}
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.buttonShadow}>
+        <TouchableOpacity
+        onPress={() => router.navigate("/(payments)/send")}
+         style={styles.buttonShadow}>
           <LinearGradient
             colors={["#3498DB", "#F1C40F"]}
             start={{ x: 0, y: 0 }}
@@ -141,7 +143,9 @@ export default function HomeScreen() {
             <Text style={styles.buttonText}>Send Payment</Text>
           </LinearGradient>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonShadow}>
+        <TouchableOpacity 
+        onPress={() => router.navigate("/(tabs)/payment")}
+        style={styles.buttonShadow}>
           <LinearGradient
             colors={["#3498DB", "#F1C40F"]}
             start={{ x: 0, y: 0 }}
@@ -355,15 +359,15 @@ const styles = StyleSheet.create({
     height: 270,
     borderRadius: 115, // half of height for perfect oval
     overflow: "hidden",
-    backgroundColor: "#ddd",
-    shadowColor: "#000",
+    backgroundColor: "#f3f6f9",
+    shadowColor: "#ccc",
     shadowOffset: { width: 2, height: 2 },
     shadowOpacity: 0.15,
     shadowRadius: 8,
     elevation: 5,
   },
   ovalImage: {
-    width: 160,
+    width: 200,
     height: 270,
   },
 

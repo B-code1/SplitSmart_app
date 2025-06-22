@@ -5,16 +5,57 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Route, router } from "expo-router";
 
 const emojis = [
-  { key: "happy", icon: "smile", label: "Very Satisfied" },
-  { key: "angry", icon: "angry", label: "Angry" },
-  { key: "sad", icon: "sad-tear", label: "Sad" },
-  { key: "love", icon: "grin-hearts", label: "Loved" },
-  { key: "neutral", icon: "meh", label: "Neutral" },
+  { key: "happy", emoji: "😃", label: "Very Satisfied" },
+  { key: "angry", emoji: "😡", label: "Angry" },
+  { key: "sad", emoji: "😢", label: "Sad" },
+  { key: "love", emoji: "😍", label: "Loved" },
+  { key: "neutral", emoji: "😐", label: "Neutral" },
 ];
-
 export default function FeedbackScreen({ navigation }: any) {
   const [selected, setSelected] = useState<string | null>(null);
   const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(0);
+  const [ratingCount, setRatingCount] = useState(0);
+  
+
+
+  const handleEmojiPress = (key: string) => {
+    setSelected(key);
+    // You can also handle rating logic here if needed
+    // For example, you could set a rating based on the selected emoji
+    switch (key) {
+      case "happy":
+        setRating(5);
+        break;
+      case "angry":
+        setRating(1);
+        break;
+      case "sad":
+        setRating(2);
+        break;
+      case "love":
+        setRating(4);
+        break;
+      case "neutral":
+        setRating(3);
+        break;
+      default:
+        setRating(0);
+    }
+  };
+  const handleCommentChange = (text: string) => {
+    setComment(text);
+  };
+  const handleRatingCountChange = (count: number) => {
+    setRatingCount(count);
+  };
+  const handleSave = () =>
+    {
+      // Save the feedback data to your backend or local storage
+      console.log("Feedback saved:", { selected, comment, rating, ratingCount });
+      // Optionally, navigate back or show a success message
+      navigation.goBack();
+    }
 
   return (
     <View style={styles.container}>
@@ -40,13 +81,8 @@ export default function FeedbackScreen({ navigation }: any) {
               onPress={() => setSelected(e.key)}
               activeOpacity={0.7}
             >
-              <FontAwesome5
-                name={e.icon as any}
-                size={44}
-                color="#FFD600"
-                solid
-                style={{ textShadowColor: "#000", textShadowRadius: 2 }}
-              />
+              <Text style={{fontSize:44}}>{e.emoji}</Text>
+              
             </TouchableOpacity>
           ))}
         </View>
@@ -83,13 +119,14 @@ const styles = StyleSheet.create({
     backgroundColor: "ffff",
   },
   header: {
-    flexDirection: "row",
+        flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 70,
+    
+    backgroundColor: "#F3F9FD",
     justifyContent: "space-between",
+    borderTopLeftRadius: 28,
   },
   headerTitle: {
     fontSize: 24,

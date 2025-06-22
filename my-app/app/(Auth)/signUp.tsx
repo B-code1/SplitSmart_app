@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons, FontAwesome, AntDesign } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import { ActivityIndicator } from "react-native";
 import axios from "axios";
 const API = axios.create({
   baseURL: "https://splitsmart-project.onrender.com/", // Replace with your API base URL
@@ -24,13 +25,14 @@ export default function SignUpScreen({ navigation }: any) {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   //const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
     if (!form.username || !form.email || !form.password) {
       setError("Please fill in all fields.");
       return;
     }
-
+ setLoading(true);
     // Handle sign up logic here
     // console.log("Sign Up Successful", form);
     // navigation.navigate("Home");
@@ -49,7 +51,9 @@ export default function SignUpScreen({ navigation }: any) {
       } else {
         setError("Signup failed");
       }
-    }
+    }finally {
+    setLoading(false); // Stop spinner
+  }
   };
 
   return (
@@ -57,7 +61,7 @@ export default function SignUpScreen({ navigation }: any) {
       <SafeAreaView style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           {/* Logo and Title */}
-          <View>
+          <View style={styles.logoSection}>
             <Image
               source={require("../../assets/images/Logo.png")}
               style={{
@@ -72,8 +76,10 @@ export default function SignUpScreen({ navigation }: any) {
           <Text style={styles.getStarted}>GET STARTED</Text>
 
           {/* Form Card */}
-          <View style={styles.formCard}>
-            {/* Full Name */}
+          <LinearGradient
+                      colors={["#fff", "#3498DB"]}
+                      style={styles.formCard}
+                    >
             <Text style={styles.label}>Full Name</Text>
             <LinearGradient
               colors={["#81c6fa", "#5bb6f9"]}
@@ -140,6 +146,9 @@ export default function SignUpScreen({ navigation }: any) {
                 {error}
               </Text>
             ) : null}
+            {loading ? (
+              <ActivityIndicator size="large" color="#2196f3" />
+            ) : null}
             <TouchableOpacity style={styles.signUpBtn} onPress={handleSignUp}>
               <LinearGradient
                 colors={["#FFD600", "#2196f3"]}
@@ -160,25 +169,38 @@ export default function SignUpScreen({ navigation }: any) {
             <Text style={styles.signUpWith}>Sign Up With</Text>
             <View style={styles.socialRow}>
               <TouchableOpacity style={styles.socialBtn}>
-                <FontAwesome name="facebook" size={24} color="#1877f3" />
+                <Image
+                  source={require("../../assets/images/facebook.png")}
+                  style={{ width: 20, height: 20 }}
+                  resizeMode="contain"
+                />
+               
               </TouchableOpacity>
               <TouchableOpacity style={styles.socialBtn}>
-                <AntDesign name="google" size={24} color="#ea4335" />
+                <Image
+                  source={require("../../assets/images/google.png")}
+                  style={{ width: 20, height: 20 }}
+                  resizeMode="contain"
+                />
               </TouchableOpacity>
               <TouchableOpacity style={styles.socialBtn}>
-                <Ionicons name="logo-twitter" size={24} color="#000" />
+                <Image
+                  source={require("../../assets/images/twitter.png")}
+                  style={{ width: 20, height: 20 }}
+                  resizeMode="contain"
+                />
               </TouchableOpacity>
             </View>
             {/* Already have account */}
             <View style={styles.bottomRow}>
               <Text style={styles.haveAccount}>Already Have An Account?</Text>
               <TouchableOpacity
-                onPress={() => navigation?.navigate?.("SignIn")}
+                onPress={() => router.push("/(Auth)/login")}
               >
                 <Text style={styles.signInText}> Sign In</Text>
               </TouchableOpacity>
             </View>
-          </View>
+          </LinearGradient>
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
@@ -197,41 +219,16 @@ const styles = StyleSheet.create({
     marginTop: 18,
     marginBottom: 0,
   },
-  logoS: {
-    fontSize: 54,
-    color: "#FFD600",
-    fontWeight: "bold",
-    marginRight: 4,
-    letterSpacing: 2,
-  },
-  logoSplit: {
-    fontSize: 22,
-    color: "#fff",
-    fontWeight: "bold",
-    letterSpacing: 2,
-    marginBottom: -2,
-  },
-  logoMart: {
-    fontSize: 18,
-    color: "#FFD600",
-    fontWeight: "bold",
-    letterSpacing: 2,
-  },
-  tagline: {
-    color: "#fff",
-    fontSize: 11,
-    textAlign: "center",
-    marginTop: 2,
-    marginBottom: 10,
-    letterSpacing: 1,
-  },
+ 
   getStarted: {
     color: "#fff",
-    fontSize: 22,
+    fontSize: 36,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 18,
+    marginBottom: 4,
     letterSpacing: 1,
+    marginTop: 14,
+    fontFamily: "inter",
   },
   formCard: {
     backgroundColor: "#fff",
@@ -249,11 +246,12 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   label: {
-    color: "#222",
-    fontSize: 15,
+    color: "#000",
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 4,
-    marginTop: 16,
+    marginBottom: 0,
+    marginTop: 5,
+    fontFamily: "inter",
   },
   inputGradient: {
     borderRadius: 8,
@@ -267,9 +265,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 14,
     paddingVertical: 10,
-    fontSize: 15,
+    fontSize: 16,
     color: "#fff",
     fontWeight: "500",
+    fontFamily: "inter",
+    width: "100%",
+    height: 50,
   },
   passwordRow: {
     flexDirection: "row",
@@ -283,8 +284,8 @@ const styles = StyleSheet.create({
     padding: 2,
   },
   forgot: {
-    color: "#FFD600",
-    fontSize: 13,
+    color: "rgb(175, 158, 87)",
+    fontSize: 16,
     marginTop: 2,
     marginBottom: 10,
     fontWeight: "500",
@@ -302,10 +303,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   signUpText: {
-    color: "#222",
+    color: "#000",
     fontWeight: "bold",
-    fontSize: 28,
+    fontSize: 29,
     letterSpacing: 1,
+    fontFamily: "inter",
   },
   dividerRow: {
     flexDirection: "row",
@@ -319,14 +321,14 @@ const styles = StyleSheet.create({
   },
   orText: {
     color: "#888",
-    fontSize: 15,
+    fontSize: 18,
     marginHorizontal: 10,
     fontWeight: "500",
   },
   signUpWith: {
-    color: "#FFD600",
+    color: "rgb(165, 141, 44)",
     fontWeight: "bold",
-    fontSize: 18,
+    fontSize:20,
     textAlign: "center",
     marginBottom: 10,
     marginTop: 0,
@@ -340,7 +342,7 @@ const styles = StyleSheet.create({
   },
   socialBtn: {
     marginHorizontal: 10,
-    backgroundColor: "#fff",
+    backgroundColor: "transparent",
     borderRadius: 50,
     padding: 6,
     elevation: 2,
@@ -357,13 +359,13 @@ const styles = StyleSheet.create({
   },
   haveAccount: {
     color: "#222",
-    fontSize: 14,
+    fontSize: 17,
     fontWeight: "500",
   },
   signInText: {
     color: "#FFD600",
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 18,
     marginLeft: 4,
   },
 });

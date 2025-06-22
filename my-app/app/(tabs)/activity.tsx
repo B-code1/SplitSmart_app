@@ -125,7 +125,7 @@ export default function ActivityScreen({ navigation }: any) {
                       <View style={styles.actionRow}>
                         {item.showAccept && (
                           <TouchableOpacity style={styles.acceptBtn}>
-                            <Text style={styles.acceptText}>Accept</Text>
+                            <Text style={styles.acceptText}>Accept ✅</Text>
                           </TouchableOpacity>
                         )}
                         {item.showDecline && (

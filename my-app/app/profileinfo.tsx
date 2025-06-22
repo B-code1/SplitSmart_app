@@ -43,10 +43,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 70,
+    
+    backgroundColor: "#F3F9FD",
     justifyContent: "space-between",
+    borderTopLeftRadius: 28,
   },
   headerTitle: {
     fontSize: 24,
@@ -61,6 +62,8 @@ const styles = StyleSheet.create({
     height: 140,
     borderRadius: 70,
     marginBottom: 18,
+    marginTop: 16,
+    
   },
     content: {
         alignItems: "center",
@@ -75,24 +78,24 @@ const styles = StyleSheet.create({
          paddingLeft: 24,
     },
   label: {
-    fontSize: 18,
+    fontSize: 20,
     color: "#000",
     marginTop: 8,
     marginBottom:8,
-    fontWeight: "500",
+    fontWeight: "300",
     fontFamily: 'inter'
   },
   email: {
-    fontSize: 20,
+    fontSize: 24,
     color: "#000",
     fontWeight: "500",
     marginBottom: 16,
     fontFamily: 'inter'
   },
   groupName: {
-    fontSize: 20,
+    fontSize: 24,
     color: "#000",
-    fontWeight: "bold",
+    fontWeight: "500",
     marginTop: 2,
     fontFamily: 'inter'
   

@@ -49,7 +49,7 @@ const Index = () => {
       setCurrentIndex(currentIndex + 1);
     } else {
       // Navigate to main app or login screen
-      router.push("/login"); // or wherever you want to go
+      router.push("/signUp"); // or wherever you want to go
     }
   };
 
@@ -60,7 +60,7 @@ const Index = () => {
   };
 
   const skipOnboarding = () => {
-    router.push("/login"); // or wherever you want to go
+    router.push("/signUp"); // or wherever you want to go
   };
 
   const currentData = onboardingData[currentIndex];
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     paddingHorizontal: 20,
-    paddingTop: 10,
+   
   },
   skipText: {
     fontSize: 16,
@@ -169,23 +169,25 @@ const styles = StyleSheet.create({
   bgImage: {
     alignSelf: "center",
     resizeMode: "contain",
-    height: "70%",
+    height: "60%",
     width: width * 0.8,
     marginVertical: 20,
   },
   mainTxt: {
     fontWeight: "600",
-    fontSize: 28,
+    fontSize: 32,
     textAlign: "center",
     color: "#333",
-    marginBottom: 20,
+    marginBottom: 10,
+    fontFamily: "inter",
   },
   subTxt: {
     textAlign: "center",
-    fontSize: 16,
+    fontSize: 20,
     color: "black",
     lineHeight: 24,
     paddingHorizontal: 20,
+    fontFamily: "inter",
   },
   bottomSection: {
     paddingBottom: 30,
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   nextButtonText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: "600",
     color: "#333",
   },

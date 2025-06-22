@@ -104,9 +104,12 @@ const styles = StyleSheet.create({
 
  
   content: {
-    marginTop: 34,
+    marginTop: 48,
     width: "100%",
     alignItems: "center",
+    paddingHorizontal: 2,
+    paddingVertical: 16,
+    flex: 1,
 
   },
   actionBtn: {
@@ -117,8 +120,8 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     paddingHorizontal: 18,
     marginBottom: 18,
-    width: "90%",
-    height: 60,
+    width: "80%",
+    height: 70,
     shadowColor: "#000",
     shadowOffset: { width: 2, height: 6 },
     shadowOpacity: 0.08,

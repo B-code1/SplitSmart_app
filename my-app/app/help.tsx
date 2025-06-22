@@ -44,10 +44,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 18,
-    paddingTop: 50,
-    paddingBottom: 50,
-    backgroundColor: "#e3f2fd",
+    paddingTop: 70,
+    
+    backgroundColor: "#F3F9FD",
     justifyContent: "space-between",
+    borderTopLeftRadius: 28,
   },
   headerTitle: {
     fontSize: 24,
