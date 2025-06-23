@@ -11,6 +11,9 @@ import {
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
+
+
 
 const initialMembers = [
   { name: "Adeola", initial: "A" },
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     
     backgroundColor: "#AFDDFB",
     justifyContent: "space-between",
-    borderTopLeftRadius: 28,
+  
     outlineWidth: 2,
     outlineColor: "#ccc",
     shadowColor: "#000",

@@ -78,6 +78,8 @@ export default function Home() {
     placeholder="e.g, beach, class dues..."
     placeholderTextColor="#8a8a8a"
     style={styles.inputBox}
+    onChangeText={(text) => setGroupName(text)}
+    value={groupName}
   />
 </View>
 <View style={{ width: "90%", marginBottom: 18 }}>
@@ -90,15 +92,14 @@ export default function Home() {
     style={styles.inputBox}
     keyboardType="numeric"
     onChangeText={(text) => setExpectedAmount(text)}
+    value={expectedAmount}
 
   />
 
 </View>
       <TouchableOpacity
         style={styles.grpContainer}
-        onPress={() => {
-          router.navigate("/addMember");
-        }}
+        onPress={handleNext}
       >
         <View>
           <View style={styles.innergrpContainer}>
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
     
     backgroundColor: "#AFDDFB",
     justifyContent: "space-between",
-    borderTopLeftRadius: 28,
+    
      outlineWidth: 2,
     outlineColor: "#ccc",
     shadowColor: "#000",

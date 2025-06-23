@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons, FontAwesome5, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { Route, router } from "expo-router";
+import { Linking } from "react-native";
 export default function HelpSupportScreen() {
   return (
     <View style={styles.container}>
@@ -15,17 +16,20 @@ export default function HelpSupportScreen() {
       </View>
       {/* List */}
       <View style={styles.list}>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem}
+          onPress={() => Linking.openURL("https://docs.google.com/document/d/19mMf97q_fYAZtFZLI8ic6D75OugvYmUKG4KUH71bTJ4/edit?usp=drivesdk")}>
           <FontAwesome5 name="question-circle" size={24} color="#222" style={styles.icon} />
           <Text style={styles.listText}>FAQ</Text>
           <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem}
+        onPress={() =>Linking.openURL("https://1drv.ms/w/c/72efd8716ae970d9/Ean-CwKP731EurdAetx3MbwB8rvSKT4HusMb6pKnZT9Lbg")}>
           <MaterialCommunityIcons name="account-question" size={24} color="#222" style={styles.icon} />
           <Text style={styles.listText}>Support Contact Information</Text>
           <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem}
+        onPress={() =>Linking.openURL("https://docs.google.com/document/d/19mMf97q_fYAZtFZLI8ic6D75OugvYmUKG4KUH71bTJ4/edit?usp=drivesdk")}>
           <Feather name="file-text" size={24} color="#222" style={styles.icon} />
           <Text style={styles.listText}>Terms Of Service</Text>
           <Feather name="chevron-right" size={24} color="#222" style={styles.chevron} />

@@ -23,7 +23,7 @@ export default function SendPaymentScreen() {
           onPress={() => router.back()}>
           <Ionicons name="arrow-back" size={26} color="#222" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Send Payment</Text>
+        <Text style={styles.headerTitle}>Request Payment</Text>
         <View style={{ width: 26 }} />
       </View>
 

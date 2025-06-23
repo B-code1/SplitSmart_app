@@ -47,12 +47,14 @@ export default function CreateGroupScreen() {
 
 
       const groupData = {
-        name: params.groupName,
-        description,
+        name: params.groupName || "Group Name",
+        description: description || "No description provided",
         members: emails,
         amount: params.amount,
         image: params.groupImage || null,
       };
+      console.log("groupName param:", params.groupName);
+console.log("groupData:", groupData);
 
       const response = await fetch(
         "https://splitsmart-project.onrender.com/api/groups",
@@ -77,14 +79,18 @@ export default function CreateGroupScreen() {
       }
 
       if (!response.ok) {
+        console.log("Raw response:", raw);
+         console.log("Parsed data:", data);
         return Alert.alert("Error", data.message || "Failed to create group");
+        console.log("Error :", data);
       }
+      console.log("Raw response:", raw);
+      console.log("Group created successfully:", data);
 
       Alert.alert("Success", "Group created successfully!");
       router.replace("/(tabs)/Home");
     } catch (err) {
-      console.error("Error creating group:", err);
-      Alert.alert("Error", (err as Error).message || "Unexpected error");
+     Alert.alert("Error", "Failed to create group. Please try again.");
     }
   };
 
@@ -134,11 +140,11 @@ export default function CreateGroupScreen() {
 
       {/* Description */}
       <View style={styles.section}>
-        <Text style={styles.label}>Description (Optional)</Text>
+        <Text style={styles.label}>Description </Text>
         <TextInput
           placeholder="What's this group about?"
           placeholderTextColor="#8a8a8a"
-          style={styles.inputBox}
+          style={styles.input}
           multiline
           value={description}
           onChangeText={setDescription}
@@ -188,4 +194,14 @@ const styles = StyleSheet.create({
   createBtn: { marginTop: 30, width: '95%', alignSelf: 'center', borderRadius: 10, overflow: 'hidden' },
   createBtnInner: { paddingVertical: 14, alignItems: 'center', justifyContent: 'center' },
   createBtnText: { color: '#222', fontWeight: 'bold', fontSize: 20, letterSpacing: 1 },
+  input: {
+    height: 60,
+    backgroundColor: '#F3F9FD',
+    borderRadius: 12,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    color: '#222',
+    textAlignVertical: 'top',
+    elevation: 2,
+  },
 });

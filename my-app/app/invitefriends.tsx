@@ -6,6 +6,18 @@ import { useRouter } from "expo-router";
 
 export default function InviteFriendsScreen() {
   const router = useRouter();
+  // Function to handle invite friends action
+  const handleInviteFriends = () => {
+
+    
+    console.log("Invite Friends button pressed");
+  }
+  // Function to handle dismiss action
+  const handleDismiss = () => {
+    // Logic to dismiss the invite friends screen goes here
+    console.log("Dismiss button pressed");
+    router.back();
+  }
   return (
     <View style={styles.container}>
       {/* Header */}

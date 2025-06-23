@@ -22,7 +22,20 @@ import { Route, router } from "expo-router";
 
 export default function HomeScreen() {
   const [menuVisible, setMenuVisible] = useState(false);
-  const navigation = useNavigation();
+  const navigation = useNavigation()
+   const [groups, setGroups] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const fetchGroups = async () => {
+    try {
+      const response = await fetch("https://splitsmart-project.onrender.com/api/groups");
+      const data = await response.json();
+      setGroups(data);
+    } catch (error) {
+      console.error("Error fetching groups:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -279,8 +292,7 @@ const styles = StyleSheet.create({
   // ...existing code...
   headerSection: {
     backgroundColor: "#3498DB",
-    borderTopLeftRadius: 28,
-    borderTopRightRadius: 28,
+  
     paddingTop: 30,
     paddingBottom: 18,
     paddingHorizontal: 16,

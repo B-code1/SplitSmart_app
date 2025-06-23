@@ -105,57 +105,60 @@ export default function ActivityScreen({ navigation }: any) {
       </View>
 
       {/* Activity Cards */}
-      <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
-        {filteredData.map((item, idx) => (
-          <View key={idx} style={styles.card}>
-            <View style={styles.cardRow}>
-              <View style={styles.avatar}>
-                <Ionicons name="person" size={32} color="#90a4ae" />
-              </View>
-              <View style={{ flex: 1 }}>
-                {visibleCards[idx] ? (
-                  <>
-                    <Text style={styles.cardName}>{item.name}</Text>
-                    {item.showPay && (
-                      <TouchableOpacity style={styles.payNowBtn}>
-                        <Text style={styles.payNowText}>Pay Now!</Text>
-                      </TouchableOpacity>
-                    )}
-                    {(item.showAccept || item.showDecline) && (
-                      <View style={styles.actionRow}>
-                        {item.showAccept && (
-                          <TouchableOpacity style={styles.acceptBtn}>
-                            <Text style={styles.acceptText}>Accept ✅</Text>
-                          </TouchableOpacity>
-                        )}
-                        {item.showDecline && (
-                          <TouchableOpacity style={styles.declineBtn}>
-                            <Text style={styles.declineText}>
-                              Decline <Text style={{ color: "#e53935" }}>✖️</Text>
-                            </Text>
-                          </TouchableOpacity>
-                        )}
-                      </View>
-                    )}
-                  </>
-                ) : (
-                  <Text style={styles.cardName}>••••••••••••••••••••••••••••••••</Text>
-                )}
-              </View>
-              <TouchableOpacity onPress={() => toggleVisibility(idx)}>
-                <Ionicons
-                  name={visibleCards[idx] ?  "eye-outline" : "eye-off-outline"}
-                  size={22}
-                  color="#222"
-                />
-              </TouchableOpacity>
+      <ScrollView contentContainerStyle={{ padding: 12, paddingBottom: 24 }}>
+      {filteredData.map((item, idx) => (
+        <View key={idx} style={styles.card}>
+          <View style={styles.cardRow}>
+            <View style={styles.avatar}>
+              <Ionicons name="person" size={32} color="#90a4ae" />
             </View>
-            <View style={styles.cardFooter}>
-              <Text style={styles.cardFooterText}>{item.date}</Text>
+            <View style={{ flex: 1 }}>
+              {visibleCards[idx] !== false ? (
+                <Text style={styles.cardName}>{item.name}</Text>
+              ) : (
+                <Text style={styles.cardName}>••••••••••••••••••••••••••••••••</Text>
+              )}
             </View>
+            <TouchableOpacity onPress={() => toggleVisibility(idx)}>
+              <Ionicons
+                name={visibleCards[idx] !== false ? "eye-outline" : "eye-off-outline"}
+                size={22}
+                color="#222"
+              />
+            </TouchableOpacity>
           </View>
-        ))}
-      </ScrollView>
+          {/* Divider */}
+          <View style={styles.divider} />
+          {/* Actions under divider */}
+          <View style={styles.cardFooter}>
+            <View style={{ flexDirection: "row", alignItems: "center", flex: 1 }}>
+              {visibleCards[idx] !== false && (
+                <>
+                  {item.showPay && (
+                    <TouchableOpacity style={styles.payNowBtn}
+                      onPress={() => router.navigate("/(payments)/send")}
+                    >
+                      <Text style={styles.payNowText}>Pay Now!</Text>
+                    </TouchableOpacity>
+                  )}
+                  {item.showAccept && (
+                    <TouchableOpacity style={styles.acceptBtn}>
+                      <Text style={styles.acceptText}>Accept <Text style={{ fontSize: 16 }}>✅</Text></Text>
+                    </TouchableOpacity>
+                  )}
+                  {item.showDecline && (
+                    <TouchableOpacity style={styles.declineBtn}>
+                      <Text style={styles.declineText}>Decline <Text style={{ fontSize: 16, color: "#e53935" }}>❌</Text></Text>
+                    </TouchableOpacity>
+                  )}
+                </>
+              )}
+            </View>
+            <Text style={styles.cardFooterText}>{item.date}</Text>
+          </View>
+        </View>
+      ))}
+    </ScrollView>
     </View>
   );
 }
@@ -307,13 +310,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    borderTopWidth: 1,
-    borderTopColor: "#d0e6f7",
+    
     paddingTop: 6,
     marginTop: 8,
   },
   cardFooterText: {
     fontSize: 12,
     color: "#90a4ae",
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "#cfd8dc",
+    marginHorizontal: 0,
+    marginTop: 6,
+    marginBottom: 0,
+    opacity: 0.5,
   },
 });

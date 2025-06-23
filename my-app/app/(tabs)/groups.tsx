@@ -73,8 +73,7 @@ const styles = StyleSheet.create({
     
     backgroundColor: "#AFDDFB",
     justifyContent: "space-between",
-    borderTopLeftRadius: 28,
-    
+
     
   },
   headerTitle: {
