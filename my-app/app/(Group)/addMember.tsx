@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   TextInput,
   Alert,
+  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
@@ -18,6 +19,8 @@ export default function CreateGroupScreen() {
   const [emailInput, setEmailInput] = useState<string>("");
   const [emails, setEmails] = useState<string[]>([]);
   const [description, setDescription] = useState<string>("");
+  const [alertText, setAlertText] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   // Add a new email to the list if valid and unique
   const addEmail = () => {
@@ -32,19 +35,24 @@ export default function CreateGroupScreen() {
     }
   };
 
-  // Submit the group creation, sending raw emails in members
+  // Main handler: create group and expense
   const handleCreateGroup = async () => {
+    setAlertText(null);
+
     if (!emails.length) {
-      return Alert.alert("Missing Members", "Please add at least one member email.");
+      setAlertText("Please add at least one member email.");
+      return;
     }
+
+    setLoading(true);
 
     try {
       const token = await AsyncStorage.getItem("userToken");
       if (!token) {
-        Alert.alert("Session expired", "Please log in again.");
+        setAlertText("Session expired. Please log in again.");
+        setLoading(false);
         return router.replace("/login");
       }
-
 
       const groupData = {
         name: params.groupName || "Group Name",
@@ -53,9 +61,8 @@ export default function CreateGroupScreen() {
         amount: params.amount,
         image: params.groupImage || null,
       };
-      console.log("groupName param:", params.groupName);
-console.log("groupData:", groupData);
 
+      // 1. Create the group
       const response = await fetch(
         "https://splitsmart-project.onrender.com/api/groups",
         {
@@ -68,100 +75,149 @@ console.log("groupData:", groupData);
         }
       );
 
-      // Inspect raw response in case of parse issues
       const raw = await response.text();
       let data;
       try {
         data = JSON.parse(raw);
       } catch (e) {
-        console.error("Invalid JSON response:", raw);
-        return Alert.alert("Error", "Unexpected response from server.");
+        setAlertText("Unexpected response from server.");
+        setLoading(false);
+        return;
       }
 
       if (!response.ok) {
-        console.log("Raw response:", raw);
-         console.log("Parsed data:", data);
-        return Alert.alert("Error", data.message || "Failed to create group");
-        console.log("Error :", data);
+        setAlertText(data.message || "Failed to create group");
+        setLoading(false);
+        return;
       }
-      console.log("Raw response:", raw);
-      console.log("Group created successfully:", data);
 
-      Alert.alert("Success", "Group created successfully!");
-      router.replace("/(tabs)/Home");
+      const groupId = data.group?._id;
+      if (!groupId) {
+        setAlertText("Group created but no group ID returned.");
+        setLoading(false);
+        return;
+      }
+
+      // 2. Create the group expense
+      const expenseData = {
+        groupId,
+        amount: params.amount || 0,
+        description: description || "Group expense",
+        paidBy: params.creatorEmail || "", // replace with actual user if available
+        splitamong: emails,
+      };
+
+      const expenseRes = await fetch("https://splitsmart-project.onrender.com/api/expenses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(expenseData),
+      });
+
+      const expenseRaw = await expenseRes.text();
+      let expenseResult;
+      try {
+        expenseResult = JSON.parse(expenseRaw);
+      } catch (e) {
+        setAlertText("Group created, but error parsing expense response.");
+        setLoading(false);
+        return;
+      }
+
+      if (!expenseRes.ok) {
+        setAlertText(expenseResult.message || "Group created, but failed to add expense.");
+        setLoading(false);
+        return;
+      }
+
+      setAlertText("Group and expense created successfully!");
+      setTimeout(() => {
+        router.replace("/(tabs)/Home");
+      }, 1500);
     } catch (err) {
-     Alert.alert("Error", "Failed to create group. Please try again.");
+      setAlertText("Failed to create group. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={24} color="#222" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Create A Group</Text>
-        <View style={{ width: 24 }} />
-      </View>
-
-      {/* Member Email Input */}
-      <View style={styles.section}>
-        <Text style={styles.label}>Add Members (Email)</Text>
-        <View style={styles.inputRow}>
-          <TextInput
-            placeholder="Enter member's email"
-            placeholderTextColor="#8a8a8a"
-            style={styles.inputBox}
-            value={emailInput}
-            onChangeText={setEmailInput}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            onSubmitEditing={addEmail}
-          />
-          <TouchableOpacity onPress={addEmail} style={styles.addBtn}>
-            <Ionicons name="add" size={28} color="#222" />
+      <ScrollView>
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => router.back()}>
+            <Ionicons name="arrow-back" size={24} color="#222" />
           </TouchableOpacity>
+          <Text style={styles.headerTitle}>Create A Group</Text>
+          <View style={{ width: 24 }} />
         </View>
-        {/* Chips */}
-        <View style={styles.chipsContainer}>
-          {emails.map((email) => (
-            <View key={email} style={styles.chip}>
-              <Text style={styles.chipText}>{email}</Text>
-              <TouchableOpacity
-                onPress={() => setEmails(emails.filter((e) => e !== email))}
-              >
-                <Ionicons name="close-circle" size={16} color="#fff" />
-              </TouchableOpacity>
-            </View>
-          ))}
+
+        {/* Member Email Input */}
+        <View style={styles.section}>
+          <Text style={styles.label}>Add Members (Email)</Text>
+          <View style={styles.inputRow}>
+            <TextInput
+              placeholder="Enter member's email"
+              placeholderTextColor="#8a8a8a"
+              style={styles.inputBox}
+              value={emailInput}
+              onChangeText={setEmailInput}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              onSubmitEditing={addEmail}
+            />
+            <TouchableOpacity onPress={addEmail} style={styles.addBtn}>
+              <Ionicons name="add" size={28} color="#222" />
+            </TouchableOpacity>
+          </View>
+          {/* Chips */}
+          <View style={styles.chipsContainer}>
+            {emails.map((email) => (
+              <View key={email} style={styles.chip}>
+                <Text style={styles.chipText}>{email}</Text>
+                <TouchableOpacity
+                  onPress={() => setEmails(emails.filter((e) => e !== email))}
+                >
+                  <Ionicons name="close-circle" size={16} color="#fff" />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
         </View>
-      </View>
 
-      {/* Description */}
-      <View style={styles.section}>
-        <Text style={styles.label}>Description </Text>
-        <TextInput
-          placeholder="What's this group about?"
-          placeholderTextColor="#8a8a8a"
-          style={styles.input}
-          multiline
-          value={description}
-          onChangeText={setDescription}
-        />
-      </View>
+        {/* Description */}
+        <View style={styles.section}>
+          <Text style={styles.label}>Description </Text>
+          <TextInput
+            placeholder="What's this group about?"
+            placeholderTextColor="#8a8a8a"
+            style={styles.input}
+            multiline
+            value={description}
+            onChangeText={setDescription}
+          />
+        </View>
+        {alertText && (
+          <Text style={{ color: alertText.includes("success") ? "green" : "red", textAlign: "center", marginVertical: 8 }}>
+            {alertText}
+          </Text>
+        )}
 
-      {/* Create Button */}
-      <TouchableOpacity onPress={handleCreateGroup} style={styles.createBtn} activeOpacity={0.8}>
-        <LinearGradient
-          colors={["#2196f3", "#FFD600"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}
-          style={styles.createBtnInner}
-        >
-          <Text style={styles.createBtnText}>Create Group</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+        {/* Create Button */}
+        <TouchableOpacity onPress={handleCreateGroup} style={styles.createBtn} activeOpacity={0.8} disabled={loading}>
+          <LinearGradient
+            colors={["#2196f3", "#FFD600"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.createBtnInner}
+          >
+            <Text style={styles.createBtnText}>{loading ? "Creating..." : "Create Group"}</Text>
+          </LinearGradient>
+        </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 }

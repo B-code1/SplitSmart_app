@@ -40,7 +40,8 @@ export default function SignUpScreen({ navigation }: any) {
     try {
       const res = await API.post("api/users/register", form);
       Alert.alert("Success", "Registration successful!");
-      router.navigate("/Home");
+      router.navigate("/(Auth)/login"); // Navigate to login after successful signup
+      console.log("Signup response:", res.data);
     } catch (err) {
       console.error("Signup error:", err);
       if (err && typeof err === "object" && "response" in err) {

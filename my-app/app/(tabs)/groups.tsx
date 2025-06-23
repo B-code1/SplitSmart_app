@@ -39,7 +39,7 @@ export default function Home() {
         <Ionicons name="people-outline" size={24} color="#222" style={styles.icon} />
         <Text style={styles.actionText}>Join Group</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.actionBtn} onPress={() => router.push("/(Group)/addMember")}>
+      <TouchableOpacity style={styles.actionBtn} onPress={() => router.push("/(Group)/viewGroup")}>
         <Ionicons name="eye" size={24} color="#222" style={styles.icon} />
         <Text style={styles.actionText}>View Group Details</Text>
       </TouchableOpacity>

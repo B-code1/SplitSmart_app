@@ -84,7 +84,7 @@ export default function Home() {
 </View>
 <View style={{ width: "90%", marginBottom: 18 }}>
   <Text style={{ fontSize: 16, fontWeight: "bold", marginBottom: 8 }}>
-    Expected Amount Per Person
+     Amount 
   </Text>
   <TextInput
     placeholder="₦0.00"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,8 @@ import {
   Image,
   Modal,
   ScrollView,
+  ActivityIndicator,
+  TextInput,
 } from "react-native";
 import {
   Ionicons,
@@ -19,23 +21,35 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { Route, router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen() {
   const [menuVisible, setMenuVisible] = useState(false);
   const navigation = useNavigation()
-   const [groups, setGroups] = useState([]);
+   type Group = { _id: string; name: string; description?: string };
+   const [groups, setGroups] = useState<Group[]>([]);
   const [loading, setLoading] = useState(true);
-  const fetchGroups = async () => {
-    try {
-      const response = await fetch("https://splitsmart-project.onrender.com/api/groups");
-      const data = await response.json();
-      setGroups(data);
-    } catch (error) {
-      console.error("Error fetching groups:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+  useEffect(() => {
+    const fetchGroups = async () => {
+      try {
+        const token = await AsyncStorage.getItem("userToken");
+        const response = await fetch("https://splitsmart-project.onrender.com/api/groups", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json();
+        setGroups(data.groups || []); // Adjust according to your API response
+      } catch (error) {
+        // handle error
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGroups();
+  }, []);
+
+  if (loading) return <ActivityIndicator />;
+  
 
   return (
     <View style={styles.container}>
@@ -54,7 +68,12 @@ export default function HomeScreen() {
           <View style={styles.avatarCircleBig}>
             <Text style={styles.avatarLabelBlack}>Group Image</Text>
           </View>
-          <View style={styles.inputBoxBig} />
+          <TextInput
+  style={styles.inputBoxBig}
+  value={groups[0]?.description || ""}
+  editable={false}
+  placeholder="Group Description"
+/>
           <TouchableOpacity style={styles.iconBtnBig}>
             <Ionicons name="pencil" size={22} color="#000" />
           </TouchableOpacity>
@@ -66,6 +85,9 @@ export default function HomeScreen() {
           </TouchableOpacity>
         </View>
       </View>
+
+      
+
 
       {/* Group Image */}
       <View style={styles.ovalActionsRow}>

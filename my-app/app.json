@@ -16,7 +16,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#3498DB"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.splitsmart.myapp"
     },
     "web": {
       "bundler": "metro",
@@ -31,12 +32,24 @@
           "image": "./assets/images/Logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#000"
+          "backgroundColor": "#3498DB"
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "dcc5c024-6efb-4a68-b2b4-52572e10a8ee"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/dcc5c024-6efb-4a68-b2b4-52572e10a8ee"
     }
   }
 }

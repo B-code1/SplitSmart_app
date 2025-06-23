@@ -52,7 +52,8 @@ const DATA = [
 
 export default function ActivityScreen({ navigation }: any) {
   const [selected, setSelected] = useState("All");
-
+  const [notifications, setNotifications] = useState(DATA);
+ 
   const [visibleCards, setVisibleCards] = useState<{ [key: number]: boolean }>({});
 
   const filteredData =
@@ -66,7 +67,7 @@ export default function ActivityScreen({ navigation }: any) {
       [idx]: !prev[idx],
     }));
   };
-
+  
 
   return (
     <View style={styles.container}>
@@ -327,3 +328,4 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
 });
+
